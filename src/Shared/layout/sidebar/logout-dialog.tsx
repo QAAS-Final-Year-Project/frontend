@@ -16,12 +16,13 @@ export default function LogoutContainer({
     <YesNoDialog
       open={open}
       setOpen={setOpen}
-      title={"Are you sure ?"}
+      title={"Logout"}
       onYesClicked={clearAuth}
       onNoTapped={() => setOpen(false)}
+      yesColor="!bg-red-500 !border-red-500"
     >
       <div className='text-xs py-3'>
-        <span>Are you sure you want to logout ?</span>
+        <span className="text-lg">Are you sure you want to logout ?</span>
       </div>
     </YesNoDialog>
   );

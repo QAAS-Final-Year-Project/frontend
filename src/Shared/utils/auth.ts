@@ -15,4 +15,5 @@ export const setToken = (token: string) => {
 export const clearAuth = () => {
     Cookies.remove(`token`);
     Cookies.remove(`user`);
+    window.location.href = "/login";
 }

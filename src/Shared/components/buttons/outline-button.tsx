@@ -53,7 +53,7 @@ const OutlinedButton: FC<
     >
       {loading ? (
         <LoadingIcon
-          className={`animate-spin h-5 w-5 mx-2 fill-white ${
+          className={`animate-spin h-5 w-5 mx-2 fill-primary-500 ${
             loading ? "block" : "hidden"
           }`}
         />

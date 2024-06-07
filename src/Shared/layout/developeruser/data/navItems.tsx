@@ -77,7 +77,7 @@ export const NavSections: INavSection[] = [
       {
         icon: "ic:baseline-power-settings-new",
         label: "Logout",
-        to: "?logout=true",
+        to: "?modal=logout",
         
       },
     ],

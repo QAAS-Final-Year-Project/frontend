@@ -14,21 +14,6 @@ interface TaskOverViewProps {
   data: any;
 }
 
-const sampleAttachments = [
-  {
-    id: "1",
-    fileUrl:
-      "https://www.vasterad.com/themes/hireo_21/images/user-avatar-placeholder.png",
-    title: "File 1",
-  },
-  {
-    id: "2",
-    fileUrl:
-      "https://www.vasterad.com/themes/hireo_21/images/user-avatar-placeholder.png",
-    title: "File 2",
-  },
-];
-
 const sampleNotes = [
   { note: "This is a high priority note.", priority: "high" },
   { note: "This is a medium priority note.", priority: "medium" },
@@ -42,7 +27,7 @@ const TaskAttachments: FC<TaskOverViewProps> = ({ data }) => {
 
   const dispatchAction = (
     id: string,
-    action: "delete" | "accept" | "message"|"add"
+    action: "delete" | "accept" | "message" | "add"
   ) => {
     searchParams.set("modal", action);
     searchParams.set("current", id);
@@ -58,7 +43,7 @@ const TaskAttachments: FC<TaskOverViewProps> = ({ data }) => {
         >
           <div className='py-6 px-6'>
             <div className='grid grid-cols-2 '>
-              {sampleAttachments.map((attachment) => (
+              {data?.supportingDocumentUrls?.map((attachment) => (
                 <AttachmentCard {...attachment} />
               ))}
             </div>

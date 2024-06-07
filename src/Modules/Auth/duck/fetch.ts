@@ -13,7 +13,7 @@ export const doVerifyEmail = async (values: any) => {
     return AxiosDataService.post('/api/auth/verify-email', values)
 }
 export const doLogin = async (values: any) => {
-    if (values?.type == "Tester") {
+    if (values?.accountType == "Tester") {
         return AxiosDataService.post('/api/auth/login-tester-user', values)
     }
     else {

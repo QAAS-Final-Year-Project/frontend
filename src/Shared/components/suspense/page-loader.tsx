@@ -5,7 +5,7 @@ interface LoaderProps {
   text?: string;
 }
 
-const Loader: FC<LoaderProps> = ({ text }) => {
+const PageLoader: FC<LoaderProps> = ({ text }) => {
   return (
     <div className='h-screen w-screen flex-1 flex flex-col space-y-6 items-center justify-center'>
       {/* <span className='text-info-500 text-sm'>
@@ -23,4 +23,4 @@ const Loader: FC<LoaderProps> = ({ text }) => {
   );
 };
 
-export default Loader;
+export default PageLoader;

@@ -27,7 +27,7 @@ const DeveloperUserSidebar: FC = () => {
   const [user, setUser] = useCookies("user");
   const currentRoute = useLocation().pathname;
   const parsedUser = JSON.parse(user as string);
-  const [logout, setLogout] = useUrlState("logout", false);
+  const [modal, setModal] = useUrlState("modal");
 
   return (
     <>
@@ -63,12 +63,10 @@ const DeveloperUserSidebar: FC = () => {
         </ul>
         <div className='flex-1'></div>
       </div>
-      {logout && (
         <LogoutContainer
-          open={logout}
-          setOpen={(val: boolean) => setLogout(false)}
+          open={modal === "logout"}
+          setOpen={(val: boolean) => setModal(val ? "logout" : undefined)}
         />
-      )}
     </>
   );
 };

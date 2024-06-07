@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
 import _ from "lodash";
-import { classNames } from "../../utils/ui";
+import { classNames, wrapClick } from "../../utils/ui";
 import { useFormik } from "formik";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Tooltip } from "react-tooltip";
@@ -48,12 +48,12 @@ const TagsInput: FC<TagsInputProps> = ({
       </Tooltip>
     );
   }
-  const removeItem = (id: number) => {
+  const removeItem = (itemId: number) => {
     handleChange(
       {
         target: {
           name: id,
-          value: _.get(values, id).filter((_, idx) => idx !== id),
+          value: _.get(values,id )?.filter((_, idx) => idx !== itemId),
         },
       },
       true
@@ -82,7 +82,7 @@ const TagsInput: FC<TagsInputProps> = ({
     onReset: () => {},
   });
   return (
-    <form onSubmit={form.handleSubmit}>
+    <div >
       {!labelHidden && (
         <label
           htmlFor={id}
@@ -132,7 +132,8 @@ const TagsInput: FC<TagsInputProps> = ({
         ) : null}
         <div className=' absolute inset-y-0 right-0 flex items-center pr-2'>
           <button
-            type='submit'
+            type='button'
+            onClick={wrapClick(form.handleSubmit)} 
             className=' p-2 bg-primary-500 hover:bg-primary-400  z-10 rounded flex justify-center items-center  cursor-pointer'
           >
             <PlusIcon className='h-5 w-5 text-white' />
@@ -159,7 +160,7 @@ const TagsInput: FC<TagsInputProps> = ({
       </div>
 
       <div></div>
-    </form>
+    </div>
   );
 };
 

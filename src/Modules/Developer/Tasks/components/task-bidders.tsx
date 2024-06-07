@@ -12,7 +12,7 @@ import useUrlState from "Shared/hooks/use-url-state";
 import AcceptOfferContainer from "../accept";
 import SendMessageContainer from "../send-message";
 
-const TaskBidders: FC = () => {
+const TaskBidders: FC<{ data: any }> = ({ data }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [modal, setModal] = useUrlState("modal");
   const [current, setCurrent] = useUrlState("current");
@@ -43,7 +43,7 @@ const TaskBidders: FC = () => {
       <div className='space-y-[30px]'>
         <CardSectionWrapper
           icon={"ic:baseline-supervisor-account"}
-          title='3 Bidders'
+          title={(data?.meta?.biddersCount || 0) + " Bidders"}
           extraElement={
             <div>
               <FilterSelectInput
@@ -62,7 +62,9 @@ const TaskBidders: FC = () => {
             </div>
           }
         >
-          <BidderRow {...sampleBidder} />{" "}
+          {data?.bidders?.map((bidder: any) => (
+            <BidderRow {...sampleBidder} />
+          ))}
         </CardSectionWrapper>
       </div>
 
