@@ -1,0 +1,1 @@
+export default ["VotersIdentificationCard", "Passport", "DriversLicense", "NationalIdentificationCard", "StudentIdentificationCard"] as const;
