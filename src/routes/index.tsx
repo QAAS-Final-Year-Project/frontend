@@ -22,9 +22,40 @@ import TestersListPage from "Modules/Developer/Testers";
 import DeveloperMessages from "Modules/Developer/Messages";
 import ViewTaskDetailsPage from "Modules/Developer/Tasks/view";
 import DeveloperReviewsPage from "Modules/Developer/Reviews";
+import HomeLayout from "Shared/layout/home";
+import HomeLandingPage from "Modules/Home";
 
 const routes = (isAuth, authType, authUser): RouteObject[] => [
-  ...(!isAuth ? authRoutes : []),
+  ...(!isAuth
+    ? authRoutes
+    : [
+        {
+          path: "/",
+          element: <HomeLayout />,
+          children: [
+            {
+              index: true,
+              element: <HomeLandingPage />,
+            },
+            {
+              path: "find-work",
+              element: <div>Find Work</div>,
+            },
+            {
+              path: "for-employers",
+              element: <div>For Employers</div>,
+            },
+            {
+              path: "dashboard",
+              element: <div>Dashboard</div>,
+            },
+            {
+              path: "pages",
+              element: <div>Pages</div>,
+            }
+          ],
+        },
+      ]),
   ...(authType === "TesterUser" ? testerUserRoutes(authUser) : []),
   ...(authType === "DeveloperUser" ? developerUserRoutes : []),
 ];
@@ -130,11 +161,6 @@ const unverifiedTesterUserRoutes = (authUser): RouteObject[] => [
 
 const developerUserRoutes: RouteObject[] = [
   {
-    path: "/",
-    element: <DeveloperUserLayout />,
-    children: [],
-  },
-  {
     path: "/dashboard",
     element: <DeveloperUserDashboardLayout />,
     children: [
@@ -146,7 +172,7 @@ const developerUserRoutes: RouteObject[] = [
         path: "tasks",
         element: <TasksPage />,
       },
-     
+
       {
         path: "tasks/:id",
         element: <ViewTaskDetailsPage />,

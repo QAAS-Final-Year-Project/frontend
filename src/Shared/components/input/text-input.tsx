@@ -20,10 +20,11 @@ interface TextInputProps {
   step?: number;
   min?: number | string;
   max?: number | string;
+  inputClassName?: string;
   labelHidden?: boolean;
   maxLength?: number;
   minLength?: number;
-  postText?: string;
+  postText?: string | JSX.Element;
   preText?: string;
   tooltip?: string;
 }
@@ -49,6 +50,7 @@ const TextInput: FC<TextInputProps> = ({
   postText,
   preText,
   tooltip,
+  inputClassName,
 }) => {
   return (
     <>
@@ -61,7 +63,6 @@ const TextInput: FC<TextInputProps> = ({
         <label
           htmlFor={id}
           id={`tooltip-${id}`}
-
           className='text-zinc-800 text-base flex items-center gap-x-1  leading-[27px]'
         >
           {label} {required ? "*" : ""}
@@ -90,7 +91,8 @@ const TextInput: FC<TextInputProps> = ({
           maxLength={maxLength}
           minLength={minLength}
           style={{
-            paddingRight: (postText?.length || 0) * 10 + 20,
+            paddingRight:
+              (_.isString(postText) ? postText?.length : 0) * 10 + 20,
             paddingLeft: (preText?.length || 0) * 10 + 20,
           }}
           className={classNames(
@@ -98,7 +100,8 @@ const TextInput: FC<TextInputProps> = ({
               ? "focus:ring-red-500 focus:border-red-500 border-red-600  !outline-red-500"
               : " border-gray-300 focus:!ring-primary-500 focus:!border-primary-500  outline-primary-500",
             disabled ? "cursor-not-allowed bg-gray-100" : "",
-            "shadow-sm block w-full sm:text-base rounded placeholder:font-medium placeholder:text-zinc-500 placeholder:text-sm h-[48px] border "
+            "shadow-sm block w-full sm:text-base rounded placeholder:font-medium placeholder:text-zinc-500 placeholder:text-sm h-[48px] border ",
+            inputClassName
           )}
         />
         {_.get(errors, id) && _.get(touched, id) ? (

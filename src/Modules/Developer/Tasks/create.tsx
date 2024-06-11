@@ -24,7 +24,9 @@ const CreateTasksPage: FC = () => {
   const queryClient = useQueryClient();
   const form = useFormik<any>({
     initialValues: {
+      supportingDocuments: [],
       supportingDocumentUrls: [],
+
       title: "",
       description: "",
       amount: 0,
@@ -33,9 +35,14 @@ const CreateTasksPage: FC = () => {
     },
     // validationSchema: TesterUserSchema,
     onSubmit: async (values) => {
-      // console.log(values)
       mutation.mutate({
         ...values,
+        supportingDocuments: values.supportingDocuments.map(
+          (file: any, idx) => ({
+            name: file?.name,
+            url: values?.supportingDocumentUrls?.[idx],
+          })
+        ),
       });
     },
     onReset: () => {
@@ -108,6 +115,7 @@ const CreateTasksPage: FC = () => {
               <div className='col-span-2 flex gap-x-2 items-center'>
                 <label>
                   <UploadButton
+                    rawFilesId='supportingDocuments'
                     placeholder='Upload any supporting documents that will help the tester understand the task better'
                     id={`supportingDocumentUrls`}
                     label=''
@@ -124,7 +132,7 @@ const CreateTasksPage: FC = () => {
                   <TextInput
                     id='amount'
                     label='What is your estimated budget? '
-                    type='text'
+                    type='number'
                     required
                     placeholder=''
                     postText='USD'

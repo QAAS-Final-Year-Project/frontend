@@ -42,8 +42,7 @@ const TaskBidders: FC<{ data: any }> = ({ data }) => {
     <>
       <div className='space-y-[30px]'>
         <CardSectionWrapper
-          icon={"ic:baseline-supervisor-account"}
-          title={(data?.meta?.biddersCount || 0) + " Bidders"}
+          title={""}
           extraElement={
             <div>
               <FilterSelectInput

@@ -23,13 +23,13 @@ const sampleAttachments = [
     id: "1",
     fileUrl:
       "https://www.vasterad.com/themes/hireo_21/images/user-avatar-placeholder.png",
-    title: "File 1",
+      fileName: "File 1",
   },
   {
     id: "2",
-    fileUrl:
+  fileUrl:
       "https://www.vasterad.com/themes/hireo_21/images/user-avatar-placeholder.png",
-    title: "File 2",
+      fileName: "File 2",
   },
 ];
 const Settings: FC = () => {

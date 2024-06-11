@@ -13,6 +13,8 @@ import { useParams } from "react-router-dom";
 import StatusChip from "Shared/components/chips/status-chip";
 import TextArea from "Shared/components/input/text-area";
 import SelectInput from "Shared/components/input/select-input";
+import { showToast } from "Shared/utils/alert";
+import { doAddNote } from "./duck/fetch";
 
 export default function AddNoteContainer({
   open,
@@ -24,37 +26,35 @@ export default function AddNoteContainer({
   refetch?: () => void;
 }) {
   const { id } = useParams();
-
-  //   const mutation = useMutation({
-  //     mutationFn: ()=>,
-  //     onSuccess: (response) => {
-  //       showToast({
-  //         type: "success",
-  //         title: "Member Subscription renewed successful",
-  //       });
-  //       setOpen(false);
-  //       refetch?.();
-  //     },
-  //     onError: (error) => formatAndShowAxiosError(error),
-  //   });
-
+  const mutation = useMutation({
+    mutationFn: doAddNote,
+    onSuccess: (response) => {
+      showToast({
+        title: "Note added successful",
+        type: "success",
+      });
+      refetch?.();
+      setOpen(false);
+    },
+    onError: (error) => formatAndShowAxiosError(error),
+  });
   const form = useFormik<any>({
     initialValues: {
-      amount: null,
-      ref: "",
-      method: "",
+      note: "",
+      priority: "",
     },
     onSubmit: async (values) => {
-      //   mutation.mutate({
-      //     ...values,
-      //     memberId: id,
-      //   });
+      mutation.mutate({
+        id,
+        values,
+      });
     },
     onReset: () => {
       form.resetForm();
       setOpen(false);
     },
   });
+
   return (
     <Modal
       open={open}
@@ -64,38 +64,45 @@ export default function AddNoteContainer({
       // yesLoading={mutation.isPending}
       // onNoTapped={() => {}}
     >
-      <div className='flex flex-col items-center'>
-        <h6 className=" text-center mb-3.5 text-zinc-800 text-2xl font-bold font-['Nunito'] leading-[27px]">
-          Do Not Forget 😎
-        </h6>
-        <div className="w-full mb-2">
-          <SelectInput
-            id='priority'
-            label=''
-            placeholder="Priority"
-            options={[
-            //   { label: "", value: "" },
-              { label: "Low", value: "low" },
-              { label: "Medium", value: "medium" },
-              { label: "High", value: "high" },
-            ]}
-            // required={true}
-            {...form}
-          />
-        </div>
+      <form onSubmit={form.handleSubmit}>
+        <div className='flex flex-col items-center'>
+          <h6 className=" text-center mb-3.5 text-zinc-800 text-2xl font-bold font-['Nunito'] leading-[27px]">
+            Do Not Forget 😎
+          </h6>
+          <div className='w-full mb-2'>
+            <SelectInput
+              id='priority'
+              label=''
+              placeholder='Priority'
+              options={[
+                //   { label: "", value: "" },
+                { label: "Low", value: "Low" },
+                { label: "Medium", value: "Medium" },
+                { label: "High", value: "High" },
+              ]}
+              required={true}
+              {...form}
+            />
+          </div>
 
-        <div className='w-full mb-8'>
-          <TextArea
-            id='Note'
-            label=''
-            placeholder='I am...'
-            required={false}
-            rows={4}
-            {...form}
+          <div className='w-full mb-8'>
+            <TextArea
+              id='note'
+              label=''
+              placeholder='I am...'
+              required={false}
+              rows={4}
+              {...form}
+            />
+          </div>
+          <PrimaryButton
+            text='Add Note'
+            type="submit"
+            className='w-full'
+            loading={mutation.isPending}
           />
         </div>
-        <PrimaryButton text='Add Note' className='w-full' />
-      </div>
+      </form>
     </Modal>
   );
 }

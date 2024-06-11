@@ -175,4 +175,88 @@
   .full::after {
     width: 100%;
   }
+
+  /* ---------------------------------- */
+  /* Intro Banner
+------------------------------------- */
+  .intro-banner {
+    padding: 105px 0;
+    position: relative;
+  }
+
+  .intro-banner.big-padding {
+    padding: 130px 0;
+  }
+
+  .intro-banner .container {
+    z-index: 100;
+    position: relative;
+  }
+
+  .intro-banner:after,
+  .intro-banner:before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: 15;
+    background: linear-gradient(
+      to right,
+      rgba(250, 250, 250, 1) 20%,
+      rgba(250, 250, 250, 0.95) 50%,
+      rgba(250, 250, 250, 0.1) 80%,
+      rgba(250, 250, 250, 0) 100%
+    );
+  }
+
+  .intro-banner:after {
+    z-index: 5;
+    background-color: #fafafa;
+  }
+
+  .intro-banner .background-image-container {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 100% 60%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 90%;
+    left: 10%;
+    z-index: 10;
+    overflow: hidden;
+  }
+
+  /* Disabled Gradient */
+  .intro-banner.disable-gradient:before {
+    background: #f2f2f2;
+    opacity: 0.85;
+  }
+
+  .intro-banner.disable-gradient .background-image-container {
+    left: 0;
+    width: 100%;
+  }
+
+  .get-started-section {
+    background-size: cover;
+    background-position: 50%;
+    display: block;
+    position: relative;
+  }
+  
+  .get-started-section:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: #333;
+    opacity: 0.65;
+    display: block;
+    position: absolute;
+    top: 0;
+  }
 }

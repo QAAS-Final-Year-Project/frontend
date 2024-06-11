@@ -1,10 +1,13 @@
+import { Icon } from "@iconify/react";
 import { classNames, wrapClick } from "Shared/utils/ui";
+import _ from "lodash";
 import { FC } from "react";
 
 interface TabItem {
   icon: string;
   label: string;
   href: string;
+  
   notificationsCount?: number;
   notificationType?: "info" | "danger";
 }
@@ -33,8 +36,20 @@ const TabList: FC<TabListProps> = ({ tabs, value, onChange }) => {
                 )}
                 aria-current={value == tab.href ? "page" : undefined}
               >
+                {tab.icon && (
+                  <Icon
+                    icon={tab.icon}
+                    className={classNames(
+                      value == tab.href
+                        ? "text-primary-500"
+                        : "text-gray-400 group-hover:text-gray-500",
+                      "-ml-0.5 mr-2 h-5 w-5"
+                    )}
+                    aria-hidden='true'
+                  />
+                )}
                 {tab.label}
-                {tab.notificationsCount ? (
+                {_.isNumber(tab.notificationsCount )? (
                   <span
                     className={classNames(
                       value == tab.href

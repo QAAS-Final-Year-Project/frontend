@@ -55,8 +55,10 @@ const ViewTaskDetailsPage: FC = () => {
   const TabMappings = {
     overview: <TaskOverView data={query?.data?.data} />,
     bidders: <TaskBidders data={query?.data?.data} />,
-    activity: <TaskActivity />,
-    attachments: <TaskAttachments data={query?.data?.data} />,
+    activity: <TaskActivity data={query?.data?.data}/>,
+    attachments: (
+      <TaskAttachments data={query?.data?.data} refetch={query.refetch} />
+    ),
     // settings: <TaskSettings />,
   };
 
@@ -66,12 +68,6 @@ const ViewTaskDetailsPage: FC = () => {
         <div className='p-2.5 mb-8'>
           <Header
             title='Task Details'
-            // subtitle={
-            //   <>
-            //     Bids for{" "}
-            //     <span className='text-primary-500'>Mobile Application</span>
-            //   </>
-            // }
             breadCrumps={[
               {
                 title: "Home",
@@ -112,8 +108,13 @@ const ViewTaskDetailsPage: FC = () => {
                       href: "overview",
                       notificationsCount: 2,
                     },
-                    { icon: "bidders", label: "Bidders", href: "bidders" },
-                    { icon: "activity", label: "Activity", href: "activity" },
+                    { icon: "ic:baseline-supervisor-account", label: "Bidders", href: "bidders" , notificationsCount: query?.data?.data?.biddersCount || 0},
+                    {
+                      icon: "ic:outline-notifications",
+                      label: "Activity",
+                      href: "activity",
+                      notificationsCount: 1,
+                    },
                     {
                       icon: "Attachments",
                       label: "Attachments",

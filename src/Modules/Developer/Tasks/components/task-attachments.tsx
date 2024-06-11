@@ -9,18 +9,15 @@ import { useSearchParams } from "react-router-dom";
 import useUrlState from "Shared/hooks/use-url-state";
 import AddNoteContainer from "../add-note";
 import PrimaryButton from "Shared/components/buttons/primary-button";
+import DeleteNoteContainer from "../delete-note";
 
 interface TaskOverViewProps {
   data: any;
+  refetch: () => void;
 }
 
-const sampleNotes = [
-  { note: "This is a high priority note.", priority: "high" },
-  { note: "This is a medium priority note.", priority: "medium" },
-  { note: "This is a low priority note.", priority: "low" },
-];
 
-const TaskAttachments: FC<TaskOverViewProps> = ({ data }) => {
+const TaskAttachments: FC<TaskOverViewProps> = ({ data , refetch}) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [modal, setModal] = useUrlState("modal");
   const [current, setCurrent] = useUrlState("current");
@@ -43,11 +40,14 @@ const TaskAttachments: FC<TaskOverViewProps> = ({ data }) => {
         >
           <div className='py-6 px-6'>
             <div className='grid grid-cols-2 '>
-              {data?.supportingDocumentUrls?.map((attachment) => (
-                <AttachmentCard {...attachment} />
+              {data?.supportingDocuments?.map((attachment) => (
+                <AttachmentCard
+                  fileUrl={attachment?.url}
+                  fileName={attachment?.name}
+                />
               ))}
             </div>
-            <div className='col-span-2 flex gap-x-5 items-center'>
+            {/* <div className='col-span-2 flex gap-x-5 items-center'>
               <OutlinedButton
                 text='Upload files'
                 size='md'
@@ -57,7 +57,7 @@ const TaskAttachments: FC<TaskOverViewProps> = ({ data }) => {
               <div className='text-zinc-500 text-sm font-normal leading-snug'>
                 Maximum file size: 10 MB
               </div>{" "}
-            </div>
+            </div> */}
           </div>
         </CardSectionWrapper>
         <CardSectionWrapper
@@ -67,11 +67,13 @@ const TaskAttachments: FC<TaskOverViewProps> = ({ data }) => {
         >
           <div className='py-6 px-6 w-full'>
             <div>
-              {sampleNotes.map((noteData, index) => (
+              {data?.notes?.map((noteData, index) => (
                 <NoteCard
+                  date={noteData?.createdAt}
                   key={index}
-                  note={noteData.note}
-                  priority={noteData.priority}
+                  note={noteData?.note}
+                  onDelete={() => dispatchAction(noteData?._id, "delete")}
+                  priority={noteData?.priority}
                 />
               ))}
             </div>
@@ -80,18 +82,25 @@ const TaskAttachments: FC<TaskOverViewProps> = ({ data }) => {
                 text='Add Note'
                 size='md'
                 className='w-full'
-                onClick={() => dispatchAction("asdfsdf", "add")}
+                onClick={() => dispatchAction("adding", "add")}
               />
             </div>
           </div>
         </CardSectionWrapper>
       </div>
       {current && (
-        <AddNoteContainer
-          open={modal === "add"}
-          setOpen={(val: boolean) => setModal(val ? "add" : undefined)}
-          refetch={() => {}}
-        />
+        <>
+          <AddNoteContainer
+            open={modal === "add"}
+            setOpen={(val: boolean) => setModal(val ? "add" : undefined)}
+            refetch={refetch}
+          />
+          <DeleteNoteContainer
+            open={modal === "delete"}
+            setOpen={(val: boolean) => setModal(val ? "delete" : undefined)}
+            refetch={refetch}
+          />
+        </>
       )}
     </>
   );

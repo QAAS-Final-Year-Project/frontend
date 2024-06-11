@@ -11,6 +11,7 @@ import ActionButton from "../buttons/action-button";
 
 interface UploadAreaProps {
   id: string;
+  rawFilesId?: string;
   multiple?: boolean;
   maxFiles?: number;
   maxSize?: number;
@@ -51,6 +52,7 @@ const UploadButton: React.FC<UploadAreaProps> = ({
   setFieldTouched,
   touched,
   id,
+  rawFilesId,
   label,
   fileStoragePath,
   placeholder,
@@ -77,7 +79,7 @@ const UploadButton: React.FC<UploadAreaProps> = ({
         );
         return;
       }
-      
+
       setFiles([
         ...files,
         ...acceptedFiles.map((file: any) =>
@@ -112,6 +114,17 @@ const UploadButton: React.FC<UploadAreaProps> = ({
         }
         if (imageUrls.length) {
           setFieldValue?.(id, [...values[id], ...imageUrls]);
+          if (rawFilesId) {
+            setFieldValue?.(rawFilesId, [
+              ...files,
+              ...acceptedFiles.map((file: any) =>
+                Object.assign(file, {
+                  preview: URL.createObjectURL(file),
+                  // preview: new Blob([file], {type: file?.type})
+                })
+              ),
+            ]);
+          }
         }
       } else {
         const data = new FormData();
@@ -120,6 +133,17 @@ const UploadButton: React.FC<UploadAreaProps> = ({
         await uploadFileToFirebase(fileStoragePath || "files/", file)
           .then((fileUrl) => {
             if (data) setFieldValue?.(id, fileUrl as string);
+            if (rawFilesId) {
+              setFieldValue?.(rawFilesId, [
+                ...files,
+                ...acceptedFiles.map((file: any) =>
+                  Object.assign(file, {
+                    preview: URL.createObjectURL(file),
+                    // preview: new Blob([file], {type: file?.type})
+                  })
+                ),
+              ]);
+            }
           })
           .catch((err) => {})
           .finally(() => {
@@ -217,6 +241,12 @@ const UploadButton: React.FC<UploadAreaProps> = ({
                       id,
                       values[id].filter((_, i) => i !== index)
                     );
+                    if (rawFilesId) {
+                      setFieldValue(
+                        rawFilesId,
+                        values[rawFilesId].filter((_, i) => i !== index)
+                      );
+                    }
                   }}
                 />
               </div>

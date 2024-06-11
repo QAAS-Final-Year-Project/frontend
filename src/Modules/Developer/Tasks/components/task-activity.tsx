@@ -3,21 +3,26 @@ import { FC } from "react";
 import { ChartData, ChartOptions } from "chart.js/auto";
 import LineChart from "Shared/components/chart/my-line-chart";
 import { notifications } from "Modules/Tester/Dashboard/data/sample-data";
-import NotificationRow from "Modules/Tester/Dashboard/components/notification-row";
+import TaskActivityRow from "./task-activity-row";
+import useCookies from "Shared/hooks/cookies";
 
-const TaskActivity: FC = () => {
+const TaskActivity: FC<{ data: any }> = ({ data }) => {
+  const [user] = useCookies("user");
+  const parsedUser = JSON.parse(user);
   return (
-    <CardSectionWrapper
-      className='col-span-1'
-      title='Notifications'
-      icon={"ic:outline-notifications"}
-    >
-      <div className="">
-        {notifications.map((notification, index) => (
-          <NotificationRow key={index} {...notification} />
-        ))}
-      </div>
-    </CardSectionWrapper>
+    <div className=''>
+      {data?.history?.map((history, index) => (
+        <TaskActivityRow
+          key={index}
+          action={history?.action}
+
+          actorName={
+            parsedUser == history?.actor?._id ? "You" : history?.actor?.fullName
+          }
+          date={history?.timestamp}
+        />
+      ))}
+    </div>
   );
 };
 
