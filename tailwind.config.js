@@ -22,8 +22,8 @@ module.exports = {
       },
       fontFamily: {
         sans: [
-          'Manrope',
           'Nunito',
+          'Manrope',
           'Inter',
           ...defaultTheme.fontFamily.sans
         ],
