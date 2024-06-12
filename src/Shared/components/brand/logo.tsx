@@ -6,16 +6,17 @@ interface LogoProps {
   className?: string;
   color?: string;
   isCollapsed?: boolean;
+
 }
 
-const Logo: FC<LogoProps> = ({ className, isCollapsed }) => {
+const Logo: FC<LogoProps> = ({ className, isCollapsed, color }) => {
   return (
     <div className='flex gap-x-2'>
       <svg
         width={46}
-        height={42}
+        height={45}
         className='h-10 w-auto'
-        viewBox='0 0 46 42'
+        viewBox='0 0 46 45'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
       >
@@ -25,7 +26,7 @@ const Logo: FC<LogoProps> = ({ className, isCollapsed }) => {
         />
       </svg>
       {!isCollapsed && (
-        <h4 className='text-[#222222] text-2xl'>Test Universal</h4>
+        <h4 className={classNames('text-[#222222] text-2xl', color)}>Test Universal</h4>
       )}
     </div>
   );

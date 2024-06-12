@@ -2,7 +2,7 @@ import { FC, useEffect } from "react";
 import DeveloperForm from "./forms/developer-form";
 import { useNavigate } from "react-router-dom";
 import useUrlState from "Shared/hooks/use-url-state";
-import TesterForm from "./forms/test-form";
+import TesterForm from "./forms/tester-form";
 import _ from "lodash";
 
 const RegisterForms = {

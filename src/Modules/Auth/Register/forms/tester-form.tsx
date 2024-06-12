@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { classNames } from "Shared/utils/ui";
 import useUrlState from "Shared/hooks/use-url-state";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TextInput from "Shared/components/input/text-input";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -16,12 +16,13 @@ import { isAxiosError } from "axios";
 import { doRegisterTesterUser } from "../../duck/fetch";
 import AuthLogo from "../../components/auth-logo";
 import { ICreateTesterUser, TesterUserSchema } from "./schema";
-
+import PrimaryButton from "Shared/components/buttons/primary-button";
+import Header from "Shared/components/layout/header";
+import Container from "Shared/components/layout/container";
 
 const TesterForm: FC = () => {
   const navigate = useNavigate();
   const [accountType] = useUrlState<string>("accountType");
-
 
   const mutation = useMutation({
     mutationFn: doRegisterTesterUser,
@@ -62,7 +63,7 @@ const TesterForm: FC = () => {
       fullName: "",
       password: "",
       confirmPassword: "",
-      country: "Ghana",
+      country: "",
       termsAndConditions: false,
     },
     validationSchema: TesterUserSchema,
@@ -85,44 +86,68 @@ const TesterForm: FC = () => {
 
   return (
     <>
-      <div className='flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8'>
-        <AuthLogo
-          title={
-            <h2 className='mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
-              Create a new account as
-              <br />a tester
-            </h2>
-          }
-        />
-
-        <div className='mt-10 sm:mx-auto sm:w-full  sm:max-w-[480px]'>
-          <div className='bg-white  shadow sm:rounded-lg'>
-            <div className='px-6 py-12  sm:px-12'>
-              <form onSubmit={form.handleSubmit} className='space-y-6'>
-                <div>
+      <section className='my-[70px]'>
+        <Container>
+          <Header
+            title={`Register`}
+            breadCrumps={[
+              {
+                title: "Home",
+                to: "/",
+              },
+              {
+                title: "Register",
+                to: "#",
+              },
+            ]}
+          />
+          <div className='mt-16 w-[480px] mx-auto'>
+            <div className='  '>
+              <h3 className=' text-center text-zinc-800 text-[26px] font-bold leading-[27px] mb-1'>
+                Let's create your tester account!
+              </h3>
+              <div className=' flex items-center justify-center gap-1 mb-[42px] '>
+                <span className='text-center text-zinc-500 text-base font-normal  leading-[27px]'>
+                  Already have an account?{" "}
+                </span>
+                <Link
+                  to='/login'
+                  className='text-center text-blue-700 text-base font-medium  leading-[27px]  '
+                >
+                  Log In!{" "}
+                </Link>
+              </div>
+              <form onSubmit={form.handleSubmit} className=''>
+                <div className='mb-4'>
                   <TextInput
                     id='fullName'
-                    label='Full Name'
+                    placeholder='Full Name'
+                    label=''
                     type='text'
+                    labelHidden
                     required
-                    placeholder='e.g. Mensah Enoch Nana Nyankah'
                     {...form}
+                    icon='ic:baseline-person-outline'
                   />
                 </div>
-                <div>
+
+                <div className='mb-4'>
                   <TextInput
                     id='emailAddress'
-                    label='Email Address'
+                    label=''
                     type='text'
                     required
-                    placeholder='e.g. developer@company.com'
+                    labelHidden
+                    placeholder='Email Address'
                     {...form}
+                    icon='ic:outline-email'
                   />
                 </div>
-                <div>
+                <div className='mb-4'>
                   <SearchSelectInput
                     id='country'
-                    label={`Country`}
+                    label={``}
+                    icon='ic:baseline-public'
                     placeholder='Select Country'
                     options={[
                       ...lodash.map(Countries).map((nationality) => ({
@@ -136,69 +161,42 @@ const TesterForm: FC = () => {
                     {...form}
                   />
                 </div>
-                <div>
+                <div className='mb-4'>
                   <TextInput
                     id='password'
-                    label='Password'
+                    label=''
+                    labelHidden
                     type='password'
+                    placeholder='Password'
+                    icon='ic:outline-lock'
                     required
                     {...form}
                   />
                 </div>
-                <div>
+                <div className='mb-4'>
                   <TextInput
                     id='confirmPassword'
-                    label='Confirm Password'
+                    label=''
+                    labelHidden
                     type='password'
+                    placeholder='Repeat Password'
+                    icon='ic:outline-lock'
                     required
                     {...form}
                   />
                 </div>
-                <div className='relative flex items-start'>
-                  <div className='flex h-6 items-center'>
-                    <input
-                      id='candidates'
-                      aria-describedby='candidates-description'
-                      name='candidates'
-                      type='checkbox'
-                      checked={form.values.termsAndConditions}
-                      onChange={form.handleChange}
-                      className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'
-                    />
-                  </div>
-                  <div className='ml-3 text-sm leading-6'>
-                    <label
-                      htmlFor='candidates'
-                      className='font-medium text-gray-900'
-                    >
-                      Terms and Conditions
-                    </label>{" "}
-                    <span id='candidates-description' className='text-gray-500'>
-                      Apply
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <button
-                    type='submit'
-                    disabled={!form.isValid || form.values.termsAndConditions}
-                    className='flex w-full justify-center rounded-md bg-primary-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:opacity-50 disabled:cursor-not-allowed'
-                  >
-                    {mutation.isPending ? (
-                      <LoadingIcon
-                        className={`animate-spin h-5 w-5 mx-2 fill-white ${
-                          mutation.isPending ? "block" : "hidden"
-                        }`}
-                      />
-                    ) : (
-                      "Register"
-                    )}{" "}
-                  </button>
-                </div>
+
+                <PrimaryButton
+                  text='Login'
+                  size='md'
+                  className='w-full'
+                  // loading={mutation.isPending}
+                  type='submit'
+                />
               </form>
 
               <div>
-                <div className='relative mt-10'>
+                <div className='relative mt-8'>
                   <div
                     className='absolute inset-0 flex items-center'
                     aria-hidden='true'
@@ -206,16 +204,16 @@ const TesterForm: FC = () => {
                     <div className='w-full border-t border-gray-200' />
                   </div>
                   <div className='relative flex justify-center text-sm font-medium leading-6'>
-                    <span className='bg-white px-6 text-gray-900'>
-                      Or continue with
+                    <span className='bg-white px-2.5 text-center text-zinc-500 text-base'>
+                      or
                     </span>
                   </div>
                 </div>
 
-                <div className='mt-6 grid grid-cols-2 gap-4'>
+                <div className='mt-4 grid grid-cols-2 gap-4'>
                   <a
                     href='#'
-                    className='flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent'
+                    className='flex w-full items-center justify-center gap-3 rounded bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent'
                   >
                     <svg
                       className='h-5 w-5'
@@ -239,14 +237,14 @@ const TesterForm: FC = () => {
                         fill='#34A853'
                       />
                     </svg>
-                    <span className='text-sm font-semibold leading-6'>
-                      Google
+                    <span className='text-sm font-semibold '>
+                      Register via Google
                     </span>
                   </a>
 
                   <a
                     href='#'
-                    className='flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent'
+                    className='flex w-full items-center justify-center gap-3 rounded bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent'
                   >
                     <svg
                       className='h-5 w-5 fill-[#24292F]'
@@ -261,25 +259,15 @@ const TesterForm: FC = () => {
                       />
                     </svg>
                     <span className='text-sm font-semibold leading-6'>
-                      GitHub
+                      Register Via GitHub
                     </span>
                   </a>
                 </div>
               </div>
             </div>
           </div>
-
-          <p className='mt-10 text-center text-sm text-gray-500'>
-            Not a member?{" "}
-            <a
-              href='#'
-              className='font-semibold leading-6 text-primary-600 hover:text-primary-500'
-            >
-              Start a 14 day free trial
-            </a>
-          </p>
-        </div>
-      </div>
+        </Container>
+      </section>
     </>
   );
 };

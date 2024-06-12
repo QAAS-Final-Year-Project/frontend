@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { classNames } from "Shared/utils/ui";
 import useUrlState from "Shared/hooks/use-url-state";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TextInput from "Shared/components/input/text-input";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -17,6 +17,9 @@ import { doRegisterTesterUser, doVerifyEmail } from "../../duck/fetch";
 import { IVerifyEmail, VerifyEmailSchema } from "./schema";
 import AuthLogo from "../../components/auth-logo";
 import { setMe, setToken } from "Shared/utils/auth";
+import Container from "Shared/components/layout/container";
+import PrimaryButton from "Shared/components/buttons/primary-button";
+import Header from "Shared/components/layout/header";
 
 const VerifyEmailPage: FC = () => {
   const navigate = useNavigate();
@@ -85,52 +88,61 @@ const VerifyEmailPage: FC = () => {
   }, [accountType, emailQuery]);
 
   return (
-    <>
-      <div className='flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8'>
-        <AuthLogo title={"Verify Email Address"} />
-        <div className='mt-10 sm:mx-auto sm:w-full  sm:max-w-[480px]'>
-          <div className='bg-white  shadow sm:rounded-lg'>
-            <div className='px-6 py-12  sm:px-12'>
-              <form onSubmit={form.handleSubmit} className='space-y-6'>
-                <p className='mt-2 text-sm leading-6 text-gray-500'>
-                  An OTP has been sent to your email{" "}
-                  <span className='font-semibold text-primary-600 '>
-                    {emailQuery}
-                  </span>
-                </p>
-                <div>
-                  <TextInput
-                    id='code'
-                    label='Verification Code'
-                    type='text'
-                    required
-                    placeholder='Enter the verification code sent to your email'
-                    {...form}
-                  />
-                </div>
-                <div>
-                  <button
-                    type='submit'
-                    disabled={!form.isValid}
-                    className='flex w-full justify-center rounded-md bg-primary-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:opacity-50 disabled:cursor-not-allowed'
-                  >
-                    {mutation.isPending ? (
-                      <LoadingIcon
-                        className={`animate-spin h-5 w-5 mx-2 fill-white ${
-                          mutation.isPending ? "block" : "hidden"
-                        }`}
-                      />
-                    ) : (
-                      "Verify"
-                    )}{" "}
-                  </button>
-                </div>
-              </form>
+    <section className='my-[70px]'>
+      <Container>
+        <Header
+          title={`Register`}
+          breadCrumps={[
+            {
+              title: "Home",
+              to: "/",
+            },
+            {
+              title: "Register",
+              to: "#",
+            },
+          ]}
+        />
+        <div className='mt-16 w-[480px] mx-auto'>
+          <div className='  '>
+            <h3 className=' text-center text-zinc-800 text-[26px] font-bold leading-[27px] mb-1'>
+              Verify Email
+            </h3>
+            <div className=' flex items-center justify-center gap-1 mb-[42px] '>
+              <span className='text-center text-zinc-500 text-base font-normal  leading-[27px]'>
+                An OTP has been sent to your email address
+              </span>
+              <span className='text-center text-blue-700 text-base font-medium  leading-[27px]  '>
+                {emailQuery}{" "}
+              </span>
             </div>
+            <form onSubmit={form.handleSubmit} className='space-y-6'>
+              <div>
+                <TextInput
+                  id='code'
+                  icon='ic:outline-lock'
+                  placeholder='Verification Code'
+                  type='text'
+                  required
+                  label=''
+                  labelHidden
+                  {...form}
+                />
+              </div>
+              <div>
+                <PrimaryButton
+                  text='Login'
+                  size='md'
+                  className='w-full'
+                  loading={mutation.isPending}
+                  type='submit'
+                />
+              </div>
+            </form>
           </div>
         </div>
-      </div>
-    </>
+      </Container>
+    </section>
   );
 };
 

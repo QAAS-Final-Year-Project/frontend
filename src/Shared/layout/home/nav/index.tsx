@@ -6,27 +6,36 @@ import Avatar from "Shared/components/media/avatar";
 import useCookies from "Shared/hooks/cookies";
 import { setMe } from "Shared/utils/auth";
 import Logo from "Shared/components/brand/logo";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ArrowDownIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 const HomeNavBar: FC = () => {
   const [user] = useCookies("user");
   const [token] = useCookies("token");
   const NavLinks = ["Home", "Find Work", "For Employers", "Dashboard", "Pages"];
+  const location = useLocation();
 
-  const parsedUser = JSON.parse(user);
+  const parsedUser = !!token ? JSON.parse(user) : {};
   return (
-    <div className='w-full h-20 flex items-center justify-between bg-white'>
+    <div
+      className='w-full h-20 flex items-center justify-between bg-white sticky top-0'
+      id='header'
+    >
       <div className='relative flex '>
-        <div className="border-r px-8 py-5 h-full border-neutral-200">
-        <Logo />
-        </div>
-        <ul className="flex items-center gap-x-5">
+        <Link
+          to={"/"}
+          className='border-r block px-8 py-5 cursor-pointer h-full border-neutral-200'
+        >
+          <Logo />
+        </Link>
+        <ul className='flex items-center gap-x-5'>
           {NavLinks.map((link) => (
             <li key={link} className='ml-8'>
-              <Link  to='#' className=' flex item-center gap-2 0'>
-                <span className=" text-stone-500 text-base font-normal leading-none hover:text-primary-400">{link}</span>
-                <div className="h-4 w-4 rounded bg-neutral-200 flex hover:bg-primary-400 items-center justify-center">
-                  <ChevronDownIcon className="h-3 w-3 text-stone-500" />
+              <Link to='#' className=' flex item-center gap-2 0'>
+                <span className=' text-stone-500 text-base font-normal leading-none hover:text-primary-400'>
+                  {link}
+                </span>
+                <div className='h-4 w-4 rounded bg-neutral-200 flex hover:bg-primary-400 items-center justify-center'>
+                  <ChevronDownIcon className='h-3 w-3 text-stone-500' />
                 </div>
               </Link>
             </li>
@@ -58,7 +67,21 @@ const HomeNavBar: FC = () => {
             </div>
           </>
         ) : (
-          <div>Login/Register</div>
+          <>
+            {!["/account-type", "/login", "/register", "/verify-email",  "/account-type"].includes(
+              location.pathname
+            ) && (
+              <Link
+              to={"/login"}
+                className='flex gap-1 px-5 text-stone-500 item-center hover:text-primary-500'
+              >
+                <Icon icon='material-symbols:login' className='w-6 h-5' />
+                <span className=' text-base font-normal  leading-tight'>
+                  Log In / Register
+                </span>{" "}
+              </Link>
+            )}
+          </>
         )}
       </div>
     </div>

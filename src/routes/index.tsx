@@ -26,36 +26,17 @@ import HomeLayout from "Shared/layout/home";
 import HomeLandingPage from "Modules/Home";
 
 const routes = (isAuth, authType, authUser): RouteObject[] => [
-  ...(!isAuth
-    ? authRoutes
-    : [
-        {
-          path: "/",
-          element: <HomeLayout />,
-          children: [
-            {
-              index: true,
-              element: <HomeLandingPage />,
-            },
-            {
-              path: "find-work",
-              element: <div>Find Work</div>,
-            },
-            {
-              path: "for-employers",
-              element: <div>For Employers</div>,
-            },
-            {
-              path: "dashboard",
-              element: <div>Dashboard</div>,
-            },
-            {
-              path: "pages",
-              element: <div>Pages</div>,
-            }
-          ],
-        },
-      ]),
+  {
+    path: "/",
+    element: <HomeLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomeLandingPage />,
+      },
+      ...(!isAuth ? authRoutes : []),
+    ],
+  },
   ...(authType === "TesterUser" ? testerUserRoutes(authUser) : []),
   ...(authType === "DeveloperUser" ? developerUserRoutes : []),
 ];

@@ -248,7 +248,7 @@
     display: block;
     position: relative;
   }
-  
+
   .get-started-section:before {
     content: "";
     width: 100%;
@@ -258,5 +258,24 @@
     display: block;
     position: absolute;
     top: 0;
+  }
+
+  .check-animation {
+    animation: checkAnim 2s infinite;
+  }
+
+  @keyframes checkAnim {
+    0%,
+    100% {
+      box-shadow: 0 0 0 5px rgba(42, 65, 232, 0.15);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(42, 65, 232, 0.15);
+    }
+  }
+
+  #header {
+    z-index: 999;
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.12);
   }
 }

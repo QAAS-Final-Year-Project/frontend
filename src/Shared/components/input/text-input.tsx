@@ -25,8 +25,9 @@ interface TextInputProps {
   maxLength?: number;
   minLength?: number;
   postText?: string | JSX.Element;
-  preText?: string;
+  preText?: string | JSX.Element;
   tooltip?: string;
+  icon?: string;
 }
 
 const TextInput: FC<TextInputProps> = ({
@@ -50,6 +51,7 @@ const TextInput: FC<TextInputProps> = ({
   postText,
   preText,
   tooltip,
+  icon,
   inputClassName,
 }) => {
   return (
@@ -65,7 +67,8 @@ const TextInput: FC<TextInputProps> = ({
           id={`tooltip-${id}`}
           className='text-zinc-800 text-base flex items-center gap-x-1  leading-[27px]'
         >
-          {label} {required ? "*" : ""}
+          {label}
+          {/* {required ? "*" : ""} */}
           {tooltip && (
             <Icon
               icon={"clarity:exclamation-circle-line"}
@@ -93,7 +96,9 @@ const TextInput: FC<TextInputProps> = ({
           style={{
             paddingRight:
               (_.isString(postText) ? postText?.length : 0) * 10 + 20,
-            paddingLeft: (preText?.length || 0) * 10 + 20,
+            paddingLeft: icon
+              ? 66
+              : (_.isString(preText) ? preText?.length : 0) * 10 + 20,
           }}
           className={classNames(
             _.get(errors, id) && _.get(touched, id)
@@ -119,7 +124,20 @@ const TextInput: FC<TextInputProps> = ({
             </span>
           </div>
         )}
-        {preText && (
+        {icon && (
+          <div
+            className={classNames(
+              "pointer-events-none absolute text-neutral-400 inset-y-0 left-0 flex items-center h-full bg-stone-50 rounded-tl border rounded-bl px-[14.5px]",
+              _.get(errors, id) && _.get(touched, id)
+                ? "focus:ring-red-500 focus:border-red-500 border-red-600  !outline-red-500"
+                : " border-gray-300 focus:!ring-primary-500 focus:!border-primary-500  outline-primary-500"
+            )}
+          >
+            <Icon icon={icon} className="w-[19px] h-[19px]"/>
+          </div>
+        )}
+
+        {!icon && preText && (
           <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
             <span className='text-gray-500 sm:text-sm' id='price-currency'>
               {preText}
