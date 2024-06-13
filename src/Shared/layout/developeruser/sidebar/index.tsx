@@ -4,7 +4,7 @@ import {
   UnverifiedNavSections,
   ApprovedNavSections,
   VerifiedNavSections,
-} from "../testeruser/data/navItems";
+} from "../../testeruser/data/navItems";
 import SidebarNavItem from "./components/SidebarNavItem";
 // import Divider from "../../../components/seperators/divider";
 import { Link, NavLink, useLocation } from "react-router-dom";
@@ -14,13 +14,13 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
-import useCookies from "../../hooks/cookies";
+import useCookies from "../../../hooks/cookies";
 import { Menu, Transition } from "@headlessui/react";
-import { wrapClick } from "../../utils/ui";
+import { wrapClick } from "../../../utils/ui";
 
-import { showToast } from "../../utils/alert";
+import { showToast } from "../../../utils/alert";
 import Logo from "Shared/components/brand/logo";
-import { NavSections } from "../developeruser/data/navItems";
+import { NavSections } from "../data/navItems";
 import useUrlState from "Shared/hooks/use-url-state";
 import LogoutContainer from "./logout-dialog";
 const DeveloperUserSidebar: FC = () => {

@@ -62,7 +62,7 @@ const TaskBidders: FC<{ data: any }> = ({ data }) => {
           }
         >
           {data?.bidders?.map((bidder: any) => (
-            <BidderRow {...sampleBidder} />
+            <BidderRow {...bidder} />
           ))}
         </CardSectionWrapper>
       </div>

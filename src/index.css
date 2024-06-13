@@ -249,6 +249,36 @@
     position: relative;
   }
 
+  .task-header:after,
+  .task-header:before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: 12;
+    background: linear-gradient(
+      to right,
+      rgba(247, 247, 247, 1) 50%,
+      rgba(247, 247, 247, 0.8) 70%,
+      rgba(247, 247, 247, 0.8) 90%
+    );
+  }
+
+  .task-header .background-image-container {
+  background-size: cover;
+    background-position: 100% 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 50%;
+    left: 50%;
+    z-index: 12;
+  }
+
   .get-started-section:before {
     content: "";
     width: 100%;

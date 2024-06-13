@@ -10,6 +10,7 @@ interface TextInputProps {
   label?: string;
   placeholder?: string;
   disabled?: boolean;
+  readonly?: boolean;
   required?: boolean;
   type?: "number" | "text" | "email" | "date" | "password";
   values: any;
@@ -53,6 +54,7 @@ const TextInput: FC<TextInputProps> = ({
   tooltip,
   icon,
   inputClassName,
+  readonly
 }) => {
   return (
     <>
@@ -82,6 +84,7 @@ const TextInput: FC<TextInputProps> = ({
           type={type ?? "text"}
           name={id}
           id={id}
+          readOnly={readonly}
           value={_.get(values, id)}
           onChange={handleChange}
           onBlur={handleBlur}

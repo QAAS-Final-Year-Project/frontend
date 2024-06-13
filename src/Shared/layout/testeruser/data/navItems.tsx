@@ -44,19 +44,14 @@ export const ApprovedNavSections: INavSection[] = [
     title: "Organize and Manage",
     items: [
       {
-        icon: "ic:outline-business-center",
-        label: "Jobs",
-        to: "/jobs",
-      },
-      {
         icon: "ic:outline-assignment",
-        label: "Tasks",
-        to: "/Tasks",
+        label: "Manage Tasks",
+        to: "/dashboard/tasks",
       },
       {
         icon: "tabler:user",
-        label: "Customers",
-        to: "/dashboard/testers",
+        label: "Bids",
+        to: "/dashboard/bids",
       },
     ],
   },
@@ -71,7 +66,7 @@ export const ApprovedNavSections: INavSection[] = [
       {
         icon: "ic:baseline-power-settings-new",
         label: "Logout",
-        to: "/logout",
+        to: "?modal=logout",
       },
     ],
   },
@@ -85,6 +80,11 @@ export const UnverifiedNavSections: INavSection[] = [
         icon: "ic:outline-dashboard",
         label: "Verify Account",
         to: "/",
+      },
+      {
+        icon: "ic:baseline-power-settings-new",
+        label: "Logout",
+        to: "?modal=logout",
       },
     ],
   },
@@ -102,6 +102,11 @@ export const VerifiedNavSections: INavSection[] = [
         icon: "ic:outline-menu-book", // Outlined icon for learning materials
         label: "Learning Materials",
         to: "/learning-materials",
+      },
+      {
+        icon: "ic:baseline-power-settings-new",
+        label: "Logout",
+        to: "?modal=logout",
       },
     ],
   },

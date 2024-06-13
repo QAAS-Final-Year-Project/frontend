@@ -14,7 +14,7 @@ interface YesNoDialogProps {
   yesLoading?: boolean;
   yesTitle?: string;
   yesColor?: string;
-  noColor?: string
+  noColor?: string;
 }
 
 const YesNoDialog: React.FC<PropsWithChildren<YesNoDialogProps>> = ({
@@ -38,7 +38,7 @@ const YesNoDialog: React.FC<PropsWithChildren<YesNoDialogProps>> = ({
 
   return (
     <div
-      className='absolute flex z-10 justify-center
+      className='fixed flex z-[1000] justify-center
                         items-center p-2 top-0 left-0
                         w-screen h-screen bg-gray/10
                         backdrop-brightness-50'
@@ -72,7 +72,6 @@ const YesNoDialog: React.FC<PropsWithChildren<YesNoDialogProps>> = ({
             onClick={wrapClick(onNoTapped)}
             loading={false}
             className={classNames(noColor)}
-
             text={noTitle ? noTitle : "No"}
           />
 
@@ -80,7 +79,6 @@ const YesNoDialog: React.FC<PropsWithChildren<YesNoDialogProps>> = ({
             onClick={wrapClick(onYesClicked)}
             loading={yesLoading}
             className={classNames(yesColor)}
-            
             text={yesTitle ? yesTitle : "Yes"}
           />
         </div>

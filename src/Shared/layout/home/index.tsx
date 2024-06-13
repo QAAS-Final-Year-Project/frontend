@@ -1,5 +1,5 @@
 import { FC, Suspense, useEffect } from "react";
-import DeveloperUserSidebar from "../sidebar";
+import DeveloperUserSidebar from "../developeruser/sidebar";
 import { Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { formatAndShowAxiosError } from "Shared/utils/errors";

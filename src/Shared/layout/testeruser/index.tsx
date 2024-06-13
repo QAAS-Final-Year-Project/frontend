@@ -1,5 +1,4 @@
 import { FC, Suspense, useEffect } from "react";
-import DeveloperUserSidebar from "../sidebar";
 import { Outlet } from "react-router-dom";
 import TesterUserNavBar from "./nav";
 import { useQuery } from "@tanstack/react-query";
@@ -8,6 +7,7 @@ import { checkTesterUserAuth } from "./duck/fetch";
 import { AxiosError } from "axios";
 import { clearAuth, setMe } from "Shared/utils/auth";
 import FullScreenLoader from "Shared/components/suspense/page-loader";
+import TesterUserSidebar from "./sidebar";
 
 const TesterUserLayout: FC = () => {
   const { data, isLoading, isError, isFetched } = useQuery({
@@ -47,7 +47,7 @@ const TesterUserLayout: FC = () => {
             width: "288px",
           }}
         >
-          <DeveloperUserSidebar />
+          <TesterUserSidebar />
         </aside>
         <main className='flex flex-1 flex-col  bg-gray-100 '>
           <nav className='shadow-md z-10 sticky top-0'>

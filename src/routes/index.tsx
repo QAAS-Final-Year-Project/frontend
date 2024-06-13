@@ -24,6 +24,8 @@ import ViewTaskDetailsPage from "Modules/Developer/Tasks/view";
 import DeveloperReviewsPage from "Modules/Developer/Reviews";
 import HomeLayout from "Shared/layout/home";
 import HomeLandingPage from "Modules/Home";
+import SingleTaskPage from "Modules/Home/SingleTask";
+import TesterBidsPage from "Modules/Tester/Bids";
 
 const routes = (isAuth, authType, authUser): RouteObject[] => [
   {
@@ -33,6 +35,10 @@ const routes = (isAuth, authType, authUser): RouteObject[] => [
       {
         index: true,
         element: <HomeLandingPage />,
+      },
+      {
+        path: "tasks/:id",
+        element: <SingleTaskPage />,
       },
       ...(!isAuth ? authRoutes : []),
     ],
@@ -79,7 +85,7 @@ const testerUserRoutes = (authUser: any): RouteObject[] => [
 
 const approvedTesterUserRoutes = (authUser): RouteObject[] => [
   {
-    path: "/*",
+    path: "/dashboard",
     children: [
       {
         index: true,
@@ -90,12 +96,40 @@ const approvedTesterUserRoutes = (authUser): RouteObject[] => [
         element: <AssessmentPage />,
       },
       {
-        path: "settings",
-        element: <Settings />,
+        path: "tasks",
+        element: <TasksPage />,
+      },
+      {
+        path: "bids",
+        element: <TesterBidsPage />,
+      },
+      {
+        path: "tasks/:id",
+        element: <ViewTaskDetailsPage />,
+      },
+      {
+        path: "tasks/new",
+        element: <CreateTasksPage />,
+      },
+      {
+        path: "testers",
+        element: <TestersListPage />,
+      },
+      {
+        path: "messages",
+        element: <DeveloperMessages />,
       },
       {
         path: "invoice",
         element: <InvoicePage />,
+      },
+      {
+        path: "settings",
+        element: <DeveloperSettings />,
+      },
+      {
+        path: "reviews",
+        element: <DeveloperReviewsPage />,
       },
       {
         path: "learning-materials",
@@ -153,7 +187,6 @@ const developerUserRoutes: RouteObject[] = [
         path: "tasks",
         element: <TasksPage />,
       },
-
       {
         path: "tasks/:id",
         element: <ViewTaskDetailsPage />,

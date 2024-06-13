@@ -21,8 +21,10 @@ const ActionIcons: { [key in Action]: typeof EyeIcon } = {
 interface ActionButtonProps {
   action: Action;
   onClick: (...val: any) => any;
+  className?: string;
   disabled?: boolean;
   tooltip?: string;
+  iconClassName?: string;
 }
 
 const ActionButton: FC<ActionButtonProps> = ({
@@ -30,6 +32,8 @@ const ActionButton: FC<ActionButtonProps> = ({
   onClick,
   disabled = false,
   tooltip,
+  className,
+  iconClassName,
 }) => {
   const Icon = ActionIcons[action];
   const id = useId();
@@ -50,11 +54,12 @@ const ActionButton: FC<ActionButtonProps> = ({
           disabled
             ? "cursor-not-allowed text-gray-500 hover:bg-gray-300"
             : "text-gray-500 hover:bg-gray-300 hover:text-gray-900",
-          "inline-flex items-center justify-center rounded-[4px] w-8 h-8 border border-transparent p-1 bg-zinc-100  focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+          "inline-flex items-center justify-center rounded-[4px] w-8 h-8 border border-transparent p-1 bg-zinc-100  focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2",
+          className
         )}
       >
         <Icon
-          className={classNames("w-5 h-5 text-[#666666]")}
+          className={classNames("w-5 h-5 text-[#666666]", iconClassName)}
           aria-hidden='true'
         />
       </button>

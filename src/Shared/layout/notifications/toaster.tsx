@@ -12,7 +12,7 @@ import toast, { Toast, useToaster } from "react-hot-toast";
 import { classNames, wrapClick } from "../../utils/ui";
 
 const Toaster: FC = () => {
-  const { toasts, handlers } = useToaster();
+const { toasts, handlers } = useToaster();
   const { startPause, endPause } = handlers;
 
   return (
@@ -24,7 +24,7 @@ const Toaster: FC = () => {
         onMouseLeave={endPause}
         aria-live='assertive'
         className={classNames(
-          "fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start z-50"
+          "fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start z-[10000]"
         )}
       >
         <div className='w-full flex flex-col items-center space-y-4 sm:items-end'>
