@@ -54,8 +54,8 @@ const ViewTaskDetailsPage: FC = () => {
 
   const TabMappings = {
     overview: <TaskOverView data={query?.data?.data} />,
-    bidders: <TaskBidders data={query?.data?.data} />,
-    activity: <TaskActivity data={query?.data?.data}/>,
+    bidders: <TaskBidders  refetch={query.refetch} data={query?.data?.data} />,
+    activity: <TaskActivity data={query?.data?.data} />,
     attachments: (
       <TaskAttachments data={query?.data?.data} refetch={query.refetch} />
     ),
@@ -82,7 +82,7 @@ const ViewTaskDetailsPage: FC = () => {
                 to: "#",
               },
               {
-                title: "#1234",
+                title: query?.data?.data ? "#" + query?.data?.data?.code : "",
                 to: "#",
               },
             ]}
@@ -108,7 +108,12 @@ const ViewTaskDetailsPage: FC = () => {
                       href: "overview",
                       notificationsCount: 2,
                     },
-                    { icon: "ic:baseline-supervisor-account", label: "Bidders", href: "bidders" , notificationsCount: query?.data?.data?.biddersCount || 0},
+                    {
+                      icon: "ic:baseline-supervisor-account",
+                      label: "Bidders",
+                      href: "bidders",
+                      notificationsCount: query?.data?.data?.meta?.biddersCount || 0,
+                    },
                     {
                       icon: "ic:outline-notifications",
                       label: "Activity",

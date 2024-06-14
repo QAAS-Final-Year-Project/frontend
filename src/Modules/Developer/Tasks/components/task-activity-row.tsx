@@ -16,6 +16,8 @@ interface NotificationRowProps {
 const ActionIcons = {
   Initiate: "ic:outline-group",
   Bid: "ic:outline-gavel",
+  CancelBid: "ic:baseline-do-not-disturb",
+  EditBid: "ic:outline-gavel",
   AddNote: "ic:outline-gavel",
   RemoveNote: "ic:outline-rate-review",
   Assign: "ic:outline-rate-review",
@@ -24,6 +26,8 @@ const ActionIcons = {
 const ActionTexts = {
   Initiate: "created task",
   Bid: "place a bid",
+  CancelBid: "canceled bid",
+  EditBid: "edited bid",
   AddNote: "removed a note",
   Assign: "assigned task",
 };
@@ -51,7 +55,7 @@ const TaskActivityRow: FC<NotificationRowProps> = ({
           </div>
         </div>
         <div className='flex items-center gap-1 '>
-          <p className="flex items-center gap-1">
+          <p className='flex items-center gap-1'>
             <span className='text-zinc-800 text-sm font-semibold  leading-[23px]'>
               {actorName}
             </span>

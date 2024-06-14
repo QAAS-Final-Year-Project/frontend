@@ -41,19 +41,12 @@ const TagsInput: FC<TagsInputProps> = ({
   labelHidden,
   tooltip,
 }) => {
-  {
-    tooltip && (
-      <Tooltip anchorSelect={`#tooltip-${id}`} place='right-start'>
-        {tooltip}
-      </Tooltip>
-    );
-  }
   const removeItem = (itemId: number) => {
     handleChange(
       {
         target: {
           name: id,
-          value: _.get(values,id )?.filter((_, idx) => idx !== itemId),
+          value: _.get(values, id)?.filter((_, idx) => idx !== itemId),
         },
       },
       true
@@ -82,12 +75,17 @@ const TagsInput: FC<TagsInputProps> = ({
     onReset: () => {},
   });
   return (
-    <div >
+    <div>
+      {tooltip && (
+        <Tooltip anchorSelect={`#tooltip-${id}`} place='top'>
+          {tooltip}
+        </Tooltip>
+      )}
       {!labelHidden && (
         <label
           htmlFor={id}
           id={`tooltip-${id}`}
-          className='text-zinc-800 text-base flex items-center gap-x-1  leading-[27px]'
+          className='text-zinc-800 text-base flex items-center gap-x-1  leading-[27px] w-max'
         >
           {label} {required ? "*" : ""}
           {tooltip && (
@@ -133,7 +131,7 @@ const TagsInput: FC<TagsInputProps> = ({
         <div className=' absolute inset-y-0 right-0 flex items-center pr-2'>
           <button
             type='button'
-            onClick={wrapClick(form.handleSubmit)} 
+            onClick={wrapClick(form.handleSubmit)}
             className=' p-2 bg-primary-500 hover:bg-primary-400  z-10 rounded flex justify-center items-center  cursor-pointer'
           >
             <PlusIcon className='h-5 w-5 text-white' />

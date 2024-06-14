@@ -22,11 +22,16 @@ export const getTasks = async (filter: IGetFilter) => {
 
 export const getTask = async (id: string | number) => {
     return AxiosDataService.get("/api/tasks/" + id, {
-        populate: ["history.actor", ]
+        populate: ["history.actor", "bidders.bidder"]
     })
 }
 
 
 export const deleteTaskNote = async (taskId, noteId) => {
     return AxiosDataService.delete(`/api/tasks/${taskId}/notes/${noteId}`)
+}
+
+
+export const doAssignTask = async (params: { id: string, values: any }) => {
+    return AxiosDataService.post(`/api/tasks/${params.id}/assign`, params.values)
 }

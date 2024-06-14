@@ -67,7 +67,7 @@ const TextInput: FC<TextInputProps> = ({
         <label
           htmlFor={id}
           id={`tooltip-${id}`}
-          className='text-zinc-800 text-base flex items-center gap-x-1  leading-[27px]'
+          className='text-zinc-800 text-base flex items-center gap-x-1  leading-[27px]  w-max'
         >
           {label}
           {/* {required ? "*" : ""} */}

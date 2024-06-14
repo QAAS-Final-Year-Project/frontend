@@ -5,7 +5,6 @@ import {
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import "react-tooltip/dist/react-tooltip.css";
 import { classNames, wrapClick } from "../../utils/ui";
 import { Tooltip } from "react-tooltip";
 
@@ -36,18 +35,18 @@ const ActionButton: FC<ActionButtonProps> = ({
   iconClassName,
 }) => {
   const Icon = ActionIcons[action];
-  const id = useId();
 
   return (
-    <>
+    <div>
       {tooltip && (
-        <Tooltip anchorSelect={`#${id}`} place='right-start'>
+        <Tooltip anchorSelect={`#tooltip-${action}`} place='top'>
           {tooltip}
         </Tooltip>
       )}
+      {/* <div className='w-80 h-16 ' </div> */}
       <button
         type='button'
-        id={id}
+        id={`tooltip-${action}`}
         onClick={wrapClick(onClick)}
         disabled={disabled}
         className={classNames(
@@ -63,7 +62,7 @@ const ActionButton: FC<ActionButtonProps> = ({
           aria-hidden='true'
         />
       </button>
-    </>
+    </div>
   );
 };
 export default ActionButton;

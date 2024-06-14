@@ -6,13 +6,13 @@ import { getTimeLeft } from "Shared/utils/date";
 import AppConfig from "config";
 import moment from "moment";
 import { FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface BidRowProps {
   title: string;
   _id: string;
   date: string;
-  // deadlineDate;
+  deadlineDate;
   biddersCount: number;
   amount: number;
   onDelete: () => void;
@@ -25,11 +25,13 @@ const BidRow: FC<BidRowProps> = ({
   // status,
   biddersCount,
   amount,
+  deadlineDate,
   onDelete,
   onUpdate,
   // deadlineDate,
   date,
 }) => {
+  const navigate = useNavigate();
   return (
     <div
       // to={"/dashboard/tasks/" + _id}
@@ -41,14 +43,21 @@ const BidRow: FC<BidRowProps> = ({
             {title}
           </div>
         </div>
-        <div className='flex gap-x-1 mb-3 items-center'>
+
+        <div className='flex gap-x-2 mb-3 items-center'>
           <Icon
-            icon={"ic:baseline-access-time"}
+            icon={"ic:outline-calendar-month"}
             className='w-5 h-5 text-neutral-500'
           />
           <p className=" text-neutral-500 text-base font-normal font-['Nunito'] leading-relaxed flex items-center gap-x-5">
             <span>Date: {moment(date).format(AppConfig.date.format)}</span>
-            {/* <span>{getTimeLeft(moment(deadlineDate))} left</span> */}
+          </p>
+          <Icon
+            icon={"ic:outline-access-time"}
+            className='w-5 h-5 text-neutral-500'
+          />
+          <p className=" text-neutral-500 text-base font-normal font-['Nunito'] leading-relaxed flex items-center gap-x-5">
+            <span>{getTimeLeft(moment(deadlineDate))} left</span>
           </p>
         </div>
         <div className='flex gap-x-2.5 items-stretch'>
@@ -59,8 +68,28 @@ const BidRow: FC<BidRowProps> = ({
             text='View Task'
             iconPosition='left'
           /> */}
-          <ActionButton action='delete' onClick={onDelete} className="!bg-red-500" iconClassName="!text-white"/>
-          <ActionButton action='update' onClick={onUpdate} className="!bg-zinc-800" iconClassName="!text-white"/>
+
+          <ActionButton
+            tooltip='Update Bid'
+            action='update'
+            onClick={onUpdate}
+            className='!bg-zinc-800'
+            iconClassName='!text-white'
+          />
+          <ActionButton
+            tooltip='View Task'
+            action='view'
+            onClick={() => navigate("/tasks/" + _id)}
+            className='!bg-primary-500'
+            iconClassName='!text-white'
+          />
+          <ActionButton
+            tooltip='Cancel Bid'
+            action='delete'
+            onClick={onDelete}
+            className='!bg-red-500'
+            iconClassName='!text-white'
+          />
         </div>
       </div>
       <div className=' py-3.5 px-[25px]  bg-zinc-100 rounded flex items-center gap-x-[22px]'>

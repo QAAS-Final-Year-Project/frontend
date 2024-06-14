@@ -17,7 +17,7 @@ interface BidderRowProps {
   fixedPrice: string;
   country: string;
 
-  deliveryTime: string;
+  // deliveryTime: string;
   onAccept: () => void;
   onSendMessage: () => void;
   onDelete: () => void;
@@ -30,7 +30,7 @@ const BidderRow: FC<BidderRowProps> = ({
   phoneNumber,
   rating,
   fixedPrice,
-  deliveryTime,
+  // deliveryTime,
   country,
   onAccept,
   onSendMessage,
@@ -100,7 +100,7 @@ const BidderRow: FC<BidderRowProps> = ({
           </span>
         </div>
 
-        <div className='w-0.5 bg-neutral-200 h-10'></div>
+        {/* <div className='w-0.5 bg-neutral-200 h-10'></div>
         <div>
           <p className="text-center text-zinc-800 text-base font-semibold font-['Nunito'] leading-snug">
             {deliveryTime}
@@ -108,7 +108,7 @@ const BidderRow: FC<BidderRowProps> = ({
           <span className="text-center text-zinc-500 text-sm font-normal font-['Nunito'] leading-tight">
             Delivery Time
           </span>
-        </div>
+        </div> */}
       </div>
     </div>
   );

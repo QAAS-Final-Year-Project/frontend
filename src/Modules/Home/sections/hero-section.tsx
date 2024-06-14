@@ -10,7 +10,7 @@ export const HeroSection: FC = () => {
   return (
     <section className=''>
       <div className={`intro-banner pt-[105px]`}>
-        <Container className="z-[100] relative">
+        <Container className='z-[100] relative'>
           <h3 className='leading-[42px] mb-12'>
             <strong className='text-zinc-800 text-[28px] font-semibold  leading-[42px]'>
               Hire experts or be hired for any job, any time.
@@ -20,7 +20,7 @@ export const HeroSection: FC = () => {
               Thousands of small businesses use{" "}
             </span>
             <span className='text-blue-700 text-[28px] font-semibold  leading-[42px]'>
-              Hireo
+              Test Universal
             </span>
             <span className='text-neutral-500 text-[28px] font-light  leading-[42px]'>
               {" "}
