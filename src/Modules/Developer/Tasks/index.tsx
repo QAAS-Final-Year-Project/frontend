@@ -15,7 +15,7 @@ import PageLoader from "Shared/components/suspense/page-loader";
 import Loader from "Shared/components/suspense/loader";
 import PaginationComponent from "Shared/components/nav/pagination";
 
-const TasksPage: FC = () => {
+const DeveloperTasksPage: FC = () => {
   const navigate = useNavigate();
   const [page] = useUrlState<number>("page", 1);
   const [pageSize] = useUrlState<number>(
@@ -41,7 +41,7 @@ const TasksPage: FC = () => {
     isRefetching,
     refetch,
   } = useQuery({
-    queryKey: ["tasks", page, pageSize, search, fromDate, toDate],
+    queryKey: ["my-tasks", page, pageSize, search, fromDate, toDate],
     queryFn: () =>
       getTasks({
         page,
@@ -126,4 +126,4 @@ const TasksPage: FC = () => {
   );
 };
 
-export default TasksPage;
+export default DeveloperTasksPage;

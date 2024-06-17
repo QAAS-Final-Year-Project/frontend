@@ -1,3 +1,18 @@
+export const TaskHistoryActions = [
+  "Initiate",
+  "Bid",
+  "EditBid",
+  "CancelBid",
+  "Cancel",
+  "AddNote",
+  "RemoveNote",
+  "Assign",
+  "Resolve",
+  "Start",
+  "Complete",
+  "Review",
+  
+] as const;
 import CardSectionWrapper from "Shared/components/wrapper/CardSectionWrapper";
 import { FC } from "react";
 import { ChartData, ChartOptions } from "chart.js/auto";
@@ -16,20 +31,31 @@ interface NotificationRowProps {
 const ActionIcons = {
   Initiate: "ic:outline-group",
   Bid: "ic:outline-gavel",
-  CancelBid: "ic:baseline-do-not-disturb",
   EditBid: "ic:outline-gavel",
-  AddNote: "ic:outline-gavel",
-  RemoveNote: "ic:outline-rate-review",
-  Assign: "ic:outline-rate-review",
+  CancelBid: "ic:baseline-do-not-disturb",
+  Cancel: "ic:outline-cancel",
+  AddNote: "ic:outline-note-add",
+  RemoveNote: "ic:outline-note-remove",
+  Assign: "ic:outline-assignment",
+  Resolve: "ic:outline-done",
+  Start: "ic:outline-play-arrow",
+  Complete: "ic:outline-check-circle",
+  Review: "ic:outline-rate-review",
 };
 
 const ActionTexts = {
   Initiate: "created task",
-  Bid: "place a bid",
-  CancelBid: "canceled bid",
+  Bid: "placed a bid",
   EditBid: "edited bid",
-  AddNote: "removed a note",
+  CancelBid: "canceled bid",
+  Cancel: "canceled task",
+  AddNote: "added a note",
+  RemoveNote: "removed a note",
   Assign: "assigned task",
+  Resolve: "resolved task",
+  Start: "started task",
+  Complete: "completed task",
+  Review: "reviewed task",
 };
 
 const TaskActivityRow: FC<NotificationRowProps> = ({
@@ -63,10 +89,6 @@ const TaskActivityRow: FC<NotificationRowProps> = ({
               {getActionText(action)}
             </span>
           </p>
-          {/* <p className='text-blue-700 text-sm font-normal leading-[23px]'>
-            {" "}
-            {entity}
-          </p> */}
         </div>
         {date && (
           <div className="text-neutral-400 text-sm font-normal font-['Nunito'] leading-snug">

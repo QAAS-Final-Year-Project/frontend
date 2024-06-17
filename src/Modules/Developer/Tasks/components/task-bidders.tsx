@@ -57,8 +57,10 @@ const TaskBidders: FC<{ data: any; refetch: () => void }> = ({
               <>
                 <BidderRow
                   // idx={idx}
+                  id={bidder?.bidder?._id}
                   country={bidder?.bidder?.country}
                   // deliveryTime={bidder?.deliveryTime}
+                  showActions={data?.status === "Pending"}
                   email={bidder?.bidder?.emailAddress}
                   fixedPrice={bidder?.amount}
                   fullName={bidder?.bidder?.fullName}

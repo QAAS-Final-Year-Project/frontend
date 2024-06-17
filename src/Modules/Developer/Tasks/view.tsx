@@ -2,7 +2,7 @@ import Header from "Shared/components/layout/header";
 import CardSectionWrapper from "Shared/components/wrapper/CardSectionWrapper";
 import { FC } from "react";
 import TaskRow from "./components/task-row";
-import { StatusType } from "Shared/components/chips/status-chip";
+import StatusChip, { StatusType } from "Shared/components/chips/status-chip";
 import SelectInput from "Shared/components/input/select-input";
 import FilterSelectInput from "Shared/components/input/filter-select-input";
 import { sortBy } from "lodash";
@@ -23,8 +23,11 @@ import { getTask } from "./duck/fetch";
 import { AxiosError } from "axios";
 import { formatAndShowAxiosError } from "Shared/utils/errors";
 import Loader from "Shared/components/suspense/loader";
+import ActionButton from "Shared/components/buttons/action-button";
+import CompleteTaskContainer from "./complete";
+import TaskResolutionView from "./components/task-resolution";
 
-const ViewTaskDetailsPage: FC = () => {
+const DeveloperViewTaskDetailsPage: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [modal, setModal] = useUrlState("modal");
   const [current, setCurrent] = useUrlState("current");
@@ -43,10 +46,7 @@ const ViewTaskDetailsPage: FC = () => {
     },
   });
 
-  const dispatchAction = (
-    id: string,
-    action: "delete" | "accept" | "message"
-  ) => {
+  const dispatchAction = (id: string, action: "complete") => {
     searchParams.set("modal", action);
     searchParams.set("current", id);
     setSearchParams(searchParams);
@@ -54,14 +54,24 @@ const ViewTaskDetailsPage: FC = () => {
 
   const TabMappings = {
     overview: <TaskOverView data={query?.data?.data} />,
-    bidders: <TaskBidders  refetch={query.refetch} data={query?.data?.data} />,
+    bidders: <TaskBidders refetch={query.refetch} data={query?.data?.data} />,
     activity: <TaskActivity data={query?.data?.data} />,
+    resolution: <TaskResolutionView data={query?.data?.data} />,
     attachments: (
       <TaskAttachments data={query?.data?.data} refetch={query.refetch} />
     ),
     // settings: <TaskSettings />,
   };
 
+  const taskStatusMapping: { [key in string]: StatusType } = {
+    Pending: "warning",
+    Assigned: "info",
+    InProgress: "warning",
+    Resolved: "info",
+    Completed: "success",
+    Rejected: "danger",
+    "": "info", // Default case or empty status
+  };
   return (
     <>
       <section>
@@ -103,33 +113,64 @@ const ViewTaskDetailsPage: FC = () => {
                 <TabList
                   tabs={[
                     {
-                      icon: "overview",
+                      icon: "ic:outline-dashboard",
                       label: "Overview",
                       href: "overview",
-                      notificationsCount: 2,
                     },
                     {
                       icon: "ic:baseline-supervisor-account",
                       label: "Bidders",
                       href: "bidders",
-                      notificationsCount: query?.data?.data?.meta?.biddersCount || 0,
+                      notificationsCount:
+                        query?.data?.data?.meta?.biddersCount || 0,
                     },
                     {
                       icon: "ic:outline-notifications",
                       label: "Activity",
                       href: "activity",
-                      notificationsCount: 1,
+                      notificationsCount:
+                        query?.data?.data?.history?.length || 0,
                     },
                     {
-                      icon: "Attachments",
+                      icon: "ic:outline-note-add",
+
                       label: "Attachments",
                       href: "attachments",
                     },
-                    // { icon: "settings", label: "Settings", href: "settings" },
+                    ...(["Resolved", "Completed"]?.includes(
+                      query?.data?.data?.status
+                    )
+                      ? [
+                          {
+                            icon: "ic:outline-view-timeline",
+                            label: "Resolution",
+                            href: "resolution",
+                          },
+                        ]
+                      : []),
                   ]}
                   value={tab}
                   onChange={setTab}
                 />
+                <div className='flex gap-2 items-center'>
+                  <StatusChip
+                    info={query?.data?.data?.status}
+                    type={taskStatusMapping[query?.data?.data?.status]}
+                    size='md'
+                  />
+
+                  {query?.data?.data?.status === "Resolved" && (
+                    <ActionButton
+                      tooltip='Mark as completed'
+                      action='complete'
+                      onClick={() =>
+                        dispatchAction(query?.data?.data?._id, "complete")
+                      }
+                      className='!bg-green-600'
+                      iconClassName='!text-white'
+                    />
+                  )}
+                </div>
               </div>
 
               <div className=''>{TabMappings[tab]}</div>
@@ -137,8 +178,18 @@ const ViewTaskDetailsPage: FC = () => {
           )}
         </div>
       </section>
+      {query?.data?.data && (
+        <CompleteTaskContainer
+          values={{
+            amount: query?.data?.data?.assignedAmount || 0,
+          }}
+          open={modal === "complete"}
+          setOpen={(val: boolean) => setModal(val ? "complete" : undefined)}
+          refetch={query.refetch}
+        />
+      )}
     </>
   );
 };
 
-export default ViewTaskDetailsPage;
+export default DeveloperViewTaskDetailsPage;

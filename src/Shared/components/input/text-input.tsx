@@ -54,7 +54,7 @@ const TextInput: FC<TextInputProps> = ({
   tooltip,
   icon,
   inputClassName,
-  readonly
+  readonly,
 }) => {
   return (
     <>
@@ -136,7 +136,7 @@ const TextInput: FC<TextInputProps> = ({
                 : " border-gray-300 focus:!ring-primary-500 focus:!border-primary-500  outline-primary-500"
             )}
           >
-            <Icon icon={icon} className="w-[19px] h-[19px]"/>
+            <Icon icon={icon} className='w-[19px] h-[19px]' />
           </div>
         )}
 

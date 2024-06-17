@@ -44,7 +44,7 @@ const TesterBidsPage: FC = () => {
     isRefetching,
     refetch,
   } = useQuery({
-    queryKey: ["tasks", page, pageSize, search, fromDate, toDate],
+    queryKey: ["bids", page, pageSize, search, fromDate, toDate],
     queryFn: () =>
       getTesterTaskBids({
         page,

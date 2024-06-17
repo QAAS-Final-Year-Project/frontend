@@ -12,6 +12,7 @@ export interface IGetFilter {
     status?: string;
     searchFields?: string | string[];
     search?:string
+isRated?:boolean
     exportType?:string
     gender?:string
     subscriptionId?:string

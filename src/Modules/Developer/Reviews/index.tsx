@@ -3,6 +3,8 @@ import CardSectionWrapper from "Shared/components/wrapper/CardSectionWrapper";
 import { FC } from "react";
 import { sampleReviewData } from "./data/sample-data";
 import ReviewRow from "./components/review-row";
+import RateTestersSection from "./sections/rate-testers-section";
+import ReviewedSection from "./sections/my-ratings-section";
 
 const DeveloperReviewsPage: FC = () => {
   return (
@@ -28,30 +30,9 @@ const DeveloperReviewsPage: FC = () => {
           />
         </div>
         <div className='grid grid-cols-2 gap-x-[30px]'>
-          <CardSectionWrapper
-            className='col-span-1'
-            title='Pending Reviews'
-            icon={"ic:outline-face"}
-          >
+          <RateTestersSection />
 
-            {
-                sampleReviewData.map((task, index) => (
-                    <ReviewRow
-                      key={index}
-                      taskName={task.taskName}
-                      isRated={task.isRated}
-                      review={task.review}
-                      rating={task.rating}
-                      date={task.date}
-                    />
-                  ))
-            }
-          </CardSectionWrapper>
-          <CardSectionWrapper
-            className='col-span-1'
-            title='Reviewed Tasks'
-            icon={"ic:outline-face"}
-          ></CardSectionWrapper>
+          <ReviewedSection />
         </div>
       </section>
     </div>

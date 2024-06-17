@@ -1,6 +1,12 @@
 import { FC } from "react";
 
 const RatingComponent: FC<{ rating: number }> = ({ rating }) => {
+  if (!rating)
+    return (
+      <div className=' text-stone-500 bg-zinc-200 px-[9px] py-[5px]  !text-sm inline-flex rounded items-center justify-center'>
+        Not Rated
+      </div>
+    );
   const renderStar = (starNumber: number) => {
     const fullStar = (
       <svg

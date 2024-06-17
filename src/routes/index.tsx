@@ -16,16 +16,20 @@ import DeveloperUserLayout from "Shared/layout/developeruser";
 import DeveloperUserDashboardLayout from "Shared/layout/developeruser/dashboard-layout";
 import DeveloperDashboard from "Modules/Developer/Dashboard";
 import DeveloperSettings from "Modules/Developer/Settings";
-import TasksPage from "Modules/Developer/Tasks";
-import CreateTasksPage from "Modules/Developer/Tasks/create";
+import DeveloperTasksPage from "Modules/Developer/Tasks";
+import DeveloperCreateTasksPage from "Modules/Developer/Tasks/create";
 import TestersListPage from "Modules/Developer/Testers";
 import DeveloperMessages from "Modules/Developer/Messages";
-import ViewTaskDetailsPage from "Modules/Developer/Tasks/view";
+import DeveloperViewTaskDetailsPage from "Modules/Developer/Tasks/view";
 import DeveloperReviewsPage from "Modules/Developer/Reviews";
 import HomeLayout from "Shared/layout/home";
 import HomeLandingPage from "Modules/Home";
 import SingleTaskPage from "Modules/Home/SingleTask";
 import TesterBidsPage from "Modules/Tester/Bids";
+import TesterTasksPage from "Modules/Tester/Tasks";
+import TesterViewTaskDetailsPage from "Modules/Tester/Tasks/view";
+import TesterResolvePage from "Modules/Tester/Tasks/resolve";
+import TestersReviewsPage from "Modules/Tester/Reviews";
 
 const routes = (isAuth, authType, authUser): RouteObject[] => [
   {
@@ -97,7 +101,7 @@ const approvedTesterUserRoutes = (authUser): RouteObject[] => [
       },
       {
         path: "tasks",
-        element: <TasksPage />,
+        element: <TesterTasksPage />,
       },
       {
         path: "bids",
@@ -105,15 +109,11 @@ const approvedTesterUserRoutes = (authUser): RouteObject[] => [
       },
       {
         path: "tasks/:id",
-        element: <ViewTaskDetailsPage />,
+        element: <TesterViewTaskDetailsPage />,
       },
       {
-        path: "tasks/new",
-        element: <CreateTasksPage />,
-      },
-      {
-        path: "testers",
-        element: <TestersListPage />,
+        path: "tasks/:id/resolve",
+        element: <TesterResolvePage />,
       },
       {
         path: "messages",
@@ -129,7 +129,7 @@ const approvedTesterUserRoutes = (authUser): RouteObject[] => [
       },
       {
         path: "reviews",
-        element: <DeveloperReviewsPage />,
+        element: <TestersReviewsPage />,
       },
       {
         path: "learning-materials",
@@ -185,15 +185,15 @@ const developerUserRoutes: RouteObject[] = [
       },
       {
         path: "tasks",
-        element: <TasksPage />,
+        element: <DeveloperTasksPage />,
       },
       {
         path: "tasks/:id",
-        element: <ViewTaskDetailsPage />,
+        element: <DeveloperViewTaskDetailsPage />,
       },
       {
         path: "tasks/new",
-        element: <CreateTasksPage />,
+        element: <DeveloperCreateTasksPage />,
       },
       {
         path: "testers",

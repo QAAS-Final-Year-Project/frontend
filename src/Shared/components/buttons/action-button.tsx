@@ -4,17 +4,37 @@ import {
   EyeIcon,
   PencilSquareIcon,
   TrashIcon,
+  ClipboardDocumentListIcon,
+  ClipboardDocumentCheckIcon,
+  ArrowTopRightOnSquareIcon,
+  XCircleIcon,
+  CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 import { classNames, wrapClick } from "../../utils/ui";
 import { Tooltip } from "react-tooltip";
 
-const Actions = ["update", "view", "delete", "renew"] as const;
+const Actions = [
+  "update",
+  "view",
+  "delete",
+  "renew",
+  "resolve",
+  "cancel",
+  "start",
+  "goto",
+  "complete",
+] as const;
 export type Action = (typeof Actions)[number];
 const ActionIcons: { [key in Action]: typeof EyeIcon } = {
   update: PencilSquareIcon,
   view: EyeIcon,
   delete: TrashIcon,
-  renew: ArrowPathIcon, // Assign the renew icon
+  renew: ArrowPathIcon,
+  resolve: ClipboardDocumentListIcon,
+  cancel: XCircleIcon,
+  start: ClipboardDocumentCheckIcon,
+  goto: ArrowTopRightOnSquareIcon,
+  complete: CheckCircleIcon,
 };
 
 interface ActionButtonProps {

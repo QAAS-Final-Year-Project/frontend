@@ -15,9 +15,10 @@ const TaskActivity: FC<{ data: any }> = ({ data }) => {
         <TaskActivityRow
           key={index}
           action={history?.action}
-
           actorName={
-            parsedUser == history?.actor?._id ? "You" : history?.actor?.fullName
+            parsedUser?._id == history?.actor?._id
+              ? "You"
+              : history?.actor?.fullName
           }
           date={history?.timestamp}
         />

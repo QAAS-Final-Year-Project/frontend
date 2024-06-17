@@ -8,6 +8,10 @@ export const AccountTypes = [
     { value: "Developer", title: "Developer", },
     { value: "Tester", title: "Tester", },
 ] as const;
+export const YesNo = [
+    { value: "yes", title:"Yes", },
+{ value: "no", title: "No", },
+] as const;
 
 
 export { default as IdentityCardTypes } from "./identity-card-types";

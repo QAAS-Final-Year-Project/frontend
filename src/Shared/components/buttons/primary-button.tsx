@@ -61,7 +61,7 @@ const PrimaryButton: FC<
         />
       ) : (
         <>
-          {icon && <Icon icon={icon} color='#fff' className='w-4 h-4' />}
+          {icon && <Icon icon={icon} color='#fff' className='w-5 h-5' />}
           {!hideTitle && text}
           {count && (
             <div className='flex items-center w-5 h-5 justify-center bg-white/25 rounded-full '>

@@ -36,7 +36,7 @@ export const ApprovedNavSections: INavSection[] = [
       {
         icon: "ic:outline-rate-review",
         label: "Reviews",
-        to: "/reviews",
+        to: "/dashboard/reviews",
       },
     ],
   },

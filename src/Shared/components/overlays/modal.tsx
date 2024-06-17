@@ -51,7 +51,7 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
           </button>
         </div>
         {loading ? (
-          <div>
+            <div className='min-h-[200px] flex items-center justify-center'>
             <Loader />
           </div>
         ) : (

@@ -26,7 +26,7 @@ const AppConfig = {
         sameSite: "strict",
     } as CookieAttributes,
     date: {
-        format: "DD/MM/YYYY",
+        format: "DD-MM-YYYY",
         inputDateFormat: "YYYY-MM-DD",
     },
     typeForm: {

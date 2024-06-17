@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { doCreateTask } from "./duck/fetch";
 
 const projectPricing = ["Fixed Price", "Hourly "];
-const CreateTasksPage: FC = () => {
+const DeveloperCreateTasksPage: FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const form = useFormik<any>({
@@ -199,4 +199,4 @@ const CreateTasksPage: FC = () => {
   );
 };
 
-export default CreateTasksPage;
+export default DeveloperCreateTasksPage;

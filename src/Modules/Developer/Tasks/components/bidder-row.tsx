@@ -7,16 +7,18 @@ import Avatar from "Shared/components/media/avatar";
 import RatingComponent from "Shared/components/status/rating";
 import { Nationalities } from "data";
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface BidderRowProps {
   fullName: string;
+  id: any;
   profileImageUrl: string;
   email: string;
   phoneNumber: string;
   rating: number;
   fixedPrice: string;
   country: string;
-
+  showActions: boolean;
   // deliveryTime: string;
   onAccept: () => void;
   onSendMessage: () => void;
@@ -27,6 +29,8 @@ const BidderRow: FC<BidderRowProps> = ({
   fullName,
   profileImageUrl,
   email,
+  showActions,
+  id,
   phoneNumber,
   rating,
   fixedPrice,
@@ -36,6 +40,7 @@ const BidderRow: FC<BidderRowProps> = ({
   onSendMessage,
   onDelete,
 }) => {
+  const navigate = useNavigate();
   return (
     <div className='py-[22px] px-[30px] flex items-center justify-between border-b border-neutral-200 hover:bg-[#fcfcfc]'>
       <div className='flex items-center gap-x-[30px]'>
@@ -43,7 +48,7 @@ const BidderRow: FC<BidderRowProps> = ({
         <div className=''>
           <div className='flex gap-x-1 mb-0.5 items-center'>
             <p className=" text-center  text-zinc-800 text-lg font-semibold font-['Nunito'] leading-[27px]">
-              {fullName} {" "}
+              {fullName}{" "}
               {
                 Nationalities.find((nat) => nat.en_short_name === country)
                   ?.emoji
@@ -71,21 +76,41 @@ const BidderRow: FC<BidderRowProps> = ({
             <RatingComponent rating={rating} />
           </div>
           <div className='flex gap-x-2.5 items-stretch'>
-            <PrimaryButton
-              size='sm'
-              icon={"ic:baseline-check"}
-              text='Accept Offer'
-              iconPosition='left'
-              onClick={onAccept}
-            />
-            <SecondaryButton
-              size='sm'
-              icon={"ic:outline-email"}
-              text='Send Message'
-              iconPosition='left'
-              onClick={onSendMessage}
-            />
-            <ActionButton action='delete' onClick={onDelete} />
+            {showActions && (
+              <>
+                <PrimaryButton
+                  size='sm'
+                  icon={"ic:baseline-check"}
+                  text='Accept Offer'
+                  iconPosition='left'
+                  onClick={onAccept}
+                />
+                <SecondaryButton
+                  size='sm'
+                  icon={"ic:outline-email"}
+                  text='Send Message'
+                  iconPosition='left'
+                  onClick={onSendMessage}
+                />
+                <ActionButton action='delete' onClick={onDelete} />
+                <ActionButton
+                  action='goto'
+                  onClick={() => navigate("/testers/" + id)}
+                />
+              </>
+            )}
+            {
+              !showActions && (
+                <SecondaryButton
+                size='sm'
+                onClick={() => navigate("/testers/" + id)}
+                icon={"ic:outline-account-circle"}
+                text='View Profile'
+                iconPosition='left'
+              />
+              )
+            }
+          
           </div>
         </div>
       </div>
