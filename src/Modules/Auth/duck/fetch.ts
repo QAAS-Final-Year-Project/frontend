@@ -20,5 +20,14 @@ export const doLogin = async (values: any) => {
         return AxiosDataService.post('/api/auth/login-developer-user', values)
     }
 }
+export const doSendResetCode = async (values: any) => {
+    return AxiosDataService.post('/api/auth/send-reset-code', values)
+}
+export const doVerifyResetCode = async (values: any) => {
+    return AxiosDataService.post('/api/auth/verify-reset-code', values)
+}
+export const doResetPassword = async (values: any) => {
+    return AxiosDataService.post('/api/auth/reset-current-password', values)
+}
 
 

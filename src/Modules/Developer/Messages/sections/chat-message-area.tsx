@@ -11,14 +11,14 @@ const ChatMessageArea: FC = () => {
   return (
     <div className='flex-1 flex flex-col'>
       <div className='px-[30px] py-5 border-b  border-neutral-200 flex items-center justify-between h-[82px]'>
-        <div className="text-zinc-800 text-base font-semibold font-['Nunito'] leading-[27px]">
+        <div className="text-zinc-800 text-base font-semibold  leading-[27px]">
           Sindy Forest
         </div>
         <div className='flex gap-x-1 items-center'>
           <span className='text-gray-500 sm:text-sm' id='price-currency'>
             <Icon icon={"uil:trash"} />
           </span>
-          <div className=" text-stone-500 text-[13px] font-medium font-['Nunito'] leading-[27px]">
+          <div className=" text-stone-500 text-[13px] font-medium  leading-[27px]">
             {" "}
             Delete Conversation
           </div>

@@ -1,16 +1,16 @@
 export { default as Nationalities } from "./nationalities.json";
 
 export const TesterUserAccountTypes = [
-    { value: "Starter", title: "Starter", description: "A developer is a person who writes code to create software programs, applications, and systems." },
-    { value: "Professional", title: "Professional", description: "A tester checks software for defects and verifies it meets requirements." },
+    { value: "Starter", title: "Starter", description: "New to QA testing and looking to gain experience and find work." },
+    { value: "Professional", title: "Professional", description: "Experienced QA testers with a strong background in the field." },
 ] as const;
 export const AccountTypes = [
     { value: "Developer", title: "Developer", },
     { value: "Tester", title: "Tester", },
 ] as const;
 export const YesNo = [
-    { value: "yes", title:"Yes", },
-{ value: "no", title: "No", },
+    { value: "yes", title: "Yes", },
+    { value: "no", title: "No", },
 ] as const;
 
 

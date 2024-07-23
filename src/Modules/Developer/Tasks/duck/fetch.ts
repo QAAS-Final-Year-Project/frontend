@@ -47,3 +47,6 @@ export const doAssignTask = async (params: { id: string, values: any }) => {
 export const doCompleteTask = async (params: { id: string, values: any }) => {
     return AxiosDataService.post(`/api/tasks/${params.id}/complete`, params.values)
 }
+export const doUpdateDeadline = async (params: { id: string, values: any }) => {
+    return AxiosDataService.post(`/api/tasks/${params.id}/update-deadline`, params.values)
+}

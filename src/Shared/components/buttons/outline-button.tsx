@@ -5,7 +5,7 @@ import LoadingIcon from "../icons/loading-icon";
 import { classNames } from "Shared/utils/ui";
 
 const sizesMap = {
-  xs: "px-3 py-2 text-sm",
+  xs: "px-2 py-1.5 text-sm",
   sm: "px-4 py-2 text-sm",
   md: "py-2.5  px-4 text-base",
   lg: "py-3 px-5 text-lg",

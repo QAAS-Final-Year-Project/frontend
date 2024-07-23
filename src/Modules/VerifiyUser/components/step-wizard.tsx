@@ -21,7 +21,7 @@ const StepWizard: FC<StepWizardProps> = ({
 }) => {
   return (
     <nav className=''>
-      <ol className='flex-1 flex space-x-2  border-gray-300 border bg-white md:space-x-8'>
+      <ol className='flex-1 flex space-x-2  border-neutral-300 border bg-white md:space-x-8'>
         {steps.map((step, stepIdx) => (
           <li key={step.href} className='relative flex-1 flex'>
             {step.href === currentStep ? (
@@ -32,14 +32,14 @@ const StepWizard: FC<StepWizardProps> = ({
                   step.href > lastStep
                     ? "cursor-not-allowed"
                     : "cursor-pointer",
-                  "flex items-center px-6 py-4 text-sm font-medium"
+                  "flex items-center px-6 py-4  font-medium"
                 )}
                 aria-current='step'
               >
                 <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-primary-600'>
                   <span className='text-primary-600'>{step.href + 1}</span>{" "}
                 </span>{" "}
-                <span className='ml-4 text-sm font-medium text-primary-600'>
+                <span className='ml-4  font-medium text-primary-600'>
                   {step.name}
                 </span>
               </button>
@@ -54,14 +54,14 @@ const StepWizard: FC<StepWizardProps> = ({
                   "group flex w-full items-center"
                 )}
               >
-                <span className='flex items-center px-6 py-4 text-sm font-medium'>
+                <span className='flex items-center px-6 py-4  font-medium'>
                   <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary-600 group-hover:bg-primary-800'>
                     <CheckIcon
                       className='h-6 w-6 text-white'
                       aria-hidden='true'
                     />
                   </span>
-                  <span className='ml-4 text-sm font-medium text-gray-900'>
+                  <span className='ml-4  font-medium text-gray-900'>
                     {step.name}
                   </span>
                 </span>
@@ -77,13 +77,13 @@ const StepWizard: FC<StepWizardProps> = ({
                   "group flex items-center"
                 )}
               >
-                <span className='flex items-center px-6 py-4 text-sm font-medium'>
-                  <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400'>
-                    <span className='text-gray-500 group-hover:text-gray-900'>
+                <span className='flex items-center px-6 py-4  font-medium'>
+                  <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-neutral-300 group-hover:border-gray-400'>
+                    <span className='text-zinc-500 group-hover:text-gray-900'>
                       {step.href + 1}
                     </span>
                   </span>
-                  <span className='ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900'>
+                  <span className='ml-4  font-medium text-zinc-500 group-hover:text-gray-900'>
                     {step.name}
                   </span>
                 </span>
@@ -97,7 +97,7 @@ const StepWizard: FC<StepWizardProps> = ({
                   aria-hidden='true'
                 >
                   <svg
-                    className='h-full w-full text-gray-300'
+                    className='h-full w-full text-neutral-300'
                     viewBox='0 0 22 80'
                     fill='none'
                     preserveAspectRatio='none'

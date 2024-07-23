@@ -70,7 +70,7 @@ const RatingComponent: FC<{ rating: number }> = ({ rating }) => {
   return (
     <div className='flex items-center gap-x-2.5'>
       <div className='px-[7px] py-[5px] bg-amber-300 rounded flex justify-center items-center'>
-        <div className="text-center text-white text-sm font-bold font-['Nunito'] leading-[15px]">
+        <div className="text-center text-white text-sm font-bold  leading-[15px]">
           {rating}
         </div>
       </div>

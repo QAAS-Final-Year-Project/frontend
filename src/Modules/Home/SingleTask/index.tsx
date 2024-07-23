@@ -4,26 +4,38 @@ import Container from "Shared/components/layout/container";
 import TaskDetailsMain from "./components/task-details-main";
 import TaskDetailsSide from "./components/task-details-side";
 import { getSingleHomeTask } from "../duck/fetch";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import useUrlState from "Shared/hooks/use-url-state";
 import { AxiosError } from "axios";
 import { formatAndShowAxiosError } from "Shared/utils/errors";
 import Loader from "Shared/components/suspense/loader";
+import { isValidJSON } from "Shared/utils/data-structures";
+import useCookies from "Shared/hooks/cookies";
+import CancelBidContainer from "./cancel-bid";
 
 const SingleTaskPage: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [modal, setModal] = useUrlState("modal");
   const [current, setCurrent] = useUrlState("current");
-  const [tab, setTab] = useUrlState("tab", "overview");
+
+  const [user, setUser] = useCookies("user");
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { id } = useParams();
+  const currentUser = isValidJSON(user) ? JSON.parse(user) : undefined;
 
   const query = useQuery({
     queryKey: ["home-single-task", id],
-    queryFn: () => getSingleHomeTask(id),
+    queryFn: () =>
+      getSingleHomeTask(
+        id,
+        currentUser && {
+          user: currentUser?._id,
+          from: "TesterHome",
+        }
+      ),
     throwOnError: (error: AxiosError | any) => {
       formatAndShowAxiosError(error);
       return false;
@@ -38,26 +50,40 @@ const SingleTaskPage: FC = () => {
     searchParams.set("current", id);
     setSearchParams(searchParams);
   };
+
   return (
-    <section className=''>
-      {query.isLoading ? (
-        <div className='min-h-[600px] flex items-center justify-center'>
-          <Loader />
-        </div>
-      ) : (
-        <>
-          <TaskDetailsHeader data={query?.data?.data} />
-          <Container className=' pt-[65px] pb-[75px]'>
-            <div className='grid grid-cols-3 gap-x-[45px]'>
-              <div className='col-span-2'>
-                <TaskDetailsMain data={query?.data?.data}/>
+    <>
+      <section className=''>
+        {query.isLoading ? (
+          <div className='min-h-[600px] flex items-center justify-center'>
+            <Loader />
+          </div>
+        ) : (
+          <>
+            <TaskDetailsHeader data={query?.data?.data} />
+            <Container className=' pb-[75px]'>
+              <div className='grid grid-cols-3 gap-x-[45px]'>
+                <div className='col-span-2'>
+                  <TaskDetailsMain data={query?.data?.data} />
+                </div>
+                <TaskDetailsSide
+                  isRefetching={query.isRefetching}
+                  refetch={query.refetch}
+                  data={query?.data?.data}
+                />
               </div>
-              <TaskDetailsSide refetch={query.refetch} data={query?.data?.data}/>
-            </div>
-          </Container>
-        </>
+            </Container>
+          </>
+        )}
+      </section>
+      {current && (
+        <CancelBidContainer
+          open={modal === "delete"}
+          setOpen={(val: boolean) => setModal(val ? "delete" : undefined)}
+          refetch={query.refetch}
+        />
       )}
-    </section>
+    </>
   );
 };
 export default SingleTaskPage;

@@ -18,7 +18,7 @@ const Questions = [
   {
     name: "QA Tester",
     href: "Tester",
-    description: "Skilled testers applying for QA projects",
+    description: "Testers applying for QA projects",
   },
 ];
 const AccountType: FC = () => {
@@ -95,26 +95,28 @@ const AccountType: FC = () => {
                         >
                           <span className='rounded-full bg-white w-1.5 h-1.5' />
                         </span>
-                        <span className='ml-3 flex flex-col'>
-                          <RadioGroup.Label
-                            as='span'
-                            className={classNames(
-                              checked ? "text-primary-900" : "text-gray-900",
-                              "block text-sm font-medium"
-                            )}
-                          >
-                            {question.name}
-                          </RadioGroup.Label>
-                          <RadioGroup.Description
-                            as='span'
-                            className={classNames(
-                              checked ? "text-primary-700" : "text-gray-500",
-                              "block text-sm"
-                            )}
-                          >
-                            {question.description}
-                          </RadioGroup.Description>
-                        </span>
+                        <div className="flex items-center gap-x-5">
+                          <span className='ml-3 flex flex-col'>
+                            <RadioGroup.Label
+                              as='span'
+                              className={classNames(
+                                checked ? "text-primary-900" : "text-gray-900",
+                                "block  font-medium"
+                              )}
+                            >
+                              {question.name}
+                            </RadioGroup.Label>
+                            <RadioGroup.Description
+                              as='span'
+                              className={classNames(
+                                checked ? "text-primary-700" : "text-gray-500",
+                                "block text-sm"
+                              )}
+                            >
+                              {question.description}
+                            </RadioGroup.Description>
+                          </span>
+                        </div>
                       </>
                     )}
                   </RadioGroup.Option>

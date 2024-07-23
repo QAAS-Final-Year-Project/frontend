@@ -66,7 +66,7 @@ export default function AddNoteContainer({
     >
       <form onSubmit={form.handleSubmit}>
         <div className='flex flex-col items-center'>
-          <h6 className=" text-center mb-3.5 text-zinc-800 text-2xl font-bold font-['Nunito'] leading-[27px]">
+          <h6 className=" text-center mb-3.5 text-zinc-800 text-2xl font-bold  leading-[27px]">
             Do Not Forget 😎
           </h6>
           <div className='w-full mb-2'>

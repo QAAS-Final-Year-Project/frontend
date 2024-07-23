@@ -17,13 +17,15 @@ const IdentificationInfoSummary: FC<{
     <div className='border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-md p-3 space-y-6 divide-y divide-gray-200'>
       <>
         <div className=''>
-          <span className='text-xs font-light'>Identity Type Information</span>
+          <span className='text-zinc-800 text-sm font-semibold'>
+            Identity Type Information
+          </span>
           <div className='grid grid-cols-6 gap-6 mt-2'>
             <div className='col-span-2'>
-              <span className='block text-sm font-light text-gray-700'>
+              <span className='block text-base font-light text-gray-700'>
                 ID Type
               </span>
-              <div className='mt-1 block w-full sm:text-sm'>
+              <div className='mt-1 block w-full sm:text-base'>
                 {_.startCase(data?.identityCardType) || "N/A"}
               </div>
             </div>
@@ -31,11 +33,11 @@ const IdentificationInfoSummary: FC<{
         </div>
 
         <div className='pt-6'>
-          <span className='text-xs font-light'>Identity Information</span>
+          <span className='text-zinc-800 text-sm font-semibold'>Identity Information</span>
 
           <div className='grid grid-cols-6 gap-6 mt-2'>
             <div className='col-span-1'>
-              <span className='block text-sm font-light text-gray-700'>
+              <span className='block text-base font-light text-gray-700'>
                 Photo
               </span>
               <Avatar
@@ -45,34 +47,34 @@ const IdentificationInfoSummary: FC<{
               />
             </div>
             <div className='col-start-1 col-span-2'>
-              <span className='block text-sm font-light text-gray-700'>
+              <span className='block text-base font-light text-gray-700'>
                 Nationality
               </span>
-              <div className='mt-1 block w-full sm:text-sm'>
+              <div className='mt-1 block w-full sm:text-base'>
                 {data?.nationality || "N/A"}
               </div>
             </div>
             <div className='col-span-2'>
-              <span className='block text-sm font-light text-gray-700'>
+              <span className='block text-base font-light text-gray-700'>
                 Date of Birth
               </span>
-              <div className='mt-1 block w-full sm:text-sm'>
+              <div className='mt-1 block w-full sm:text-base'>
                 {moment(data?.dateOfBirth).format(AppConfig.date.format)}
               </div>
             </div>
             <div className='col-span-2 col-start-1'>
-              <span className='block text-sm font-light text-gray-700'>
+              <span className='block text-base font-light text-gray-700'>
                 ID Number
               </span>
-              <div className='mt-1 block w-full sm:text-sm'>
+              <div className='mt-1 block w-full sm:text-base'>
                 {data?.identityCardNumber || "N/A"}
               </div>
             </div>
             <div className='col-span-2'>
-              <span className='block text-sm font-light text-gray-700'>
+              <span className='block text-base font-light text-gray-700'>
                 ID Issue Date
               </span>
-              <div className='mt-1 block w-full sm:text-sm'>
+              <div className='mt-1 block w-full sm:text-base'>
                 {moment(data?.identityCardIssueDate).format(
                   AppConfig.date.format
                 )}
@@ -80,10 +82,10 @@ const IdentificationInfoSummary: FC<{
             </div>
             {data.identityCardType !== "VotersIdentificationCard" && (
               <div className='col-span-2'>
-                <span className='block text-sm font-light text-gray-700'>
+                <span className='block text-base font-light text-gray-700'>
                   ID Expiry Date
                 </span>
-                <div className='mt-1 block w-full sm:text-sm'>
+                <div className='mt-1 block w-full sm:text-base'>
                   {moment(data?.identityCardExpiryDate).format(
                     AppConfig.date.format
                   )}
@@ -92,7 +94,7 @@ const IdentificationInfoSummary: FC<{
             )}
 
             <div className='col-span-3'>
-              <span className='block text-sm font-light text-gray-700'>
+              <span className='block text-base font-light text-gray-700'>
                 ID Front Image
               </span>
               <div className='mt-2'>
@@ -109,7 +111,7 @@ const IdentificationInfoSummary: FC<{
               data.identityCardType
             ) && (
               <div className='col-span-3'>
-                <span className='block text-sm font-light text-gray-700'>
+                <span className='block text-base font-light text-gray-700'>
                   ID Back Image
                 </span>
                 <div className='mt-2'>

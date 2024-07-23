@@ -8,8 +8,12 @@ import { clearAuth, setMe } from "Shared/utils/auth";
 import FullScreenLoader from "Shared/components/suspense/page-loader";
 import HomeNavBar from "./nav";
 import HomeFooter from "./footer";
+import LogoutContainer from "./logout-dialog";
+import useUrlState from "Shared/hooks/use-url-state";
 
 const HomeLayout: FC = () => {
+  const [modal, setModal] = useUrlState("modal");
+
   return (
     <>
       <HomeNavBar />
@@ -17,6 +21,10 @@ const HomeLayout: FC = () => {
         <Outlet />
       </main>
       <HomeFooter />
+      <LogoutContainer
+        open={modal === "logout"}
+        setOpen={(val: boolean) => setModal(val ? "logout" : undefined)}
+      />
     </>
   );
 };

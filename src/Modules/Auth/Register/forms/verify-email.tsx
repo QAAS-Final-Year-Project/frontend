@@ -25,7 +25,7 @@ const VerifyEmailPage: FC = () => {
   const navigate = useNavigate();
 
   const [accountType] = useUrlState<string>("accountType");
-  const [emailQuery, setEmailQuery] = useUrlState<string>("email");
+  const [emailQuery] = useUrlState<string>("email");
 
   const mutation = useMutation({
     mutationFn: doVerifyEmail,
@@ -108,14 +108,12 @@ const VerifyEmailPage: FC = () => {
             <h3 className=' text-center text-zinc-800 text-[26px] font-bold leading-[27px] mb-1'>
               Verify Email
             </h3>
-            <div className=' flex items-center justify-center gap-1 mb-[42px] '>
-              <span className='text-center text-zinc-500 text-base font-normal  leading-[27px]'>
-                An OTP has been sent to your email address
+            <p className=' mb-[42px] w-full leading-[27px] text-center text-zinc-500 text-base font-normal'>
+                An OTP has been sent to your email address {" "} 
+              <span className='text-blue-700 font-medium'>
+                {emailQuery}
               </span>
-              <span className='text-center text-blue-700 text-base font-medium  leading-[27px]  '>
-                {emailQuery}{" "}
-              </span>
-            </div>
+            </p>
             <form onSubmit={form.handleSubmit} className='space-y-6'>
               <div>
                 <TextInput

@@ -34,10 +34,10 @@ const PaymentRow: FC<PaymentRowProps> = ({ plan, status, reference, date }) => {
             </span>
           </div>
           <div className='w-px h-[11px] bg-neutral-200'></div>
-          <p className="text-neutral-400 text-sm font-normal font-['Nunito'] leading-snug">
+          <p className="text-neutral-400 text-sm font-normal  leading-snug">
             Order: #{reference}
           </p>
-          <div className="text-neutral-400 text-sm font-normal font-['Nunito'] leading-snug">
+          <div className="text-neutral-400 text-sm font-normal  leading-snug">
             Date: {moment(date).format(AppConfig.date.format)}
           </div>
         </div>

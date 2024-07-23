@@ -24,7 +24,7 @@ const TaskDetailsMain: FC<{ data: any }> = ({ data }) => {
           {data?.supportingDocuments?.map((attachment) => (
             <AttachmentCard
               fileUrl={attachment?.url}
-              fileName={attachment?.name}
+              title={attachment?.name}
             />
           ))}
         </div>

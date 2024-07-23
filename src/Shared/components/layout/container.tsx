@@ -16,7 +16,7 @@ const Container: React.FC<ContainerProps> = ({
     <div
       className={classNames(
         fluid ? "w-full" : "w-full max-w-full px-4 mx-auto",
-        "sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-[1210px]",
+        "sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-x/l 2xl:max-w-[1210px]",
         className
       )}
     >

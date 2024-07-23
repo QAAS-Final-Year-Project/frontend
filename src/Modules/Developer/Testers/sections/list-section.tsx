@@ -29,7 +29,7 @@ const TestersListListSection: FC = () => {
         Search Results
       </h4>
       <div className='px-[25px] pt-[15px] pb-4 bg-zinc-100 rounded justify-between flex items-center mb-[30px]'>
-        <div className="text-stone-500 text-base font-normal font-['Nunito'] leading-snug">
+        <div className="text-stone-500 text-base font-normal  leading-snug">
           Turn on email alerts for this search
         </div>{" "}
         <SelectInput

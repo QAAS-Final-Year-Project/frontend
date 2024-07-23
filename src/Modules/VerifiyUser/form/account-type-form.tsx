@@ -1,13 +1,13 @@
 import { FormikProps, useFormik } from "formik";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { IVerifyUserFormSchema, AccountTypeSchema } from "./schema";
-import moment from "moment";
-import lodash from "lodash";
 import { classNames, wrapClick } from "Shared/utils/ui";
 import { RadioGroup } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import { TesterUserAccountTypes } from "data";
-import { UserIcon, UsersIcon } from "@heroicons/react/24/outline";
+import { Icon } from "@iconify/react";
+import OutlinedButton from "Shared/components/buttons/outline-button";
+import PrimaryButton from "Shared/components/buttons/primary-button";
 
 interface AccountTypeProps {
   handleNext: (values: IVerifyUserFormSchema["accountType"]) => void;
@@ -29,8 +29,8 @@ const AccountTypeForm: FC<AccountTypeProps> = ({
   lastStep,
 }) => {
   const AccountTypeIconMapping = {
-    Starter: <UserIcon className='w-6 h-6 text-gray-500 my-2.5' />,
-    Professional: <UsersIcon className='w-6 h-6 text-gray-500 my-2.5' />,
+    Starter: "uil:user-circle",
+    Professional: "uil:graduation-cap",
   };
   const form = useFormik<IVerifyUserFormSchema["accountType"]>({
     initialValues,
@@ -48,14 +48,13 @@ const AccountTypeForm: FC<AccountTypeProps> = ({
       <div className='flex-1 flex flex-col overflow-hidden'>
         <div className='space-y-6 divide-y divide-gray-200 p-6 flex-1 overflow-y-auto'>
           <div>
-            <span className='text-xs font-light'>...</span>
             <div className='grid grid-cols-3 gap-6 mt-2'>
               <div className='col-span-3'>
                 <RadioGroup
                   value={form.values.accountType}
                   onChange={form.handleChange("accountType")}
                 >
-                  <RadioGroup.Label className='text-sm font-medium text-gray-700'>
+                  <RadioGroup.Label className=' text-zinc-800 text-base font-semibold leading-[27px] mb-[22px] block'>
                     Select Account
                   </RadioGroup.Label>
                   <div className='mt-1 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4'>
@@ -69,7 +68,7 @@ const AccountTypeForm: FC<AccountTypeProps> = ({
                             active
                               ? "border-primary-500 ring-2 ring-primary-500"
                               : "",
-                            "relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none"
+                            "relative flex cursor-pointer rounded border bg-white p-4 shadow-sm focus:outline-none"
                           )
                         }
                       >
@@ -78,19 +77,26 @@ const AccountTypeForm: FC<AccountTypeProps> = ({
                             <span className='flex flex-1'>
                               <span className='flex flex-col'>
                                 {
-                                  AccountTypeIconMapping[
-                                    testerUserAccountType.value
-                                  ]
+                                  <Icon
+                                    icon={
+                                      AccountTypeIconMapping[
+                                        testerUserAccountType.title
+                                      ]
+                                    }
+                                    stroke={"0.5"}
+                                    strokeWidth={0.5}
+                                    className='w-8 h-8 text-zinc-500 my-2.5 stroke-none'
+                                  />
                                 }
                                 <RadioGroup.Label
                                   as='span'
-                                  className='block text-sm font-medium text-gray-900'
+                                  className='block font-medium text-zinc-900'
                                 >
                                   {testerUserAccountType.title}
                                 </RadioGroup.Label>
                                 <RadioGroup.Description
                                   as='span'
-                                  className='mt-1 flex items-center text-sm text-gray-500'
+                                  className='mt-1 flex items-center text-sm text-zinc-500'
                                 >
                                   {testerUserAccountType.description}
                                 </RadioGroup.Description>
@@ -109,7 +115,7 @@ const AccountTypeForm: FC<AccountTypeProps> = ({
                                 checked
                                   ? "border-primary-500"
                                   : "border-transparent",
-                                "pointer-events-none absolute -inset-px rounded-lg"
+                                "pointer-events-none absolute -inset-px rounded"
                               )}
                               aria-hidden='true'
                             />
@@ -124,25 +130,21 @@ const AccountTypeForm: FC<AccountTypeProps> = ({
           </div>
         </div>
 
-        <div className='bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:py-4 sm:px-6 flex flex-row-reverse border-t border-gray-200'>
-          <button
+        <div className='bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:py-4 sm:px-6 gap-x-4 flex flex-row-reverse border-t border-gray-200'>
+          <PrimaryButton
             type='button'
+            size='sm'
             onClick={wrapClick(form.handleSubmit)}
             disabled={!form.isValid}
-            className={classNames(
-              form.isValid ? "hover:bg-primary-700" : "cursor-not-allowed",
-              "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-600 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 ml-3 sm:text-sm disabled:bg-gray-400 sm:w-auto disabled:cursor-not-allowed"
-            )}
-          >
-            Next
-          </button>
-          <button
+            text='Next'
+          />
+
+          <OutlinedButton
             type='button'
-            className='w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-900 text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 hover:dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'
+            size='sm'
+            text='Cancel'
             onClick={wrapClick(form.resetForm)}
-          >
-            Cancel
-          </button>
+          />
         </div>
       </div>
     </div>

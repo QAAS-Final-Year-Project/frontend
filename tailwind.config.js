@@ -22,12 +22,12 @@ module.exports = {
       },
       fontFamily: {
         sans: [
-          'Nunito',
           'Manrope',
+          'Nunito',
           'Inter',
           ...defaultTheme.fontFamily.sans
         ],
-        display: ['Nunito  ', ...defaultTheme.fontFamily.sans],
+        display: ['Manrope  ', ...defaultTheme.fontFamily.sans],
     },
       colors: {
         primary: {

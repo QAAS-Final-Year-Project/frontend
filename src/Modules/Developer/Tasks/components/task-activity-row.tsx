@@ -41,6 +41,8 @@ const ActionIcons = {
   Start: "ic:outline-play-arrow",
   Complete: "ic:outline-check-circle",
   Review: "ic:outline-rate-review",
+  DeadlineUpdate: "ic:outline-calendar-month",
+
 };
 
 const ActionTexts = {
@@ -56,6 +58,8 @@ const ActionTexts = {
   Start: "started task",
   Complete: "completed task",
   Review: "reviewed task",
+  DeadlineUpdate: "updated deadline for task",
+
 };
 
 const TaskActivityRow: FC<NotificationRowProps> = ({
@@ -91,7 +95,7 @@ const TaskActivityRow: FC<NotificationRowProps> = ({
           </p>
         </div>
         {date && (
-          <div className="text-neutral-400 text-sm font-normal font-['Nunito'] leading-snug">
+          <div className="text-neutral-400 text-sm font-normal  leading-snug">
             {moment(date).fromNow()}
           </div>
         )}

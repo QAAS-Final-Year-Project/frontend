@@ -47,7 +47,7 @@ const TaskResolutionView: FC<TaskResolutionProps> = ({ data }) => {
               {data?.resolution?.supportingDocuments?.map((attachment) => (
                 <AttachmentCard
                   fileUrl={attachment?.url}
-                  fileName={attachment?.name}
+                  title={attachment?.name}
                 />
               ))}
             </div>

@@ -2,8 +2,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import config from "config";
 import _ from "lodash";
-import { wrapClick, wrapImage } from "Shared/utils/ui";
+import { classNames, wrapClick, wrapImage } from "Shared/utils/ui";
 import { uploadFileToFirebase } from "Shared/utils/files";
+import OutlinedButton from "../buttons/outline-button";
 
 //TODO: Implement file upload
 
@@ -20,6 +21,7 @@ interface AvatarUploadProps {
   errors?: any;
   touched?: any;
   required?: boolean;
+  isProfile?: boolean;
 }
 
 interface Upload extends File {
@@ -38,6 +40,7 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
   setFieldTouched,
   setFieldError,
   required = false,
+  isProfile = false,
 }) => {
   const [files, setFiles] = useState<Upload[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -101,7 +104,14 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
       <label htmlFor={id} className='block text-sm font-medium text-gray-700'>
         {label} {required ? <span className='text-red-500'>*</span> : ""}
       </label>
-      <div {...getRootProps({ className: "mt-1 flex items-center" })}>
+      <div
+        {...getRootProps({
+          className: classNames(
+            "mt-1  items-center",
+            isProfile ? "flex-col" : "flex"
+          ),
+        })}
+      >
         <input
           {...getInputProps()}
           required={required}
@@ -111,32 +121,50 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
           className='sr-only'
         />
         {!(files?.[0]?.preview || _.get(values, id)) ? (
-          <span className='inline-block h-12 w-12 overflow-hidden rounded-full bg-gray-100'>
-            <svg
-              className='h-full w-full text-gray-300'
-              fill='currentColor'
-              viewBox='0 0 24 24'
-            >
-              <path d='M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z' />
-            </svg>
-          </span>
+          <>
+            {isProfile ? (
+              <img
+                src='https://www.vasterad.com/themes/hireo_21/images/user-avatar-placeholder.png'
+                className='object-cover rounded h-36 w-36'
+              />
+            ) : (
+              <span
+                className={classNames(
+                  "inline-block overflow-hidden  bg-gray-100",
+                  "rounded-full h-12 w-12"
+                )}
+              >
+                <svg
+                  className='h-full w-full text-gray-300'
+                  fill='currentColor'
+                  viewBox='0 0 24 24'
+                >
+                  <path d='M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z' />
+                </svg>
+              </span>
+            )}
+          </>
         ) : (
           wrapImage(
             <img
-              className='inline-block  object-cover object-center h-12 w-12 overflow-hidden rounded-full bg-gray-100'
+              className={classNames(
+                "inline-block  object-cover object-center  overflow-hidden  bg-gray-100",
+                isProfile ? "h-36 w-36 rounded" : "rounded-full h-12 w-12"
+              )}
               src={files?.[0]?.preview || _.get(values, id)}
               alt='avatar'
             />
           )
         )}
-        <button
+
+        <OutlinedButton
           type='button'
           onClick={wrapClick(open)}
+          text={loading ? "Uploading..." : "Change"}
+          size='xs'
+          className={classNames("mt-2 mx-auto", isProfile ? "w-full" : "")}
           disabled={loading}
-          className='ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
-        >
-          {loading ? "Uploading..." : "Change"}
-        </button>
+        />
       </div>
       {_.get(errors, id) && _.get(touched, id) ? (
         <p className='mt-2 text-sm text-red-600' id={`${id}-error`}>

@@ -12,10 +12,10 @@ const AccountTypeSummary: FC<{
       {/* <span className='text-xs font-light'>Account Type</span> */}
       <div className='grid grid-cols-3 gap-6 mt-2'>
         <div className='col-span-1'>
-          <span className='block text-sm font-light text-gray-700'>
+          <span className='block  font-light text-gray-700'>
            Selected Account Type
           </span>
-          <div className='mt-1 block w-full sm:text-sm'>
+          <div className='mt-1 block w-full'>
             {data?.accountType || "N/A"}
           </div>
         </div>

@@ -15,7 +15,7 @@ function useUrlState<T extends string | number | boolean>(
 
   // Read the initial value from the URL search parameter
   const initialParam = searchParams.get(param);
-  const value = initialParam ? (initialParam as T) : initialValue!; // Add non-null assertion operator
+  const value = initialParam !== null ? (initialParam as T) : initialValue;
 
   // Function to update the search parameter in the URL
   const updateSearchParam = (newValue: T | undefined) => {
@@ -28,8 +28,12 @@ function useUrlState<T extends string | number | boolean>(
     setSearchParams(newSearchParams);
   };
 
-  return [value, updateSearchParam];
+  // Set the initial value in the URL if it's not already there
+  if (initialValue !== undefined && initialParam === null) {
+    updateSearchParam(initialValue);
+  }
+
+  return [value as T, updateSearchParam];
 }
 
 export default useUrlState;
-

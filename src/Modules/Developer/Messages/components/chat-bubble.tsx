@@ -32,7 +32,7 @@ const ChatBubble: FC<ChatBubbleProps> = ({ me, message, avatarSrc }) => {
         >
         <p
             className={classNames(
-              "text-[15px] font-normal font-['Nunito'] leading-[25px]",
+              "text-[15px] font-normal  leading-[25px]",
               me ? "text-white" : "text-stone-500"
             )}
           >

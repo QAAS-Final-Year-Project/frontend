@@ -16,6 +16,8 @@ import StatusChip, { StatusType } from "Shared/components/chips/status-chip";
 import ActionButton from "Shared/components/buttons/action-button";
 import AcceptTaskContainer from "./start";
 import TaskResolutionView from "./components/task-resolution";
+import moment from "moment";
+import DeclineTaskContainer from "./decline";
 
 const TesterViewTaskDetailsPage: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -36,17 +38,23 @@ const TesterViewTaskDetailsPage: FC = () => {
     },
   });
 
-  const dispatchAction = (id: string, action: "accept") => {
+  const dispatchAction = (id: string, action: "accept" | "delete") => {
     searchParams.set("modal", action);
     searchParams.set("current", id);
     setSearchParams(searchParams);
   };
 
+  const hasExpired = moment(query?.data?.data?.deadlineDate).isBefore(moment());
+
   const TabMappings = {
-    overview: <TaskOverView data={query?.data?.data} />,
+    overview: <TaskOverView data={query?.data?.data} isExpired={hasExpired} />,
     activity: <TaskActivity data={query?.data?.data} />,
     attachments: (
-      <TaskAttachments data={query?.data?.data} refetch={query.refetch} />
+      <TaskAttachments
+        data={query?.data?.data}
+        refetch={query.refetch}
+        hasExpired={hasExpired}
+      />
     ),
     resolution: <TaskResolutionView data={query?.data?.data} />,
 
@@ -104,7 +112,7 @@ const TesterViewTaskDetailsPage: FC = () => {
                       label: "Overview",
                       href: "overview",
                     },
-                  
+
                     {
                       icon: "ic:outline-notifications",
                       label: "Activity",
@@ -135,12 +143,32 @@ const TesterViewTaskDetailsPage: FC = () => {
                 />
                 <div className='flex gap-2 items-center'>
                   <StatusChip
-                    info={query?.data?.data?.status}
-                    type={taskStatusMapping[query?.data?.data?.status]}
                     size='md'
+                    info={
+                      hasExpired &&
+                      ![
+                        "Assigned",
+                        "InProgress",
+                        "Resolved",
+                        "Completed",
+                      ].includes(query?.data?.data?.status)
+                        ? "Expired"
+                        : query?.data?.data?.status
+                    }
+                    type={
+                      hasExpired &&
+                      ![
+                        "Assigned",
+                        "InProgress",
+                        "Resolved",
+                        "Completed",
+                      ].includes(query?.data?.data?.status)
+                        ? "danger"
+                        : taskStatusMapping[query?.data?.data?.status]
+                    }
                   />
 
-                  {query?.data?.data?.status === "Assigned" && (
+                  {query?.data?.data?.status === "Assigned" && !hasExpired && (
                     <>
                       <ActionButton
                         tooltip='Accept Task and Start'
@@ -155,7 +183,7 @@ const TesterViewTaskDetailsPage: FC = () => {
                         tooltip='Cancel Task'
                         action='cancel'
                         onClick={() =>
-                          navigate("/dashboard/tasks/" + id + "/start")
+                          dispatchAction(query?.data?.data?._id, "delete")
                         }
                         className='!bg-red-600'
                         iconClassName='!text-white'
@@ -183,14 +211,21 @@ const TesterViewTaskDetailsPage: FC = () => {
       </section>
 
       {query?.data?.data && (
-        <AcceptTaskContainer
-          values={{
-            amount: query?.data?.data?.assignedAmount || 0,
-          }}
-          open={modal === "accept"}
-          setOpen={(val: boolean) => setModal(val ? "accept" : undefined)}
-          refetch={query.refetch}
-        />
+        <>
+          <AcceptTaskContainer
+            values={{
+              amount: query?.data?.data?.assignedAmount || 0,
+            }}
+            open={modal === "accept"}
+            setOpen={(val: boolean) => setModal(val ? "accept" : undefined)}
+            refetch={query.refetch}
+          />
+          <DeclineTaskContainer
+            open={modal === "delete"}
+            setOpen={(val: boolean) => setModal(val ? "delete" : undefined)}
+            refetch={query.refetch}
+          />
+        </>
       )}
     </>
   );

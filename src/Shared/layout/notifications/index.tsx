@@ -34,9 +34,14 @@ const NotificationProvider: FC<PropsWithChildren> = ({ children }) => {
   //   })
   //   .catch((err) =>{});
 
+  useEffect(() => {
+    document.getElementById("root").click();
+  }, []);
+
   return (
     <div>
       {children}
+
       <Toaster />
     </div>
   );

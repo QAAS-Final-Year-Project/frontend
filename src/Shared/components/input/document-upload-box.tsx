@@ -107,7 +107,7 @@ const DocumentUploadBox: React.FC<UploadBoxProps> = ({
       const data = new FormData();
       const file = acceptedFiles[0];
       data.append("file", file);
-     await uploadFileToFirebase("verificationDocuments/", file)
+      await uploadFileToFirebase("verificationDocuments/", file)
         .then((fileUrl) => {
           if (data) setFieldValue?.(id, fileUrl as string);
         })
@@ -145,14 +145,17 @@ const DocumentUploadBox: React.FC<UploadBoxProps> = ({
 
   return (
     <>
-      <label htmlFor={id} className='block text-sm font-medium text-gray-700'>
+      <label
+        htmlFor={id}
+        className='text-zinc-800 text-base flex items-center gap-x-1  leading-[27px]  w-max'
+      >
         {label} {required ? <span className='text-red-500'>*</span> : ""}
       </label>
       <div
         {...getRootProps()}
         id={id}
         className={classNames(
-          "shadow-sm block w-full sm:text-sm rounded-md placeholder:font-light placeholder:text-xs h-[38px] border  mt-1 font-light"
+          "shadow-sm block w-full sm:text-sm rounded placeholder:font-light placeholder:text-xs h-[48px] border  mt-3 font-light"
         )}
       >
         {files.length ? (
@@ -172,13 +175,13 @@ const DocumentUploadBox: React.FC<UploadBoxProps> = ({
                 {files?.[0]?.name}
               </span>
             </div>
-            <TrashIcon className='w-5 h-5 text-gray-500' />
+            {/* <TrashIcon className='w-5 h-5 text-gray-500' /> */}
           </div>
         ) : (
           <div className='h-full flex gap-x-3 items-center px-4'>
             {/* <DocumentPlusIcon className='w-5 h-5' /> */}
             <DocumentPlusIcon className='w-5 h-5 [&>svg]:stroke-1.5' />
-            <span className=''>Drag and drop a file here or click</span>
+            <span className='text-zinc-500 font-medium text-sm'>Drag and drop a file here or click</span>
           </div>
         )}
       </div>

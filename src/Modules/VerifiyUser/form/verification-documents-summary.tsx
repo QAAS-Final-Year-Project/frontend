@@ -58,7 +58,7 @@ const VerificationDocumentsSummary: FC<{
                             (item) => item.value == verificationDocument.type
                           ).name || "N/A"}
                         </td>
-                        <td className='py-2 whitespace-nowrap text-xs text-gray-800 font-medium dark:text-gray-400  px-3'>
+                        <td className='py-2 whitespace-nowrap text-sm text-gray-800 font-light dark:text-gray-400  px-3'>
                           {VerificationDocumentTypes.find(
                             (item) => item.value == verificationDocument.type
                           ).description || "N/A"}
@@ -88,7 +88,7 @@ const VerificationDocumentsSummary: FC<{
       </div>
     </div>
   ) : (
-    <div className='min-h-[300px] items-center justify-center flex'>
+    <div className='min-h-[300px] items-center justify-center flex border border-dashed border-gray-300'>
       <div className='text-center'>
         <svg
           className='mx-auto h-12 w-12 text-gray-400 dark:text-gray-300'

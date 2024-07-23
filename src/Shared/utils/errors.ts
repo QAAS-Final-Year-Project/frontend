@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { AxiosError, isAxiosError } from "axios";
 import { showToast } from "./alert";
 
 export const flattenErrorMap = (errorMap: object): string[] => {
@@ -9,28 +9,23 @@ export const flattenErrorMap = (errorMap: object): string[] => {
     return res;
 }
 
-export const formatAndShowAxiosError = (error: AxiosError | any, form?: any,) => {
-    if (error?.response?.data?.errors) {
-        let errors = {};
-        Object.keys(error?.response?.data?.errors).map((key) => {
-            errors[key] = error?.response?.data?.errors[key][0];
+export const formatAndShowAxiosError = (error: AxiosError | any, errorMessage?: string) => {
+    if (
+        isAxiosError(error) &&
+        error?.response?.data &&
+        error.response?.data?.message
+    ) {
+        showToast({
+            type: "error",
+            title: error.response?.data?.message,
         });
-        if (form) {
-            form?.setErrors({
-                ...errors,
-            });
-        }
-        const errorsMap = flattenErrorMap(error?.response?.data?.errors);
-        for (error in errorsMap) {
-            showToast({
-                type: "error",
-                title: errorsMap[error],
-            });
-        }
+        // if (error.response?.data?.errors) {
+        //     form.setErrors(error.response?.data?.errors);
+        // }
     } else {
         showToast({
             type: "error",
-            title: error.message,
+            title: error?.message || "Error logging in",
         });
     }
 }

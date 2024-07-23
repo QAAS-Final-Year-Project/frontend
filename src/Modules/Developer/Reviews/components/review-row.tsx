@@ -28,7 +28,7 @@ const ReviewRow: FC<ReviewRowProps> = ({
   return (
     <div className='py-[22px] px-[30px]  border-b border-neutral-200 hover:bg-[#fcfcfc]'>
       <div className='flex gap-x-1 mb-1 items-center '>
-        <div className="text-zinc-800 text-lg font-semibold font-['Nunito'] leading-[30px]">
+        <div className="text-zinc-800 text-lg font-semibold  leading-[30px]">
           {taskName}
         </div>
       </div>

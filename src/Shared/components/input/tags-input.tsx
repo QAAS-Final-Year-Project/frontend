@@ -120,15 +120,21 @@ const TagsInput: FC<TagsInputProps> = ({
           )}
         />
 
-        {_.get(errors, id) && _.get(touched, id) ? (
+        {/* {_.get(errors, id) && _.get(touched, id) ? (
           <div className='absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none '>
             <ExclamationCircleIcon
               className='h-5 w-5 text-red-500'
               aria-hidden='true'
             />
           </div>
-        ) : null}
-        <div className=' absolute inset-y-0 right-0 flex items-center pr-2'>
+        ) : null} */}
+
+        <div
+          className={classNames(
+            " absolute inset-y-0 right-0 pr-2",
+            _.get(errors, id) ? "top-2" : "flex items-center "
+          )}
+        >
           <button
             type='button'
             onClick={wrapClick(form.handleSubmit)}

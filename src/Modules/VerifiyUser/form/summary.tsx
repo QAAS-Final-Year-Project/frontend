@@ -46,10 +46,10 @@ const SummaryPage: FC<SummaryPageProps> = ({
                   className='flex justify-between items-center cursor-pointer'
                 >
                   <div>
-                    <h3 className='text-md leading-6 font-normal text-gray-900 dark:text-gray-100'>
+                    <h3 className='text-md leading-6  text-gray-900 font-semibold dark:text-gray-100'>
                       {summary.name}
                     </h3>
-                    <p className='mt-1 text-xs text-gray-500'>
+                    <p className='mt-1 text-sm text-gray-500'>
                       {summary.description}
                     </p>
                   </div>

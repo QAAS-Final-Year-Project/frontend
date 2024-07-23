@@ -74,8 +74,10 @@ const VerifyUserPage: FC = () => {
       mutation.mutate({
         accountType: values.accountType.accountType,
         identificationInfo: values.identificationInfo,
-        verificationDocuments:
-          values.verificationDocuments.verificationDocuments,
+        verificationDocuments: values.verificationDocuments
+          .verificationDocuments[0].type
+          ? values.verificationDocuments.verificationDocuments
+          : undefined,
       });
     },
     onReset: () => {
@@ -85,9 +87,9 @@ const VerifyUserPage: FC = () => {
   return (
     <main className='isolate flex-1 flex flex-col overflow-hidden h-full'>
       <header className='x'>
-        <h1 className='text-base font-semibold leading-7 text-gray-900'>
+        <h3 className=' text-center text-zinc-800 mb-[42px]  text-[26px] font-bold leading-[27px] '>
           Submit Details to Verify Account
-        </h1>
+        </h3>
       </header>
       <div className='flex flex-1 overflow-hidden'>
         <VerifyUserForm

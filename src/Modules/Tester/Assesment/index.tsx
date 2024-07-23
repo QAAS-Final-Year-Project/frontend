@@ -85,7 +85,20 @@ const AssesmentPage: FC = () => {
   useEffect(() => {
     switch (query?.data?.data?.status) {
       case "BasicTestTaken":
+        if (
+          query?.data?.data?.basicTest?.testScore <
+          AppConfig.typeForm.basicTestPassMark
+        ) {
+          break;
+        } else {
+          setStep(1);
+          setLastStep(1);
+          break;
+        }
       case "Completed":
+        setStep(1);
+        setLastStep(1);
+        break;
       case "Approved":
         setStep(1);
         setLastStep(1);

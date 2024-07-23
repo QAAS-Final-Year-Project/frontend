@@ -12,6 +12,7 @@ import Modal from "Shared/components/overlays/modal";
 import PrimaryButton from "Shared/components/buttons/primary-button";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import RangeInput from "Shared/components/input/range-input";
+import { IUpdateTaskBidSchema, UpdateTaskBidSchema } from "./schema";
 
 export default function UpdateBidContainer({
   open,
@@ -38,12 +39,13 @@ export default function UpdateBidContainer({
     onError: (error) => formatAndShowAxiosError(error),
   });
 
-  const form = useFormik<any>({
+  const form = useFormik<IUpdateTaskBidSchema>({
     initialValues: {
       ...values,
     },
+    validationSchema: UpdateTaskBidSchema,
     onSubmit: async (values) => {
-      console.log(values)
+      console.log(values);
       mutation.mutate({
         values: {
           ...values,
@@ -73,10 +75,10 @@ export default function UpdateBidContainer({
       <form onSubmit={form.handleSubmit}>
         <div className='flex flex-col'>
           <p className='mb-[5px]'>
-            <span className="text-zinc-500 text-base font-normal font-['Nunito'] leading-[27px]">
+            <span className="text-zinc-500 text-base font-normal  leading-[27px]">
               Set your{" "}
             </span>
-            <span className="text-zinc-800 text-base font-bold font-['Nunito'] leading-[27px]">
+            <span className="text-zinc-800 text-base font-bold  leading-[27px]">
               minimal rate
             </span>
           </p>
@@ -92,11 +94,11 @@ export default function UpdateBidContainer({
               {...form}
             />
           </div>
-          <p className='mb-3'>
-            <span className="text-zinc-500 text-base font-normal font-['Nunito'] leading-[27px]">
+          {/* <p className='mb-3'>
+            <span className="text-zinc-500 text-base font-normal  leading-[27px]">
               Set your{" "}
             </span>
-            <span className="text-zinc-800 text-base font-bold font-['Nunito'] leading-[27px]">
+            <span className="text-zinc-800 text-base font-bold  leading-[27px]">
               delivery time
             </span>
           </p>
@@ -117,8 +119,8 @@ export default function UpdateBidContainer({
                 Days
               </span>
             </div>
-          </div>
-          <div className='w-full mb-8'>
+          </div> */}
+          <div className='w-full mb-8 text-start'>
             <TextArea
               id='notes'
               label=''

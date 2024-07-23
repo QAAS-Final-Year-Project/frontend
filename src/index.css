@@ -35,7 +35,7 @@
     content: "1";
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
- 
+
   .custom-slider::-moz-range-thumb {
     width: 20px;
     height: 20px;
@@ -264,7 +264,7 @@
   }
 
   .task-header .background-image-container {
-  background-size: cover;
+    background-size: cover;
     background-position: 100% 50%;
     position: absolute;
     top: 0;
@@ -305,6 +305,65 @@
     box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.12);
   }
 
+  .thumb .thumb-right::before {
+    content: "";
+    background-color: inherit;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: solid 1px #2a41e8 !important;
+    border-radius: 50%;
+    z-index: 1;
+    margin: -8px -12px;
+    cursor: pointer;
+  }
+
+  .yt-content-item {
+    background: #ccc;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    width:100%;
+    display: block;
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    height: 460px;
+    z-index: 100;
+    cursor: pointer;
+    transition: 0.4s;
+  }
+
+  @media (max-width: 1366px) {
+    .yt-content-item {
+      height: 420px;
+    }
+  }
+
+  .yt-content-item img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    border-radius: 4px;
+  }
+
+  .yt-content-item:before {
+    content: "";
+    top: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 9;
+    border-radius: 4px;
+    background: linear-gradient(
+      to top,
+      rgba(51, 51, 51, 0.8) 0%,
+      rgba(51, 51, 51, 0.7) 35%,
+      rgba(51, 51, 51, 0.3) 60%,
+      rgba(51, 51, 51, 0.3) 100%
+    );
+    transition: 0.4s;
+  }
 
   /* :root {
     --rt-color-white: #fff;
@@ -318,4 +377,3 @@
     --rt-transition-closing-delay: 0.15s;
   } */
 }
-

@@ -10,7 +10,7 @@ import LoginPage from "Modules/Auth/Login";
 import AwaitingVerificationPage from "Modules/VerifiyUser/awaiting";
 import AssessmentPage from "Modules/Tester/Assesment";
 import LearningMaterialsPage from "Modules/Tester/LearningMaterials";
-import Settings from "Modules/Tester/Settings";
+import TesterSettings from "Modules/Tester/Settings";
 import InvoicePage from "Modules/Invoices";
 import DeveloperUserLayout from "Shared/layout/developeruser";
 import DeveloperUserDashboardLayout from "Shared/layout/developeruser/dashboard-layout";
@@ -30,6 +30,15 @@ import TesterTasksPage from "Modules/Tester/Tasks";
 import TesterViewTaskDetailsPage from "Modules/Tester/Tasks/view";
 import TesterResolvePage from "Modules/Tester/Tasks/resolve";
 import TestersReviewsPage from "Modules/Tester/Reviews";
+import TesterBookMarksPage from "Modules/Tester/Bookmarks";
+import TasksSearchPage from "Modules/Home/Tasks";
+import ForgotPasswordPage from "Modules/Auth/ForgotPassword";
+import VerifyCodePage from "Modules/Auth/ForgotPassword/verify-code";
+import EnterNewPasswordPage from "Modules/Auth/ForgotPassword/enter-password";
+import TermsAndConditionsPage from "Modules/TermsAndConditions";
+import NotFoundPage from "Modules/NotFound";
+import SingleTesterPage from "Modules/Home/SingleTester";
+import PlaygroundComponent from "Modules/Playground";
 
 const routes = (isAuth, authType, authUser): RouteObject[] => [
   {
@@ -44,11 +53,31 @@ const routes = (isAuth, authType, authUser): RouteObject[] => [
         path: "tasks/:id",
         element: <SingleTaskPage />,
       },
+      {
+        path: "testers/:id",
+        element: <SingleTesterPage />,
+      },
+      {
+        path: "/tasks",
+        element: <TasksSearchPage />,
+      },
+      {
+        path: "terms-and-conditions",
+        element: <TermsAndConditionsPage />,
+      },
       ...(!isAuth ? authRoutes : []),
     ],
   },
   ...(authType === "TesterUser" ? testerUserRoutes(authUser) : []),
   ...(authType === "DeveloperUser" ? developerUserRoutes : []),
+  {
+    path:"*",
+    element:<NotFoundPage />
+  },
+  {
+    path:"/playground",
+    element:<PlaygroundComponent />
+  }
 ];
 
 const authRoutes: RouteObject[] = [
@@ -57,12 +86,24 @@ const authRoutes: RouteObject[] = [
     element: <LoginPage />,
   },
   {
+    path: "/forgot-password",
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: "/verify-code",
+    element: <VerifyCodePage />,
+  },
+  {
     path: "/register",
     element: <Register />,
   },
   {
     path: "/account-type",
     element: <AccountType />,
+  },
+  {
+    path: "/reset-password",
+    element: <EnterNewPasswordPage />,
   },
 
   {
@@ -125,15 +166,15 @@ const approvedTesterUserRoutes = (authUser): RouteObject[] => [
       },
       {
         path: "settings",
-        element: <DeveloperSettings />,
+        element: <TesterSettings />,
       },
       {
         path: "reviews",
         element: <TestersReviewsPage />,
       },
       {
-        path: "learning-materials",
-        element: <LearningMaterialsPage />,
+        path: "bookmarks",
+        element: <TesterBookMarksPage />,
       },
       {
         path: "learning-materials",
@@ -145,32 +186,42 @@ const approvedTesterUserRoutes = (authUser): RouteObject[] => [
 
 const verifiedTesterUserRoutes = (authUser): RouteObject[] => [
   {
-    index: true,
-    element: <AssessmentPage />,
-  },
-  {
-    path: "learning-materials",
-    element: <LearningMaterialsPage />,
-  },
-  {
-    path: "profile",
-    element: <div>Profile</div>,
+    path: "/dashboard",
+    children: [
+      {
+        index: true,
+        element: <AssessmentPage />,
+      },
+      {
+        path: "learning-materials",
+        element: <LearningMaterialsPage />,
+      },
+      {
+        path: "settings",
+        element: <TesterSettings />,
+      },
+    ],
   },
 ];
 
 const unverifiedTesterUserRoutes = (authUser): RouteObject[] => [
   {
-    index: true,
-    element:
-      authUser?.meta?.verificationStatus == "Submitted" ? (
-        <AwaitingVerificationPage />
-      ) : (
-        <VerifyUserPage />
-      ),
-  },
-  {
-    path: "profile",
-    element: <div>Profile</div>,
+    path: "/dashboard",
+    children: [
+      {
+        index: true,
+        element:
+          authUser?.meta?.verificationStatus == "Submitted" ? (
+            <AwaitingVerificationPage />
+          ) : (
+            <VerifyUserPage />
+          ),
+      },
+      {
+        path: "settings",
+        element: <TesterSettings />,
+      },
+    ],
   },
 ];
 

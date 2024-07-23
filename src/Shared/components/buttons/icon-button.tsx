@@ -10,6 +10,7 @@ const IconButton: FC<
     icon?: any;
     notificationCount?: number;
     notificationType?: "info" | "danger";
+    iconClassName?: string;
   }
 > = ({
   text,
@@ -17,20 +18,33 @@ const IconButton: FC<
   className,
   icon,
   notificationCount,
+  disabled,
   notificationType,
+  size = "md",
+  iconClassName,
 }) => {
   return (
     <button
       type='button'
       onClick={onClick}
+      disabled={disabled}
       className={classNames(
-        "w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-300 relative",
+        " flex items-center justify-center rounded-full  relative",
+        size === "md" ? "w-7 h-7" : "",
+        size === "lg" ? "w-10 h-10" : "",
+        size === "sm" ? "w-8 h-8" : "",
+        !disabled ? "hover:bg-gray-300 cursor-pointer" : "",
         className
       )}
     >
-      {icon && <Icon icon={icon} className='w-6 h-6 text-[#333333]' />}
+      {icon && (
+        <Icon
+          icon={icon}
+          className={classNames("w-6 h-6 text-[#333333]", iconClassName)}
+        />
+      )}
       {text}
-      {notificationCount && (
+      {notificationCount ? (
         <div
           className={classNames(
             "rounded-full px-1 flex items-center justify-center absolute -right-1.5 -top-1.5  w-[20px] h-[20px] text-center text-white text-xs font-bold ",
@@ -41,6 +55,8 @@ const IconButton: FC<
         >
           {notificationCount}
         </div>
+      ) : (
+        <></>
       )}
     </button>
   );

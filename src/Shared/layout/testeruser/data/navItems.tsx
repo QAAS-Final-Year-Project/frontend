@@ -19,7 +19,7 @@ export const ApprovedNavSections: INavSection[] = [
       {
         icon: "ic:outline-dashboard",
         label: "Dashboard",
-        to: "/",
+        to: "/dashboard",
       },
       {
         icon: "ic:outline-question-answer",
@@ -31,7 +31,7 @@ export const ApprovedNavSections: INavSection[] = [
       {
         icon: "ic:baseline-star-border",
         label: "Bookmarks",
-        to: "/bookmarks",
+        to: "/dashboard/bookmarks",
       },
       {
         icon: "ic:outline-rate-review",
@@ -56,12 +56,27 @@ export const ApprovedNavSections: INavSection[] = [
     ],
   },
   {
+    title: "Assessment",
+    items: [
+      {
+        icon: "ic:outline-assignment", // Outlined icon for assessments
+        label: "Assessment",
+        to: "/dashboard/assessments",
+      },
+      {
+        icon: "ic:outline-menu-book", // Outlined icon for learning materials
+        label: "Learning Materials",
+        to: "/dashboard/learning-materials",
+      },
+    ],
+  },
+  {
     title: "Account",
     items: [
       {
         icon: "ic:outline-settings",
         label: "Settings",
-        to: "/settings",
+        to: "/dashboard/settings",
       },
       {
         icon: "ic:baseline-power-settings-new",
@@ -79,12 +94,17 @@ export const UnverifiedNavSections: INavSection[] = [
       {
         icon: "ic:outline-dashboard",
         label: "Verify Account",
-        to: "/",
+        to: "/dashboard",
       },
       {
         icon: "ic:baseline-power-settings-new",
         label: "Logout",
         to: "?modal=logout",
+      },
+      {
+        icon: "ic:outline-settings",
+        label: "Settings",
+        to: "/dashboard/settings",
       },
     ],
   },
@@ -96,12 +116,18 @@ export const VerifiedNavSections: INavSection[] = [
       {
         icon: "ic:outline-assignment", // Outlined icon for assessments
         label: "Take Assessments",
-        to: "/",
+        to: "/dashboard",
       },
+
       {
         icon: "ic:outline-menu-book", // Outlined icon for learning materials
         label: "Learning Materials",
-        to: "/learning-materials",
+        to: "/dashboard/learning-materials",
+      },
+      {
+        icon: "ic:outline-settings",
+        label: "Settings",
+        to: "/dashboard/settings",
       },
       {
         icon: "ic:baseline-power-settings-new",

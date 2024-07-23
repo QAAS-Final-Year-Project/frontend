@@ -13,6 +13,7 @@ import { getTask } from "../Tasks/duck/fetch";
 import { AxiosError } from "axios";
 import { YesNo } from "data";
 import StarRatingInput from "Shared/components/input/rating-input";
+import { DeveloperRatingSchema, IDeveloperRatingSchema } from "./schema";
 
 export default function ReviewTaskContainer({
   open,
@@ -45,19 +46,18 @@ export default function ReviewTaskContainer({
     onError: (error) => formatAndShowAxiosError(error),
   });
 
-  const form = useFormik<any>({
+  const form = useFormik<IDeveloperRatingSchema>({
     initialValues: {
-      rating: null,
+      rating: undefined,
       review: "",
       isCompletedOnTime: false,
-      onTime: false,
     },
+    validationSchema: DeveloperRatingSchema,
     onSubmit: async (values) => {
-      console.log(values)
+      console.log(values);
       mutation.mutate({
         values: {
           ...values,
-          amount: values.rate,
         },
         id: current,
       });
@@ -98,7 +98,7 @@ export default function ReviewTaskContainer({
             </Link>
           </div>
           <fieldset>
-            <legend className='text-zinc-800 font-semibold text-base flex items-center gap-x-1  leading-[27px]  w-max mb-1'>
+            <legend className='text-zinc-800 font-semibold text-base flex items-center text-start gap-x-1  leading-[27px]  w-max mb-1'>
               Was the task completed on time?
             </legend>
             <div className='flex items-center gap-x-[15px]'>
@@ -132,14 +132,18 @@ export default function ReviewTaskContainer({
             <p className='text-zinc-800 text-base font-semibold flex items-center gap-x-1  leading-[27px]  w-max mb-1'>
               Your Rating
             </p>
-            <StarRatingInput
-              onRatingChange={(val) => {
-                form.setFieldValue("rating", val);
-              }}
-            />
+            <div className='text-start'>
+              <StarRatingInput
+                id='rating'
+                onRatingChange={(val) => {
+                  form.setFieldValue("rating", val);
+                }}
+                {...form}
+              />
+            </div>
           </div>
 
-          <div className='w-full mb-8'>
+          <div className='w-full mb-8 text-start'>
             <TextArea
               id='review'
               label=''

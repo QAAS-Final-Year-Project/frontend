@@ -1,45 +1,45 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { classNames } from "Shared/utils/ui";
-import useUrlState from "Shared/hooks/use-url-state";
 import { Link, useNavigate } from "react-router-dom";
 import TextInput from "Shared/components/input/text-input";
 import { useFormik } from "formik";
-import * as yup from "yup";
-import { Countries, Country } from "data/index.types";
-import SelectInput from "Shared/components/input/select-input";
-import lodash, { values } from "lodash";
-import SearchSelectInput from "Shared/components/input/search-select-input";
-import LoadingIcon from "Shared/components/icons/loading-icon";
 import { useMutation } from "@tanstack/react-query";
 import { showToast } from "Shared/utils/alert";
 import { isAxiosError } from "axios";
-import { doLogin, doRegisterTesterUser } from "../duck/fetch";
-import AuthLogo from "../components/auth-logo";
+import { doLogin } from "../duck/fetch";
 import { ILoginTesterUserSchema, LoginTesterUserSchema } from "../schema";
 import { setMe, setToken } from "Shared/utils/auth";
 import PrimaryButton from "Shared/components/buttons/primary-button";
 import { RadioGroup } from "@headlessui/react";
 import { AccountTypes } from "data";
-import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import { Icon } from "@iconify/react";
 import Header from "Shared/components/layout/header";
 import Container from "Shared/components/layout/container";
+import IconButton from "Shared/components/buttons/icon-button";
 
 const LoginPage: FC = () => {
   const navigate = useNavigate();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const mutation = useMutation({
     mutationFn: doLogin,
     onSuccess: (response) => {
-      showToast({
-        type: "success",
-        title: "Login Successful",
-      });
-      setMe(response.data?.user);
-      setToken(response.data?.token);
-      setTimeout(() => {
-        window.location.replace("/");
-      }, 1000);
+      if (response.data?.user?.isEmailVerified) {
+        navigate(
+          "/verify-email?accountType=Developer&email=" +
+            form.values.emailAddress
+        );
+      } else {
+        showToast({
+          type: "success",
+          title: "Login Successful",
+        });
+        setMe(response.data?.user);
+        setToken(response.data?.token);
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 1000);
+      }
     },
     onError: (error) => {
       if (
@@ -129,7 +129,9 @@ const LoginPage: FC = () => {
                       value={accountType.value}
                       className={({ checked, active }) =>
                         classNames(
-                          checked ? "bg-green-500 text-white" : "bg-zinc-100 hover:bg-green-100 text-zinc-500 hover:text-green-500",
+                          checked
+                            ? "bg-green-500 text-white"
+                            : "bg-zinc-100 hover:bg-green-100 text-zinc-500 hover:text-green-500",
                           active ? " ring-2 " : "",
                           "relative flex cursor-pointer rounded gap-x-1 items-center justify-center   py-2.5  focus:outline-none  "
                         )
@@ -139,14 +141,12 @@ const LoginPage: FC = () => {
                         <>
                           <Icon
                             icon={AccountTypeIconMapping[accountType.value]}
-                            className={classNames(
-                              "w-[18px] h-[18px] ",
-                            )}
+                            className={classNames("w-[18px] h-[18px] ")}
                           />
                           <RadioGroup.Label
                             as='span'
                             className={classNames(
-                              " text-center text-base font-normal  leading-7",
+                              " text-center text-base font-normal  leading-7"
                             )}
                           >
                             {accountType.title}
@@ -174,30 +174,40 @@ const LoginPage: FC = () => {
                   id='password'
                   label=''
                   labelHidden
-                  type='password'
+                  type={isPasswordVisible ? "text" : "password"}
                   placeholder='Password'
                   icon='ic:outline-lock'
                   required
+                  postText={
+                    <IconButton
+                      iconClassName='!text-neutral-400'
+                      size='sm'
+                      onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                      icon={
+                        isPasswordVisible
+                          ? "ic:outline-visibility"
+                          : "ic:outline-visibility-off"
+                      }
+                    />
+                  }
                   {...form}
                 />
               </div>
               <Link
-                to='/register'
+                to='/forgot-password'
                 className=' text-blue-700 text-base font-medium  leading-[27px] block mb-2.5'
               >
                 Forgot Password?
-               
               </Link>
 
               <PrimaryButton
                 text='Login'
                 size='md'
                 className='w-full'
-                // loading={mutation.isPending}
+                loading={mutation.isPending}
                 type='submit'
               />
             </form>
-
             <div>
               <div className='relative mt-8'>
                 <div
@@ -262,7 +272,7 @@ const LoginPage: FC = () => {
                     />
                   </svg>
                   <span className='text-sm font-semibold leading-6'>
-                  Log In   GitHub
+                    Log In GitHub
                   </span>
                 </a>
               </div>

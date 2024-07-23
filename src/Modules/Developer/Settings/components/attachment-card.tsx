@@ -6,7 +6,7 @@ interface AttachmentCardProps {
 }
 
 const AttachmentCard: FC<AttachmentCardProps> = ({ title, fileUrl }) => {
-  const fileExt = fileUrl?.split(".")?.pop()?.toLowerCase();
+  const fileExt = title?.split(".")?.pop()?.toLowerCase();
   return (
     <div className='attachment-box'>
       <span>{title}</span>

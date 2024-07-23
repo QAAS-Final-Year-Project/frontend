@@ -55,7 +55,7 @@ const StepWizardStatus: FC<StepWizardStatusProps> = ({
                     </span>
                   </span>
                   <span className='ml-4 min-w-0 flex flex-col'>
-                    <span className='text-xs text-left font-semibold tracking-wide uppercase text-primary-600'>
+                    <span className=' text-left font-semibold tracking-wide uppercase text-primary-600'>
                       {step.name}
                     </span>
                     <span className='text-sm text-left text-gray-500'>
@@ -64,7 +64,7 @@ const StepWizardStatus: FC<StepWizardStatusProps> = ({
                   </span>
                 </button>
               </>
-            ) : (step.href < lastStep && step?.status !== "Skipped")  ? (
+            ) : step.href < lastStep && step?.status !== "Skipped" ? (
               <>
                 {stepIdx !== steps.length - 1 ? (
                   <div
@@ -91,7 +91,7 @@ const StepWizardStatus: FC<StepWizardStatusProps> = ({
                     </span>
                   </span>
                   <span className='ml-4 min-w-0 flex flex-col'>
-                    <span className='text-xs text-left font-semibold tracking-wide uppercase'>
+                    <span className=' text-left font-semibold tracking-wide uppercase'>
                       {step.name}
                     </span>
                     <span className='text-sm text-left text-gray-500'>
@@ -131,7 +131,7 @@ const StepWizardStatus: FC<StepWizardStatusProps> = ({
                     </span>
                   </span>
                   <span className='ml-4 min-w-0 flex flex-col'>
-                    <span className='text-xs text-left font-semibold tracking-wide uppercase text-gray-500'>
+                    <span className=' text-left font-semibold tracking-wide uppercase text-gray-500'>
                       {step.name}
                     </span>
                     <span className='text-sm text-left text-gray-500'>

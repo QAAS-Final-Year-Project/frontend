@@ -65,7 +65,7 @@ const PrimaryButton: FC<
           {!hideTitle && text}
           {count && (
             <div className='flex items-center w-5 h-5 justify-center bg-white/25 rounded-full '>
-              <div className="text-center text-white text-[11px] font-bold font-['Nunito'] ">
+              <div className="text-center text-white text-[11px] font-bold  ">
                 {count}
               </div>
             </div>

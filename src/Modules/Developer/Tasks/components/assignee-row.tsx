@@ -38,7 +38,7 @@ const AssigneeRow: FC<AssignerRowProps> = ({
         <Avatar alt={fullName} size='xl' src={profileImageUrl} />
         <div className=''>
           <div className='flex gap-x-1 mb-0.5 items-center'>
-            <p className=" text-center  text-zinc-800 text-lg font-semibold font-['Nunito'] leading-[27px]">
+            <p className=" text-center  text-zinc-800 text-lg font-semibold  leading-[27px]">
               {fullName}{" "}
               {
                 Nationalities.find((nat) => nat.en_short_name === country)
@@ -48,14 +48,14 @@ const AssigneeRow: FC<AssignerRowProps> = ({
           </div>
 
           <div className='flex gap-x-2 mb-3'>
-            <p className=" text-neutral-500 flex  items-center gap-0.5 text-base font-normal font-['Nunito'] leading-relaxed">
+            <p className=" text-neutral-500 flex  items-center gap-0.5 text-base font-normal  leading-relaxed">
               <Icon
                 icon={"ic:outline-email"}
                 className='w-5 h-5 text-neutral-500'
               />{" "}
               {email}
             </p>
-            <p className=" text-neutral-500 flex ga-0.5 items-center text-base font-normal font-['Nunito'] leading-relaxed">
+            <p className=" text-neutral-500 flex ga-0.5 items-center text-base font-normal  leading-relaxed">
               <Icon
                 icon={"ic:outline-phone"}
                 className='w-5 h-5 text-neutral-500'

@@ -8,9 +8,10 @@ import AssigneeRow from "Modules/Developer/Tasks/components/assignee-row";
 
 interface TaskOverViewProps {
   data: any;
+  isExpired?: boolean;
 }
 
-const TaskOverView: FC<TaskOverViewProps> = ({ data }) => {
+const TaskOverView: FC<TaskOverViewProps> = ({ data, isExpired }) => {
   return (
     <div className='space-y-6 my-6'>
       <div className={" "}>
@@ -40,20 +41,35 @@ const TaskOverView: FC<TaskOverViewProps> = ({ data }) => {
             <span className=' text-zinc-800 block text-lg font-medium leading-[27px]'>
               Date created
             </span>
-            <p className=" text-neutral-500 mt-1 text-base font-normal font-['Nunito'] leading-relaxed flex items-center gap-x-5">
+            <p className=" text-neutral-500 mt-1 text-base font-normal  leading-relaxed flex items-center gap-x-5">
               <span>
                 Date: {moment(data?.createdAt).format(AppConfig.date.format)}
               </span>{" "}
             </p>
           </div>
-          <div>
-            <span className=' text-zinc-800 block text-lg font-medium leading-[27px]'>
-              Time left
-            </span>
-            <p className=" text-neutral-500 mt-1 text-base font-normal font-['Nunito'] leading-relaxed flex items-center gap-x-5">
-              <span>{getTimeLeft(moment(data?.deadlineDate))} left</span>
-            </p>
-          </div>
+          {["Resolved", "Completed", "Pending"].includes(data?.status) ||
+          (["Assigned", "InProgress"].includes(data?.status) && isExpired) ? (
+            <div>
+              <span className=' text-zinc-800 block text-lg font-medium leading-[27px]'>
+                Deadline Date
+              </span>
+              <p className=" text-neutral-500 mt-1 text-base font-normal  leading-relaxed flex items-center gap-x-5">
+                <span>
+                  {moment(data?.deadlineDate).format(AppConfig.date.format)}{" "}
+                  left
+                </span>
+              </p>
+            </div>
+          ) : (
+            <div>
+              <span className=' text-zinc-800 block text-lg font-medium leading-[27px]'>
+                Time left
+              </span>
+              <p className=" text-neutral-500 mt-1 text-base font-normal  leading-relaxed flex items-center gap-x-5">
+                <span>{getTimeLeft(moment(data?.deadlineDate))} left</span>
+              </p>
+            </div>
+          )}
 
           <div>
             <span className=' text-zinc-800 block text-lg font-medium leading-[27px]'>

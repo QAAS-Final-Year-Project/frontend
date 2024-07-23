@@ -40,7 +40,7 @@ const SelectInput: FC<SelectInputProps> = ({
   defaultValue,
 }) => {
   return (
-    <div className={classNames(isFilter ? " " : "flex-col")}>
+    <div className={classNames(isFilter ? "flex items-center" : "flex-col")}>
       <label
         htmlFor={id}
         className={classNames(

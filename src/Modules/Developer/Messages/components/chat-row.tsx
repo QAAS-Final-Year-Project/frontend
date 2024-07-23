@@ -27,14 +27,14 @@ const ChatRow: FC<ChatRowProps> = ({ active, idx, avatarSrc, userName, timeAgo, 
       />
       <div className='flex-1'>
         <div className='w-full flex justify-between mb-1'>
-          <p className=" text-zinc-800 text-sm font-semibold font-['Nunito'] leading-[23px]">
+          <p className=" text-zinc-800 text-sm font-semibold  leading-[23px]">
             {userName}
           </p>
-          <span className="text-zinc-500 text-[13px] font-normal font-['Nunito'] leading-[27px]">
+          <span className="text-zinc-500 text-[13px] font-normal  leading-[27px]">
             {timeAgo}
           </span>
         </div>
-        <p className=" text-zinc-500 text-sm font-normal font-['Nunito'] leading-[25px]">
+        <p className=" text-zinc-500 text-sm font-normal  leading-[25px]">
           {message}
         </p>
       </div>

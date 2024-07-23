@@ -1,37 +1,30 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import OutlinedButton from "Shared/components/buttons/outline-button";
 import PrimaryButton from "Shared/components/buttons/primary-button";
-import DocumentUploadBox from "Shared/components/input/document-upload-box";
-import SearchSelectInput from "Shared/components/input/search-select-input";
-import TagsInput from "Shared/components/input/tags-input";
-import TextArea from "Shared/components/input/text-area";
-import TextInput from "Shared/components/input/text-input";
 import UploadButton from "Shared/components/input/upload-btn";
 import Header from "Shared/components/layout/header";
 import CardSectionWrapper from "Shared/components/wrapper/CardSectionWrapper";
 import { showToast } from "Shared/utils/alert";
 import { formatAndShowAxiosError } from "Shared/utils/errors";
 import { useFormik } from "formik";
-import _ from "lodash";
-import moment from "moment";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {  doResolveTask, getTask } from "./duck/fetch";
+import { doResolveTask, getTask } from "./duck/fetch";
 import { AxiosError } from "axios";
 import Loader from "Shared/components/suspense/loader";
 import RichInput from "Shared/components/input/rich-input";
+import { IResolveTaskSchema, ResolveTaskSchema } from "./schema";
 
-const projectPricing = ["Fixed Price", "Hourly "];
 const TesterResolvePage: FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { id } = useParams();
-  const form = useFormik<any>({
+  const form = useFormik<IResolveTaskSchema>({
     initialValues: {
       supportingDocuments: [],
       supportingDocumentUrls: [],
       notes: "",
     },
+    validationSchema: ResolveTaskSchema,
     onSubmit: async (values) => {
       mutation.mutate({
         id: id,
@@ -109,7 +102,7 @@ const TesterResolvePage: FC = () => {
         <form className='space-y-[30px]' onSubmit={form.handleSubmit}>
           <CardSectionWrapper
             icon={"ic:outline-create-new-folder"}
-            title=' Task Resolution Form'
+            title='Task Resolution Form'
           >
             <div className='mt-[30px]  space-y-7 mb-9'>
               <div className='grid grid-cols-3  px-[30px] gap-x-[30px] gap-y-7 flex-1 mb-3'>
@@ -118,8 +111,7 @@ const TesterResolvePage: FC = () => {
                     id='notes'
                     label='Tell the developer about your findings'
                     placeholder='eg. All good !'
-                    required={false}
-                    // rows={4}
+                    required={true}
                     {...form}
                   />
                 </div>

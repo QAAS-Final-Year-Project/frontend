@@ -1,7 +1,10 @@
 import { PlusSmallIcon } from "@heroicons/react/20/solid";
+import { Icon } from "@iconify/react";
+import { FailStampImage, PassesStampImage } from "assets";
 import AppConfig from "config";
 import { FC } from "react";
 import { Link } from "react-router-dom";
+import PrimaryButton from "Shared/components/buttons/primary-button";
 
 const BasicKnowledgeTest: FC<{ data: any; refetch: () => void }> = ({
   data,
@@ -14,43 +17,31 @@ const BasicKnowledgeTest: FC<{ data: any; refetch: () => void }> = ({
           <div className='p-4'>
             <div className='min-h-[600px]  rounded-lg border-2 mt-8 border-dashed items-center justify-center flex'>
               <div className='text-center'>
-                <svg
-                  className='mx-auto h-12 w-12 text-gray-400'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  stroke='currentColor'
-                  aria-hidden='true'
-                >
-                  <path
-                    vectorEffect='non-scaling-stroke'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z'
+                <div className='flex items-center justify-center mb-4'>
+                  <Icon
+                    icon={"lucide:clipboard-list"}
+                    className='text-[#333333]  text-center w-12 h-12'
                   />
-                </svg>
-                <h3 className='mt-2 text-sm font-semibold text-gray-900'>
-                  No Basic Knowledge Test Taken
+                </div>
+                <h3 className='mt-2  font-semibold text-gray-900'>
+                  Basic Knowledge test not yet taken
                 </h3>
-                <p className='mt-1 text-sm text-gray-500'>
+                <p className='mt-1  text-zinc-500'>
                   You have not taken the basic knowledge test yet.
                 </p>
                 <div className='mt-6'>
                   <Link
-                    to={
-                      AppConfig.typeForm.basicTestUri +
-                      data?.createdBy
-                    }
+                    to={AppConfig.typeForm.basicTestUri + data?.createdBy}
                     target='_blank'
                     // download
                     rel='noreferrer'
-                    className='inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
                   >
-                    <PlusSmallIcon
-                      className='-ml-0.5 mr-1.5 h-5 w-5'
-                      aria-hidden='true'
+                    <PrimaryButton
+                      icon={"ic:baseline-arrow-right-alt"}
+                      iconPosition='right'
+                      className='w-full '
+                      text='Take Test '
                     />
-                    Take Test
                   </Link>
                 </div>
               </div>
@@ -59,28 +50,52 @@ const BasicKnowledgeTest: FC<{ data: any; refetch: () => void }> = ({
         </div>
       ) : (
         <div className='p-4'>
-          <div className='min-h-[600px]  rounded-lg border-2 mt-8 border-dashed items-center justify-center flex'>
+          <div className='min-h-[600px] relative  rounded-lg border-2 mt-8 border-dashed items-center justify-center flex'>
+            <div className='flex justify-start absolute top-10 left-10'>
+              <img
+                src={
+                  data?.basicTest?.testScore <
+                  AppConfig.typeForm.basicTestPassMark
+                    ? FailStampImage
+                    : PassesStampImage
+                }
+                className='h-32 '
+                alt=''
+              />
+            </div>
             <div className='text-center'>
-              <svg
-                className='mx-auto h-12 w-12 text-gray-400'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-                aria-hidden='true'
-              >
-                <path
-                  vectorEffect='non-scaling-stroke'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z'
+              <div className='flex items-center justify-center mb-4'>
+                <Icon
+                  icon={"lucide:clipboard-check"}
+                  className='text-[#333333]  text-center w-12 h-12'
                 />
-              </svg>
-              <h3 className='mt-2 text-sm font-semibold text-gray-900'>
+              </div>
+              <h3 className='mt-2  font-semibold text-gray-900'>
                 You have taken the test
               </h3>
-              <p className='mt-1 text-sm text-gray-500'>Your test score is</p>
-              <div className='mt-6'>{data?.basicTest?.testScore}</div>
+              <p className='mt-1  text-gray-500'>Your test score is</p>
+              <div className='mt-4 text-4xl font-semibold'>
+                {data?.basicTest?.testScore}
+              </div>
+
+              {data?.basicTest?.testScore <
+                AppConfig.typeForm.basicTestPassMark && (
+                <div className='mt-6'>
+                  <Link
+                    to={AppConfig.typeForm.basicTestUri + data?.createdBy}
+                    target='_blank'
+                    // download
+                    rel='noreferrer'
+                  >
+                    <PrimaryButton
+                      icon={"ic:baseline-arrow-right-alt"}
+                      iconPosition='right'
+                      className='w-full '
+                      text='Retake '
+                    />
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

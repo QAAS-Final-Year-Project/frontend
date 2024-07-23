@@ -10,12 +10,24 @@ import { getTesterTaskBids } from "./duck/fetch";
 import { useQuery } from "@tanstack/react-query";
 import { formatAndShowAxiosError } from "Shared/utils/errors";
 import AppConfig from "config";
-import Loader from "Shared/components/suspense/loader";
 import useCookies from "Shared/hooks/cookies";
 import { isValidJSON } from "Shared/utils/data-structures";
 import UpdateBidContainer from "./update-bid";
 import CancelBidContainer from "./cancel-bid";
+import TesterBidRowShimmer from "./components/bid-shimmer";
+import PaginationComponent from "Shared/components/nav/pagination";
+import SortSelect from "Shared/components/input/sort-select";
 
+const sortOptions = [
+  { name: "Oldest", href: "createdAt" },
+  { name: "Latest", href: "-createdAt" },
+  { name: "Bidders: Highest First", href: "-meta.biddersCount" },
+  { name: "Bidders: Lowest First", href: "meta.biddersCount" },
+  { name: "Bid Amount: Lowest First", href: "amount" },
+  { name: "Bid Amount: Highest First", href: "-amount" },
+  { name: "Deadline: Earliest First", href: "deadlineDate" },
+  { name: "Deadline: Latest First", href: "-deadlineDate" },
+];
 const TesterBidsPage: FC = () => {
   const navigate = useNavigate();
   const [user, setUser] = useCookies("user");
@@ -30,6 +42,7 @@ const TesterBidsPage: FC = () => {
   const [current, setCurrent] = useUrlState("current");
   const [searchParams, setSearchParams] = useSearchParams();
   const [modal, setModal] = useUrlState("modal");
+  const [sortBy, setSortBy] = useUrlState("sortBy", "-createdAt");
 
   const dispatchAction = (id: string, action: "delete" | "update" | "edit") => {
     searchParams.set("modal", action);
@@ -44,13 +57,14 @@ const TesterBidsPage: FC = () => {
     isRefetching,
     refetch,
   } = useQuery({
-    queryKey: ["bids", page, pageSize, search, fromDate, toDate],
+    queryKey: ["bids", page, pageSize, search, fromDate, toDate, sortBy],
     queryFn: () =>
       getTesterTaskBids({
         page,
         pageSize,
         search,
         fromDate,
+        sort: sortBy,
         toDate,
         searchFields: ["name", "code", "description", "title"],
       }),
@@ -85,48 +99,67 @@ const TesterBidsPage: FC = () => {
           ]}
         />
       </div>
-      {isLoading ? (
-        <div className='min-h-[600px] flex items-center justify-center'>
-          <Loader />
-        </div>
-      ) : (
-        <div className='space-y-[30px] mb-4'>
-          <CardSectionWrapper icon={"ic:outline-gavel"} title='My Bid List'>
-            {data?.rows?.map((task) => {
-              const myBid = task.bidders?.find(
-                (bidder) => bidder?.bidder?._id === currentUser?._id
-              );
-              return (
-                <>
-                  <BidRow
-                    key={task._id}
-                    title={task.title}
-                    _id={task._id}
-                    date={task?.createdAt}
-                    biddersCount={task?.meta?.biddersCount}
-                    amount={myBid?.amount}
-                    deadlineDate={task?.deadlineDate}
-                    onDelete={() => dispatchAction(task._id, "delete")}
-                    onUpdate={() => dispatchAction(task._id, "edit")}
-                  />
-                  <UpdateBidContainer
-                    values={{
-                      amount: myBid?.amount,
-                      // deadlineDate: task?.deadlineDate,
-                      notes: myBid?.notes,
-                    }}
-                    open={modal === "edit"}
-                    setOpen={(val: boolean) =>
-                      setModal(val ? "edit" : undefined)
-                    }
-                    refetch={refetch}
-                  />
-                </>
-              );
-            })}
-          </CardSectionWrapper>
-        </div>
-      )}
+
+      <div className='space-y-[30px] mb-4'>
+        <CardSectionWrapper
+          icon={"ic:outline-gavel"}
+          title='My Bid List'
+          extraElement={
+            <SortSelect
+              options={sortOptions}
+              setFieldValue={(_, value) => {
+                console.log(value);
+                setSortBy(value);
+              }}
+              values={{
+                sortBy,
+              }}
+              id='sortBy'
+            />
+          }
+        >
+          {isLoading && (
+            <>
+              {[1, 2, 3].map((index) => (
+                <TesterBidRowShimmer key={index} />
+              ))}
+            </>
+          )}
+          {data?.rows?.map((task) => {
+            const myBid = task.bidders?.find(
+              (bidder) => bidder?.bidder?._id === currentUser?._id
+            );
+            return (
+              <>
+                <BidRow
+                  key={task._id}
+                  title={task.title}
+                  _id={task._id}
+                  date={task?.createdAt}
+                  biddersCount={task?.meta?.biddersCount}
+                  amount={myBid?.amount}
+                  deadlineDate={task?.deadlineDate}
+                  onDelete={() => dispatchAction(task._id, "delete")}
+                  onUpdate={() => dispatchAction(task._id, "edit")}
+                />
+                <UpdateBidContainer
+                  values={{
+                    amount: myBid?.amount,
+                    // deadlineDate: task?.deadlineDate,
+                    notes: myBid?.notes,
+                  }}
+                  open={modal === "edit"}
+                  setOpen={(val: boolean) => setModal(val ? "edit" : undefined)}
+                  refetch={refetch}
+                />
+              </>
+            );
+          })}
+        </CardSectionWrapper>
+      </div>
+
+      {<PaginationComponent data={data} />}
+
       {current && (
         <CancelBidContainer
           open={modal === "delete"}

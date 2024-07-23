@@ -3,9 +3,12 @@ import {
   ExclamationTriangleIcon,
   PlusSmallIcon,
 } from "@heroicons/react/20/solid";
+import { Icon } from "@iconify/react";
+import { FailStampImage, PassesStampImage } from "assets";
 import AppConfig from "config";
 import { FC } from "react";
 import { Link } from "react-router-dom";
+import PrimaryButton from "Shared/components/buttons/primary-button";
 
 const TechnicalKnowledgeTest: FC<{ data: any; refetch: () => void }> = ({
   data,
@@ -18,25 +21,16 @@ const TechnicalKnowledgeTest: FC<{ data: any; refetch: () => void }> = ({
           <div className='p-4'>
             <div className='min-h-[600px]  rounded-lg border-2 mt-8 border-dashed items-center justify-center flex'>
               <div className='text-center'>
-                <svg
-                  className='mx-auto h-12 w-12 text-gray-400'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  stroke='currentColor'
-                  aria-hidden='true'
-                >
-                  <path
-                    vectorEffect='non-scaling-stroke'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z'
+                <div className='flex items-center justify-center mb-4'>
+                  <Icon
+                    icon={"lucide:clipboard-list"}
+                    className='text-[#333333]  text-center w-12 h-12'
                   />
-                </svg>
-                <h3 className='mt-2 text-sm font-semibold text-gray-900'>
-                  No Technical Test Taken
+                </div>
+                <h3 className='mt-2  font-semibold text-gray-900'>
+                  Technical Knowledge test not yet taken
                 </h3>
-                <p className='mt-1 text-sm text-gray-500'>
+                <p className='mt-1  text-zinc-500'>
                   You have not taken the technical knowledge test yet.
                 </p>
                 <div className='mt-6'>
@@ -45,13 +39,13 @@ const TechnicalKnowledgeTest: FC<{ data: any; refetch: () => void }> = ({
                     target='_blank'
                     // download
                     rel='noreferrer'
-                    className='inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
                   >
-                    <PlusSmallIcon
-                      className='-ml-0.5 mr-1.5 h-5 w-5'
-                      aria-hidden='true'
+                    <PrimaryButton
+                      icon={"ic:baseline-arrow-right-alt"}
+                      iconPosition='right'
+                      className='w-full '
+                      text='Take Test '
                     />
-                    Take Test
                   </Link>
                 </div>
               </div>
@@ -60,70 +54,100 @@ const TechnicalKnowledgeTest: FC<{ data: any; refetch: () => void }> = ({
         </div>
       ) : (
         <div className='p-4'>
-          <div className='min-h-[600px]  rounded-lg border-2 mt-8 border-dashed items-center justify-center flex'>
+          <div className='min-h-[600px] relative  rounded-lg border-2 mt-8 border-dashed items-center justify-center flex'>
+            <div className='flex justify-start absolute top-10 left-10'>
+              <img
+                src={
+                  data?.technicalTest?.testScore <
+                  AppConfig.typeForm.technicalTestPassMark
+                    ? FailStampImage
+                    : PassesStampImage
+                }
+                className='h-32 '
+                alt=''
+              />
+            </div>
             <div className='text-center'>
-              <svg
-                className='mx-auto h-12 w-12 text-gray-400'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-                aria-hidden='true'
-              >
-                <path
-                  vectorEffect='non-scaling-stroke'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z'
+              <div className='flex items-center justify-center mb-4'>
+                <Icon
+                  icon={"lucide:clipboard-check"}
+                  className='text-[#333333]  text-center w-12 h-12'
                 />
-              </svg>
-              <h3 className='mt-2 text-sm font-semibold text-gray-900'>
+              </div>
+              <h3 className='mt-2  font-semibold text-gray-900'>
                 You have taken the test
               </h3>
-              <p className='mt-1 text-sm text-gray-500'>Your test score is</p>
-              <div className='mt-6'>{data?.technicalTest?.testScore}</div>
-              {data?.status == "Approved" ? (
-                <div className='rounded-md bg-green-50 p-4 w-full mt-1'>
-                  <div className='flex justify-start'>
-                    <div className='flex-shrink-0'>
-                      <CheckCircleIcon
-                        className='h-5 w-5 text-green-400'
-                        aria-hidden='true'
-                      />
-                    </div>
-                    <div className='ml-3'>
-                      <h3 className='text-sm font-medium text-green-800 text-start'>
-                        Congratulations
-                      </h3>
-                      <div className='mt-2 text-sm text-green-700'>
-                        <p>
-                          Your account has been successfully verified and
-                        </p>
+              <p className='mt-1  text-gray-500'>Your test score is</p>
+              <div className='mt-4 mb-4 text-4xl font-semibold'>
+                {data?.technicalTest?.testScore}
+              </div>
+              {data?.technicalTest?.testScore >=
+                AppConfig.typeForm.technicalTestPassMark && (
+                <>
+                  {data?.status == "Approved" ? (
+                    <div className='rounded-md bg-green-50 p-4 w-full mt-1'>
+                      <div className='flex justify-start'>
+                        <div className='flex-shrink-0'>
+                          <CheckCircleIcon
+                            className='h-5 w-5 text-green-400'
+                            aria-hidden='true'
+                          />
+                        </div>
+                        <div className='ml-3'>
+                          <h3 className='font-medium text-green-800 text-start'>
+                            Congratulations
+                          </h3>
+                          <div className='mt-2 text-start text-green-700'>
+                            <p>
+                              Your account has been successfully verified and
+                              approved
+                            </p>
+                            <p>You can begin to take on projects</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              ) : (
-                <div className='rounded-md bg-yellow-50 p-4 w-full mt-1'>
-                  <div className='flex justify-start'>
-                    <div className='flex-shrink-0'>
-                      <ExclamationTriangleIcon
-                        className='h-5 w-5 text-yellow-400'
-                        aria-hidden='true'
-                      />
-                    </div>
-                    <div className='ml-3'>
-                      <h3 className='text-sm font-medium text-yellow-800 text-start'>
-                        Attention
-                      </h3>
-                      <div className='mt-2 text-sm text-yellow-700'>
-                        <p>
-                          Your assessment is completed we are reviewing your
-                          profile and will get back to you soon.
-                        </p>
+                  ) : (
+                    <div className='rounded-md bg-yellow-50 p-4 w-full mt-1'>
+                      <div className='flex justify-start'>
+                        <div className='flex-shrink-0'>
+                          <ExclamationTriangleIcon
+                            className='h-5 w-5 text-yellow-400'
+                            aria-hidden='true'
+                          />
+                        </div>
+                        <div className='ml-3'>
+                          <h3 className='text-sm font-medium text-yellow-800 text-start'>
+                            Attention
+                          </h3>
+                          <div className='mt-2 text-sm text-yellow-700'>
+                            <p>
+                              Your assessment is completed we are reviewing your
+                              profile and will get back to you soon.
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
+                </>
+              )}
+              {data?.technicalTest?.testScore <
+                AppConfig.typeForm.technicalTestPassMark && (
+                <div className='mt-6'>
+                  <Link
+                    to={AppConfig.typeForm.technicalTestUri + data?.createdBy}
+                    target='_blank'
+                    // download
+                    rel='noreferrer'
+                  >
+                    <PrimaryButton
+                      icon={"ic:baseline-arrow-right-alt"}
+                      iconPosition='right'
+                      className='w-full '
+                      text='Retake '
+                    />
+                  </Link>
                 </div>
               )}
             </div>

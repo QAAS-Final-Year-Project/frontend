@@ -1,25 +1,41 @@
-import Header from "Shared/components/layout/header";
 import CardSectionWrapper from "Shared/components/wrapper/CardSectionWrapper";
 import { FC } from "react";
-import TaskRow from "./task-row";
-import { StatusType } from "Shared/components/chips/status-chip";
-import SelectInput from "Shared/components/input/select-input";
 import FilterSelectInput from "Shared/components/input/filter-select-input";
-import { sortBy } from "lodash";
 import BidderRow from "./bidder-row";
 import { useSearchParams } from "react-router-dom";
 import useUrlState from "Shared/hooks/use-url-state";
 import AcceptOfferContainer from "../accept";
 import SendMessageContainer from "../send-message";
+import SortSelect from "Shared/components/input/sort-select";
+import _ from "lodash";
+const sortOptions = [
+  { name: "Bid Amount: Lowest First", href: "amount" },
+  { name: "Bid Amount: Highest First", href: "-amount" },
+  { name: "Rating: Lowest First", href: "bidder.rating" },
+  { name: "Rating: Highest First", href: "-bidder.rating" },
+];
 
-const TaskBidders: FC<{ data: any; refetch: () => void }> = ({
+const TaskBidders: FC<{ data: any; refetch: () => void , hasExpired: boolean}> = ({
   data,
   refetch,
+  hasExpired
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [modal, setModal] = useUrlState("modal");
   const [current, setCurrent] = useUrlState("current");
+  const [sortBy, setSortBy] = useUrlState("sortBy", "-amount");
 
+  <SortSelect
+    options={sortOptions}
+    setFieldValue={(_, value) => {
+      console.log(value);
+      setSortBy(value);
+    }}
+    values={{
+      sortBy,
+    }}
+    id='sortBy'
+  />;
   const dispatchAction = (
     id: string,
     action: "delete" | "accept" | "message"
@@ -35,24 +51,31 @@ const TaskBidders: FC<{ data: any; refetch: () => void }> = ({
         <CardSectionWrapper
           title={""}
           extraElement={
-            <div>
-              <FilterSelectInput
-                id='sortBy'
-                label='Sort By'
-                setFieldValue={() => {}}
-                options={[
-                  { label: "Highest First", value: "HighestFirst" },
-                  { label: "Relevance", value: "ANother" },
-                ]}
-                values={{
-                  sortBy: "HighestFirst",
-                }}
-                //   {...form}
-              />
-            </div>
+            <SortSelect
+              options={sortOptions}
+              setFieldValue={(_, value) => {
+                console.log(value);
+                setSortBy(value);
+              }}
+              values={{
+                sortBy,
+              }}
+              id='sortBy'
+            />
           }
         >
-          {data?.bidders?.map((bidder: any, idx) => {
+          {_.orderBy(
+            data?.bidders,
+            [
+              (bidder) => {
+                const sortKey = sortBy.startsWith("-")
+                  ? sortBy.slice(1)
+                  : sortBy;
+                return bidder[sortKey];
+              },
+            ],
+            sortBy.startsWith("-") ? ["desc"] : ["asc"]
+          )?.map((bidder: any, idx) => {
             return (
               <>
                 <BidderRow
@@ -60,10 +83,11 @@ const TaskBidders: FC<{ data: any; refetch: () => void }> = ({
                   id={bidder?.bidder?._id}
                   country={bidder?.bidder?.country}
                   // deliveryTime={bidder?.deliveryTime}
-                  showActions={data?.status === "Pending"}
+                  showActions={data?.status === "Pending" && !hasExpired}
                   email={bidder?.bidder?.emailAddress}
                   fixedPrice={bidder?.amount}
                   fullName={bidder?.bidder?.fullName}
+                  
                   phoneNumber={bidder?.bidder?.phoneNumber}
                   profileImageUrl={bidder?.bidder?.profileImageUrl}
                   rating={bidder?.bidder?.rating}

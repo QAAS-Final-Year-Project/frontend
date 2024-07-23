@@ -5,7 +5,7 @@ import { classNames, wrapImage } from "Shared/utils/ui";
 interface AvatarProps {
   src?: string;
   alt: string;
-  size?: "sm" | "md" | "lg" | "xl" | "2xl";
+  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "home";
   disabled?: boolean;
   shape?: "circle" | "square";
 }
@@ -26,6 +26,7 @@ const Avatar: FC<AvatarProps> = ({
             size === "md" ? "h-14 w-14 " : "",
             size === "lg" ? "h-20 w-20 " : "",
             size === "xl" ? "h-28 w-28 " : "",
+            size=== "home" ? "h-[130px] w-[130px]" : "" ,
             size === "2xl" ? "h-36 w-36" : "",
             " object-cover z-0",
             shape === "circle" ? "rounded-full" : "rounded"

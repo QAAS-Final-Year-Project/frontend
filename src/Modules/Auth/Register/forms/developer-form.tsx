@@ -1,29 +1,26 @@
 import { FC, useEffect, useState } from "react";
-import { classNames } from "Shared/utils/ui";
 import useUrlState from "Shared/hooks/use-url-state";
 import { Link, useNavigate } from "react-router-dom";
 import TextInput from "Shared/components/input/text-input";
 import { useFormik } from "formik";
-import * as yup from "yup";
-import { Countries, Country } from "data/index.types";
-import SelectInput from "Shared/components/input/select-input";
+import { Countries } from "data/index.types";
 import lodash from "lodash";
 import SearchSelectInput from "Shared/components/input/search-select-input";
 import { useMutation } from "@tanstack/react-query";
 import { doRegisterDeveloperUser } from "../../duck/fetch";
 import { showToast } from "Shared/utils/alert";
 import { isAxiosError } from "axios";
-import LoadingIcon from "Shared/components/icons/loading-icon";
-import AuthLogo from "../../components/auth-logo";
 import { DeveloperUserSchema, ICreateDeveloperUser } from "./schema";
 import PrimaryButton from "Shared/components/buttons/primary-button";
 import Header from "Shared/components/layout/header";
 import Container from "Shared/components/layout/container";
+import IconButton from "Shared/components/buttons/icon-button";
 
 const DeveloperForm: FC = () => {
-  const [searchTerm, setSearchTerm] = useUrlState<string>("q", "");
   const [accountType] = useUrlState<string>("accountType");
-
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState(false);
   const mutation = useMutation({
     mutationFn: doRegisterDeveloperUser,
     onSuccess: (data) => {
@@ -180,6 +177,18 @@ const DeveloperForm: FC = () => {
                   placeholder='Password'
                   icon='ic:outline-lock'
                   required
+                  postText={
+                    <IconButton
+                      iconClassName='!text-neutral-400'
+                      size='sm'
+                      onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                      icon={
+                        isPasswordVisible
+                          ? "ic:outline-visibility"
+                          : "ic:outline-visibility-off"
+                      }
+                    />
+                  }
                   {...form}
                 />
               </div>
@@ -192,6 +201,20 @@ const DeveloperForm: FC = () => {
                   placeholder='Repeat Password'
                   icon='ic:outline-lock'
                   required
+                  postText={
+                    <IconButton
+                      iconClassName='!text-neutral-400'
+                      size='sm'
+                      onClick={() =>
+                        setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
+                      }
+                      icon={
+                        isConfirmPasswordVisible
+                          ? "ic:outline-visibility"
+                          : "ic:outline-visibility-off"
+                      }
+                    />
+                  }
                   {...form}
                 />
               </div>
@@ -200,7 +223,7 @@ const DeveloperForm: FC = () => {
                 text='Login'
                 size='md'
                 className='w-full'
-                // loading={mutation.isPending}
+                loading={mutation.isPending}
                 type='submit'
               />
             </form>

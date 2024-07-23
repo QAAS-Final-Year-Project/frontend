@@ -11,8 +11,8 @@ import Modal from "Shared/components/overlays/modal";
 import PrimaryButton from "Shared/components/buttons/primary-button";
 import { getTask } from "../Tasks/duck/fetch";
 import { AxiosError } from "axios";
-import { YesNo } from "data";
 import StarRatingInput from "Shared/components/input/rating-input";
+import { ITesterRatingSchema, TesterRatingSchema } from "./schema";
 
 export default function ReviewTaskContainer({
   open,
@@ -45,17 +45,17 @@ export default function ReviewTaskContainer({
     onError: (error) => formatAndShowAxiosError(error),
   });
 
-  const form = useFormik<any>({
+  const form = useFormik<ITesterRatingSchema>({
     initialValues: {
-      rating: null,
+      rating: undefined,
       review: "",
     },
+    validationSchema: TesterRatingSchema,
     onSubmit: async (values) => {
       console.log(values);
       mutation.mutate({
         values: {
           ...values,
-          amount: values.rate,
         },
         id: current,
       });
@@ -76,42 +76,44 @@ export default function ReviewTaskContainer({
       <form onSubmit={form.handleSubmit}>
         <div className='flex flex-col space-y-7'>
           <p className='  '>
-            <span className='text-center text-zinc-500 text-base font-normal  leading-[27px]'>
+            <span className=' text-zinc-500 text-base font-normal  leading-[27px]'>
               Rate your work with
             </span>{" "}
             <span>
               <Link
-                to={"/testers/" + query.data?.data?.assignee?._id}
-                className='text-center text-blue-700 hover:text-blue-500 text-base font-medium  leading-[27px]  '
+                to={"/developers/" + query.data?.data?.createdBy?._id}
+                className=' text-blue-700 hover:text-blue-500 text-base font-medium  leading-[27px]  '
               >
                 {query.data?.data?.createdBy?.fullName}
               </Link>{" "}
             </span>{" "}
-            <span className='text-center text-zinc-500 text-base font-normal  leading-[27px]'>
+            <span className=' text-zinc-500 text-base font-normal  leading-[27px]'>
               on task
-            </span>
-            {" "}
-
+            </span>{" "}
             <Link
               to={"/dashboard/tasks/" + query.data?.data?._id}
-              className='text-center text-blue-700 hover:text-blue-500 text-base font-medium  leading-[27px]  '
+              className=' text-blue-700 hover:text-blue-500 text-base font-medium  leading-[27px]  '
             >
               {query.data?.data?.title}
             </Link>
           </p>
 
           <div>
-            <p className='text-zinc-800 text-base font-semibold flex items-center gap-x-1  leading-[27px]  w-max mb-1'>
+            <p className='text-zinc-800 text-base font-semibold flex  gap-x-1  leading-[27px]  w-max mb-1'>
               Your Rating
             </p>
-            <StarRatingInput
-              onRatingChange={(val) => {
-                form.setFieldValue("rating", val);
-              }}
-            />
+            <div className='text-start'>
+              <StarRatingInput
+                id='rating'
+                onRatingChange={(val) => {
+                  form.setFieldValue("rating", val);
+                }}
+                {...form}
+              />
+            </div>
           </div>
 
-          <div className='w-full mb-8'>
+          <div className='w-full mb-8 text-start'>
             <TextArea
               id='review'
               label=''

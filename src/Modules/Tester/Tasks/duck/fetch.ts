@@ -39,6 +39,6 @@ export const doAssignTask = async (params: { id: string, values: any }) => {
 export const doStartTask = async (params: { id: string, values: any }) => {
     return AxiosDataService.post(`/api/tasks/${params.id}/start`, params.values)
 }
-export const doCancelTask = async (params: { id: string, values: any }) => {
-    return AxiosDataService.post(`/api/tasks/${params.id}/cancel`, params.values)
+export const doCancelTask = async (params: { id: string, }) => {
+    return AxiosDataService.post(`/api/tasks/${params.id}/cancel`)
 }

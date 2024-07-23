@@ -3,7 +3,7 @@ import CardSectionWrapper from "Shared/components/wrapper/CardSectionWrapper";
 import { FC } from "react";
 import TaskRow from "./components/task-row";
 import { StatusType } from "Shared/components/chips/status-chip";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import useUrlState from "Shared/hooks/use-url-state";
 import AppConfig from "config";
 import { useQuery } from "@tanstack/react-query";
@@ -11,12 +11,22 @@ import { getTasks } from "./duck/fetch";
 import { AxiosError } from "axios";
 import { formatAndShowAxiosError } from "Shared/utils/errors";
 import useTableData from "Shared/utils/use-table-data";
-import PageLoader from "Shared/components/suspense/page-loader";
 import Loader from "Shared/components/suspense/loader";
 import PaginationComponent from "Shared/components/nav/pagination";
+import DeveloperTaskRowShimmer from "./components/task-shimmer";
+import SortSelect from "Shared/components/input/sort-select";
 
+const sortOptions = [
+  { name: "Oldest", href: "createdAt" },
+  { name: "Latest", href: "-createdAt" },
+  { name: "Bidders: Highest First", href: "-meta.biddersCount" },
+  { name: "Bidders: Lowest First", href: "meta.biddersCount" },
+  { name: "Bid Amount: Lowest First", href: "amount" },
+  { name: "Bid Amount: Highest First", href: "-amount" },
+  { name: "Deadline: Earliest First", href: "deadlineDate" },
+  { name: "Deadline: Latest First", href: "-deadlineDate" },
+];
 const DeveloperTasksPage: FC = () => {
-  const navigate = useNavigate();
   const [page] = useUrlState<number>("page", 1);
   const [pageSize] = useUrlState<number>(
     "pageSize",
@@ -25,9 +35,8 @@ const DeveloperTasksPage: FC = () => {
   const [search, setSearch] = useUrlState<string>("search", "");
   const [fromDate] = useUrlState<any>("fromDate");
   const [toDate] = useUrlState<any>("toDate");
-  const [current, setCurrent] = useUrlState("current");
   const [searchParams, setSearchParams] = useSearchParams();
-  const [modal, setModal] = useUrlState("modal");
+  const [sortBy, setSortBy] = useUrlState("sortBy", "-createdAt");
 
   const dispatchAction = (id: string, action: "delete" | "update") => {
     searchParams.set("modal", action);
@@ -35,18 +44,15 @@ const DeveloperTasksPage: FC = () => {
     setSearchParams(searchParams);
   };
 
-  const {
-    data: queryData,
-    isLoading,
-    isRefetching,
-    refetch,
-  } = useQuery({
-    queryKey: ["my-tasks", page, pageSize, search, fromDate, toDate],
+  const { data: queryData, isLoading } = useQuery({
+    queryKey: ["my-tasks", page, pageSize, search, fromDate, toDate, sortBy],
     queryFn: () =>
       getTasks({
         page,
         pageSize,
         search,
+        sort: sortBy,
+
         fromDate,
         toDate,
         searchFields: ["name", "code", "description", "title"],
@@ -61,18 +67,6 @@ const DeveloperTasksPage: FC = () => {
     rows: queryData?.data?.rows || [],
     count: queryData?.data?.total || 0,
   });
-  const sampleTask = {
-    id: "test",
-    taskName: "Design a Landing Page",
-    status: "Expiring",
-    statusType: "warning" as StatusType,
-    timeLeft: "23 hours left",
-    biddersCount: 3,
-    avgBid: 22,
-    hourlyRate: "$15 - $30",
-    onDelete: () => console.log("Delete action"),
-    onUpdate: () => console.log("Update action"),
-  };
 
   return (
     <section>
@@ -99,11 +93,26 @@ const DeveloperTasksPage: FC = () => {
         <CardSectionWrapper
           icon={"ic:outline-create-new-folder"}
           title='My Tasks'
+          extraElement={
+            <SortSelect
+              options={sortOptions}
+              setFieldValue={(_, value) => {
+                console.log(value);
+                setSortBy(value);
+              }}
+              values={{
+                sortBy,
+              }}
+              id='sortBy'
+            />
+          }
         >
           {isLoading && (
-            <div className='min-h-[400px] flex items-center justify-center'>
-              <Loader />
-            </div>
+            <>
+              {[1, 2, 3].map((index) => (
+                <DeveloperTaskRowShimmer key={index} />
+              ))}
+            </>
           )}
           {data?.rows.map((task) => (
             <TaskRow

@@ -17,6 +17,7 @@ interface RangeInputProps {
   min?: number;
   labelHidden?: boolean;
   max?: number;
+  multiple?: boolean;
 }
 const RangeInput: FC<RangeInputProps> = ({
   id,
@@ -32,6 +33,7 @@ const RangeInput: FC<RangeInputProps> = ({
   disabled,
   max,
   min,
+  multiple,
 }) => {
   const [centWidth, setCentWidth] = useState(0);
 
@@ -40,6 +42,14 @@ const RangeInput: FC<RangeInputProps> = ({
     const cent = ((value - min) / (max - min)) * 100;
     setCentWidth(cent);
   }, [_.get(values, id)]);
+
+  useEffect(() => {
+    const value = _.get(values, id);
+    const rangeInput = document.getElementById(id) as HTMLInputElement;
+    if (rangeInput) {
+      rangeInput.value = value?.toString();
+    }
+  }, [values, id]);
   return (
     <>
       {!labelHidden && (
@@ -54,6 +64,7 @@ const RangeInput: FC<RangeInputProps> = ({
         <input
           type='range'
           min={min}
+          multiple={multiple}
           onChange={handleChange}
           onBlur={handleBlur}
           name={id}

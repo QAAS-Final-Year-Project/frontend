@@ -10,10 +10,18 @@ export interface IGetFilter {
     fromDate?: any;
     toDate?: any;
     status?: string;
+    sort?: string
     searchFields?: string | string[];
-    search?:string
-isRated?:boolean
-    exportType?:string
-    gender?:string
-    subscriptionId?:string
+    search?: string
+    isRated?: boolean
+    exportType?: string
+    isExpired?:boolean
+    populate?: string | string[];
+    gender?: string
+    type?: string
+    subscriptionId?: string
+    minAmount?: number
+    maxAmount?: number
+    minBiddersCount?: number
+    maxBiddersCount?: number
 }

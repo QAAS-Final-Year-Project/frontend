@@ -17,23 +17,24 @@ import moment from "moment";
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { doCreateTask } from "./duck/fetch";
+import RichInput from "Shared/components/input/rich-input";
+import { CreateTaskSchema, ICreateTaskSchema } from "./schema";
 
 const projectPricing = ["Fixed Price", "Hourly "];
 const DeveloperCreateTasksPage: FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const form = useFormik<any>({
+  const form = useFormik<ICreateTaskSchema>({
     initialValues: {
       supportingDocuments: [],
       supportingDocumentUrls: [],
-
       title: "",
       description: "",
       amount: 0,
       tags: [],
       deadlineDate: "",
     },
-    // validationSchema: TesterUserSchema,
+    validationSchema: CreateTaskSchema,
     onSubmit: async (values) => {
       mutation.mutate({
         ...values,
@@ -102,13 +103,13 @@ const DeveloperCreateTasksPage: FC = () => {
                   {...form}
                 />
               </div>
-              <div className='col-span-3'>
-                <TextArea
+              <div className='col-span-3 mb-9'>
+                <RichInput
                   id='description'
                   label='Describe the task'
-                  placeholder='...'
+                  placeholder='eg. Test this website for me'
                   required={false}
-                  rows={4}
+                  // rows={4}
                   {...form}
                 />
               </div>

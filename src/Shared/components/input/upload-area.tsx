@@ -106,7 +106,7 @@ const UploadArea: React.FC<UploadAreaProps> = ({
         const data = new FormData();
         const file = acceptedFiles[0];
         data.append("file", file);
-       await uploadFileToFirebase("identityImages/", file)
+        await uploadFileToFirebase("identityImages/", file)
           .then((fileUrl) => {
             if (data) setFieldValue?.(id, fileUrl as string);
           })
@@ -147,7 +147,10 @@ const UploadArea: React.FC<UploadAreaProps> = ({
 
   return (
     <>
-      <label htmlFor={id} className='block text-sm font-medium text-gray-700'>
+      <label
+        htmlFor={id}
+        className='text-zinc-800 text-base flex items-center gap-x-1  leading-[27px]  w-max'
+      >
         {label} {required ? <span className='text-red-500'>*</span> : ""}
       </label>
       <div
@@ -155,7 +158,7 @@ const UploadArea: React.FC<UploadAreaProps> = ({
         id={id}
         className={classNames(
           className,
-          "relative group flex-1 flex border-2 mt-1 border-gray-300 border-dashed rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 asp"
+          "relative group flex-1 flex border-2 mt-3 border-gray-300 border-dashed rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 asp"
         )}
       >
         <input
@@ -184,7 +187,7 @@ const UploadArea: React.FC<UploadAreaProps> = ({
                 />
               </svg>
               <div className='flex text-sm justify-center text-gray-600'>
-                <span className='text-center cursor-pointer bg-white rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500'>
+                <span className='text-center cursor-pointer bg-white rounded font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500'>
                   Upload a file
                 </span>
               </div>
@@ -263,7 +266,7 @@ const UploadArea: React.FC<UploadAreaProps> = ({
                   />
                 </svg>
                 <div className='flex text-sm justify-center text-gray-600'>
-                  <span className='text-center cursor-pointer  rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500'>
+                  <span className='text-center cursor-pointer  rounded font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500'>
                     Upload a file
                   </span>
                 </div>

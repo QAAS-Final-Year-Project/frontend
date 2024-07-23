@@ -32,7 +32,7 @@ const NoteCard: FC<NoteCardProps> = ({ note, priority,date, onDelete, onUpdate }
         <p className=' text-neutral-500 text-sm font-normal  leading-normal'>
           {note}
         </p>
-        <span className="text-neutral-400 text-sm font-normal font-['Nunito'] leading-snug">
+        <span className="text-neutral-400 text-sm font-normal  leading-snug">
           {moment(date).fromNow()}
           </span>
         </div>

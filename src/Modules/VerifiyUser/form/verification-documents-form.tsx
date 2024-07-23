@@ -1,26 +1,23 @@
 import { FormikProps, useFormik } from "formik";
-import { FC, useEffect } from "react";
+import { FC,  } from "react";
 import {
   IVerifyUserFormSchema,
-  AccountTypeSchema,
   VerificationDocumentsSchema,
 } from "./schema";
 import moment from "moment";
 import lodash from "lodash";
 import { classNames, wrapClick } from "Shared/utils/ui";
-import SelectInput from "Shared/components/input/select-input";
-import TextInput from "Shared/components/input/text-input";
 import DocumentUploadBox from "Shared/components/input/document-upload-box";
 import SearchSelectInput from "Shared/components/input/search-select-input";
 import { VerificationDocumentTypes } from "data";
-import { PlusIcon } from "@heroicons/react/24/outline";
 import _ from "lodash";
 import {
   ExclamationTriangleIcon,
-  InformationCircleIcon,
-  XMarkIcon,
+
 } from "@heroicons/react/20/solid";
 import TextButton from "Shared/components/buttons/text-button";
+import PrimaryButton from "Shared/components/buttons/primary-button";
+import OutlinedButton from "Shared/components/buttons/outline-button";
 
 interface VerificationDocumentsFormProps {
   handleNext: (values: IVerifyUserFormSchema["verificationDocuments"]) => void;
@@ -41,6 +38,7 @@ const VerificationDocumentsForm: FC<VerificationDocumentsFormProps> = ({
   step,
   lastStep,
   values,
+  handlePrevious
 }) => {
   const form = useFormik<IVerifyUserFormSchema["verificationDocuments"]>({
     initialValues,
@@ -77,7 +75,9 @@ const VerificationDocumentsForm: FC<VerificationDocumentsFormProps> = ({
     >
       <div className='space-y-6 divide-y divide-gray-200 p-4 md:p-6 flex-1 overflow-y-auto'>
         <div>
-          <span className='text-xs font-light'>Verification Documents</span>
+          <span className='text-zinc-800 text-sm font-semibold leading-[27px]'>
+            Verification Documents
+          </span>
           <div className='grid grid-cols-3 gap-6 mt-2'>
             <div className='col-span-3'>
               <div className='flex items-center justify-between'>
@@ -102,10 +102,10 @@ const VerificationDocumentsForm: FC<VerificationDocumentsFormProps> = ({
                         />
                       </div>
                       <div className='ml-3'>
-                        <h3 className='text-sm font-medium text-yellow-800'>
+                        <h3 className='font-medium text-yellow-800'>
                           Attention
                         </h3>
-                        <div className='mt-2 text-sm text-yellow-700'>
+                        <div className='mt-2  text-yellow-700'>
                           <p>
                             Since you have selected the Starter account type,
                             you are not required to submit any verification
@@ -222,6 +222,7 @@ const VerificationDocumentsForm: FC<VerificationDocumentsFormProps> = ({
                         {isLast && (
                           <TextButton
                             text='Add Document'
+                            size="md"
                             icon={"uil:plus"}
                             onClick={wrapClick(() =>
                               addItem("verificationDocuments")
@@ -239,24 +240,27 @@ const VerificationDocumentsForm: FC<VerificationDocumentsFormProps> = ({
         </div>
       </div>
 
-      <div className='bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:py-4 sm:px-6 flex flex-row-reverse border-t border-gray-200'>
-        <button
-          type='submit'
-          // disabled={!form.isValid}
-          className={classNames(
-            form.isValid ? "hover:bg-primary-700" : "cursor-not-allowed",
-            "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-600 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 ml-3 sm:text-sm disabled:bg-gray-400 sm:w-auto disabled:cursor-not-allowed"
-          )}
-        >
-          Next
-        </button>
-        <button
+      <div className='bg-gray-50 gap-x-3 dark:bg-gray-800 px-4 py-3 sm:py-4 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200'>
+        <PrimaryButton
           type='button'
-          className='w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-900 text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 hover:dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'
+          size='sm'
+          onClick={wrapClick(form.handleSubmit)}
+          text='Next'
+        />
+          <OutlinedButton
+            type='button'
+            size='sm'
+            text='Previous'
+          onClick={wrapClick(handlePrevious)}
+          
+        />
+          
+        <OutlinedButton
+          type='button'
+          size='sm'
+          text='Cancel'
           onClick={wrapClick(form.resetForm)}
-        >
-          Cancel
-        </button>
+       />
       </div>
     </form>
   );

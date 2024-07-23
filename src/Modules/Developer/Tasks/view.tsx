@@ -1,20 +1,12 @@
 import Header from "Shared/components/layout/header";
-import CardSectionWrapper from "Shared/components/wrapper/CardSectionWrapper";
 import { FC } from "react";
-import TaskRow from "./components/task-row";
 import StatusChip, { StatusType } from "Shared/components/chips/status-chip";
-import SelectInput from "Shared/components/input/select-input";
-import FilterSelectInput from "Shared/components/input/filter-select-input";
 import { sortBy } from "lodash";
-import BidderRow from "./components/bidder-row";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import useUrlState from "Shared/hooks/use-url-state";
-import AcceptOfferContainer from "./accept";
-import SendMessageContainer from "./send-message";
 import { classNames } from "Shared/utils/ui";
 import TabList from "Shared/components/nav/TabList";
 import TaskOverView from "./components/task-overview";
-import { sampleTask } from "./data/sample-data";
 import TaskBidders from "./components/task-bidders";
 import TaskActivity from "./components/task-activity";
 import TaskAttachments from "./components/task-attachments";
@@ -26,6 +18,9 @@ import Loader from "Shared/components/suspense/loader";
 import ActionButton from "Shared/components/buttons/action-button";
 import CompleteTaskContainer from "./complete";
 import TaskResolutionView from "./components/task-resolution";
+import moment from "moment";
+import UpdateTaskDeadlineContainer from "./update-deadline";
+import AppConfig from "config";
 
 const DeveloperViewTaskDetailsPage: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -46,19 +41,31 @@ const DeveloperViewTaskDetailsPage: FC = () => {
     },
   });
 
-  const dispatchAction = (id: string, action: "complete") => {
+  const dispatchAction = (id: string, action: "complete" | "updateDate") => {
     searchParams.set("modal", action);
     searchParams.set("current", id);
     setSearchParams(searchParams);
   };
 
+  const hasExpired = moment(query?.data?.data?.deadlineDate).isBefore(moment());
+
   const TabMappings = {
-    overview: <TaskOverView data={query?.data?.data} />,
-    bidders: <TaskBidders refetch={query.refetch} data={query?.data?.data} />,
+    overview: <TaskOverView data={query?.data?.data} isExpired={hasExpired} />,
+    bidders: (
+      <TaskBidders
+        refetch={query.refetch}
+        data={query?.data?.data}
+        hasExpired={hasExpired}
+      />
+    ),
     activity: <TaskActivity data={query?.data?.data} />,
     resolution: <TaskResolutionView data={query?.data?.data} />,
     attachments: (
-      <TaskAttachments data={query?.data?.data} refetch={query.refetch} />
+      <TaskAttachments
+        data={query?.data?.data}
+        refetch={query.refetch}
+        hasExpired={hasExpired}
+      />
     ),
     // settings: <TaskSettings />,
   };
@@ -72,6 +79,7 @@ const DeveloperViewTaskDetailsPage: FC = () => {
     Rejected: "danger",
     "": "info", // Default case or empty status
   };
+
   return (
     <>
       <section>
@@ -154,9 +162,29 @@ const DeveloperViewTaskDetailsPage: FC = () => {
                 />
                 <div className='flex gap-2 items-center'>
                   <StatusChip
-                    info={query?.data?.data?.status}
-                    type={taskStatusMapping[query?.data?.data?.status]}
                     size='md'
+                    info={
+                      hasExpired &&
+                      ![
+                        "Assigned",
+                        "InProgress",
+                        "Resolved",
+                        "Completed",
+                      ].includes(query?.data?.data?.status)
+                        ? "Expired"
+                        : query?.data?.data?.status
+                    }
+                    type={
+                      hasExpired &&
+                      ![
+                        "Assigned",
+                        "InProgress",
+                        "Resolved",
+                        "Completed",
+                      ].includes(query?.data?.data?.status)
+                        ? "danger"
+                        : taskStatusMapping[query?.data?.data?.status]
+                    }
                   />
 
                   {query?.data?.data?.status === "Resolved" && (
@@ -170,6 +198,19 @@ const DeveloperViewTaskDetailsPage: FC = () => {
                       iconClassName='!text-white'
                     />
                   )}
+                  {["Pending", "InProgress", "Assigned"].includes(
+                    query?.data?.data?.status
+                  ) && (
+                    <ActionButton
+                      tooltip='Update deadline'
+                      action='updateDate'
+                      onClick={() =>
+                        dispatchAction(query?.data?.data?._id, "updateDate")
+                      }
+                      className='!bg-blue-600'
+                      iconClassName='!text-white'
+                    />
+                  )}
                 </div>
               </div>
 
@@ -179,14 +220,34 @@ const DeveloperViewTaskDetailsPage: FC = () => {
         </div>
       </section>
       {query?.data?.data && (
-        <CompleteTaskContainer
-          values={{
-            amount: query?.data?.data?.assignedAmount || 0,
-          }}
-          open={modal === "complete"}
-          setOpen={(val: boolean) => setModal(val ? "complete" : undefined)}
-          refetch={query.refetch}
-        />
+        <>
+          <CompleteTaskContainer
+            values={{
+              amount: query?.data?.data?.assignedAmount || 0,
+            }}
+            open={modal === "complete"}
+            setOpen={(val: boolean) => setModal(val ? "complete" : undefined)}
+            refetch={query.refetch}
+          />
+          <UpdateTaskDeadlineContainer
+            values={{
+              deadlineDate: moment(
+                query?.data?.data?.deadlineDate || new Date()
+              ).format(AppConfig.date.inputDateFormat),
+            }}
+            open={modal === "updateDate"}
+            setOpen={(val: boolean) => setModal(val ? "updateDate" : undefined)}
+            refetch={query.refetch}
+          />
+          <CompleteTaskContainer
+            values={{
+              amount: query?.data?.data?.assignedAmount || 0,
+            }}
+            open={modal === "complete"}
+            setOpen={(val: boolean) => setModal(val ? "complete" : undefined)}
+            refetch={query.refetch}
+          />
+        </>
       )}
     </>
   );

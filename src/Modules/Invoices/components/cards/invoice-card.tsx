@@ -20,19 +20,19 @@ const InvoiceCard: FC<InvoiceCardProps> = forwardRef<
         <Logo  />
         <div className=''>
           <div className='text-right'>
-            <span className="text-zinc-800 text-base font-semibold font-['Nunito'] leading-7">
+            <span className="text-zinc-800 text-base font-semibold  leading-7">
               Order:
             </span>
-            <span className="text-stone-500 text-base font-light font-['Nunito'] leading-7">
+            <span className="text-stone-500 text-base font-light  leading-7">
               {" "}
               #00124
             </span>
           </div>
           <div className='text-right'>
-            <span className="text-zinc-800 text-base font-semibold font-['Nunito'] leading-7">
+            <span className="text-zinc-800 text-base font-semibold  leading-7">
               Issued:
             </span>
-            <span className="text-stone-500 text-base font-light font-['Nunito'] leading-7">
+            <span className="text-stone-500 text-base font-light  leading-7">
               {" "}
               20/08/2019
               <br />

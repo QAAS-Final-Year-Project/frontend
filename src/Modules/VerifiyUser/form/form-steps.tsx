@@ -22,7 +22,7 @@ const formSteps = [
   },
   {
     name: "Verification Documents",
-    description: "Information about the request.",
+    description: "Uploaded verification documents",
     accessor: "verificationDocuments",
     FormComponent: VerificationDocumentsForm,
     SummaryComponent: VerificationDocumentsSummary,

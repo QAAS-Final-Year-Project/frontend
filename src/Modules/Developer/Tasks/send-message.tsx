@@ -64,7 +64,7 @@ export default function SendMessageContainer({
       // onNoTapped={() => {}}
     >
       <div className='flex flex-col items-center'>
-        <h6 className=" text-center mb-3.5 text-zinc-800 text-2xl font-bold font-['Nunito'] leading-[27px]">
+        <h6 className=" text-center mb-3.5 text-zinc-800 text-2xl font-bold  leading-[27px]">
           Direct Message To David
         </h6>
 

@@ -1,28 +1,27 @@
 import { FC, useEffect, useState } from "react";
-import { classNames } from "Shared/utils/ui";
 import useUrlState from "Shared/hooks/use-url-state";
 import { Link, useNavigate } from "react-router-dom";
 import TextInput from "Shared/components/input/text-input";
 import { useFormik } from "formik";
-import * as yup from "yup";
-import { Countries, Country } from "data/index.types";
-import SelectInput from "Shared/components/input/select-input";
-import lodash, { values } from "lodash";
+import { Countries } from "data/index.types";
+import lodash from "lodash";
 import SearchSelectInput from "Shared/components/input/search-select-input";
-import LoadingIcon from "Shared/components/icons/loading-icon";
 import { useMutation } from "@tanstack/react-query";
 import { showToast } from "Shared/utils/alert";
-import { isAxiosError } from "axios";
 import { doRegisterTesterUser } from "../../duck/fetch";
-import AuthLogo from "../../components/auth-logo";
 import { ICreateTesterUser, TesterUserSchema } from "./schema";
 import PrimaryButton from "Shared/components/buttons/primary-button";
 import Header from "Shared/components/layout/header";
 import Container from "Shared/components/layout/container";
+import { formatAndShowAxiosError } from "Shared/utils/errors";
+import IconButton from "Shared/components/buttons/icon-button";
 
 const TesterForm: FC = () => {
   const navigate = useNavigate();
   const [accountType] = useUrlState<string>("accountType");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState(false);
 
   const mutation = useMutation({
     mutationFn: doRegisterTesterUser,
@@ -36,26 +35,7 @@ const TesterForm: FC = () => {
         "/verify-email?accountType=Tester&email=" + form.values.emailAddress
       );
     },
-    onError: (error) => {
-      if (
-        isAxiosError(error) &&
-        error?.response?.data &&
-        error.response?.data?.message
-      ) {
-        showToast({
-          type: "error",
-          title: error.response?.data?.message,
-        });
-        if (error.response?.data?.errors) {
-          form.setErrors(error.response?.data?.errors);
-        }
-      } else {
-        showToast({
-          type: "error",
-          title: error?.message,
-        });
-      }
-    },
+    onError: (error) => formatAndShowAxiosError(error),
   });
   const form = useFormik<ICreateTesterUser>({
     initialValues: {
@@ -166,9 +146,21 @@ const TesterForm: FC = () => {
                     id='password'
                     label=''
                     labelHidden
-                    type='password'
+                    type={isPasswordVisible ? "text" : "password"}
                     placeholder='Password'
                     icon='ic:outline-lock'
+                    postText={
+                      <IconButton
+                        iconClassName='!text-neutral-400'
+                        size='sm'
+                        onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                        icon={
+                          isPasswordVisible
+                            ? "ic:outline-visibility"
+                            : "ic:outline-visibility-off"
+                        }
+                      />
+                    }
                     required
                     {...form}
                   />
@@ -178,10 +170,24 @@ const TesterForm: FC = () => {
                     id='confirmPassword'
                     label=''
                     labelHidden
-                    type='password'
+                    type={isConfirmPasswordVisible ? "text" : "password"}
                     placeholder='Repeat Password'
                     icon='ic:outline-lock'
                     required
+                    postText={
+                      <IconButton
+                        iconClassName='!text-neutral-400'
+                        size='sm'
+                        onClick={() =>
+                          setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
+                        }
+                        icon={
+                          isConfirmPasswordVisible
+                            ? "ic:outline-visibility"
+                            : "ic:outline-visibility-off"
+                        }
+                      />
+                    }
                     {...form}
                   />
                 </div>
@@ -190,7 +196,7 @@ const TesterForm: FC = () => {
                   text='Login'
                   size='md'
                   className='w-full'
-                  // loading={mutation.isPending}
+                  loading={mutation.isPending}
                   type='submit'
                 />
               </form>

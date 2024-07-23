@@ -7,6 +7,11 @@ export interface ILoginTesterUserSchema {
     password: string;
     accountType: AccountType
 }
+export interface IVerifyEnterEmailSchema {
+    emailAddress: string;
+    accountType: AccountType
+
+}
 
 
 
@@ -29,4 +34,10 @@ export const LoginTesterUserSchema = yup.object().shape({
             /^(?=.*[!@#$%^&*\\|/{}()<>:;[\]_\\-\\=?])/,
             "Must Contain at least One special case Character"
         ).required("Password is required"),
+})
+
+
+export const VerifyEnterEmailSchema = yup.object().shape({
+    emailAddress: yup.string().email("Must be a valid email").required("Email Address is Required"),
+
 })

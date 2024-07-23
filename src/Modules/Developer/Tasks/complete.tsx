@@ -72,7 +72,7 @@ export default function CompleteTaskContainer({
     >
       <form onSubmit={form.handleSubmit}>
         <div className='flex flex-col items-center'>
-          <h6 className=" text-center mb-3.5 text-zinc-800 text-2xl font-bold font-['Nunito'] leading-[27px]">
+          <h6 className=" text-center mb-3.5 text-zinc-800 text-2xl font-bold  leading-[27px]">
             Are you use you want to mark task as completed and release funds to
             tester
           </h6>

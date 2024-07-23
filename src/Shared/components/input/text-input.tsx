@@ -12,7 +12,7 @@ interface TextInputProps {
   disabled?: boolean;
   readonly?: boolean;
   required?: boolean;
-  type?: "number" | "text" | "email" | "date" | "password";
+  type?: "number" | "text" | "email" | "date" | "password" | "url";
   values: any;
   handleChange: any;
   handleBlur: any;
@@ -22,6 +22,7 @@ interface TextInputProps {
   min?: number | string;
   max?: number | string;
   inputClassName?: string;
+  rootClassName?: string;
   labelHidden?: boolean;
   maxLength?: number;
   minLength?: number;
@@ -54,6 +55,7 @@ const TextInput: FC<TextInputProps> = ({
   tooltip,
   icon,
   inputClassName,
+  rootClassName,
   readonly,
 }) => {
   return (
@@ -79,7 +81,7 @@ const TextInput: FC<TextInputProps> = ({
           )}
         </label>
       )}
-      <div className={classNames(labelHidden ? "" : "mt-3", "relative")}>
+      <div className={classNames(labelHidden ? "" : "mt-3", "relative", rootClassName)}>
         <input
           type={type ?? "text"}
           name={id}
@@ -112,7 +114,7 @@ const TextInput: FC<TextInputProps> = ({
             inputClassName
           )}
         />
-        {_.get(errors, id) && _.get(touched, id) ? (
+        {_.get(errors, id) && _.get(touched, id) && !postText ? (
           <div className='absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none'>
             <ExclamationCircleIcon
               className='h-5 w-5 text-red-500'
@@ -121,7 +123,7 @@ const TextInput: FC<TextInputProps> = ({
           </div>
         ) : null}
         {postText && (
-          <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3'>
+          <div className=' absolute inset-y-0 right-0 flex items-center pr-3'>
             <span className='text-gray-500 sm:text-sm' id='price-currency'>
               {postText}
             </span>

@@ -51,6 +51,11 @@ export interface ICreateDeveloperUser {
   confirmPassword: string;
   termsAndConditions: boolean;
 }
+export interface IEnterNewPasswordSchema {
+  password: string;
+  confirmPassword: string;
+
+}
 export const DeveloperUserSchema = yup.object().shape({
   emailAddress: yup.string().email().required("Email Address is Required"),
   fullName: yup.string().required("Full Name is Required"),
@@ -80,6 +85,31 @@ export const DeveloperUserSchema = yup.object().shape({
     .string()
     .oneOf([...Countries])
     .required("Country is Required"),
+})
+export const EnterNewPasswordSchema = yup.object().shape({
+
+  password: yup
+    .string()
+    .min(8, "Password must be more than 8 characters")
+    .matches(
+      /^(?=.*[a-z])/,
+      "Must Contain at least One Lowercase Character"
+    )
+    .matches(
+      /^(?=.*[A-Z])/,
+      "Must Contain at least One Uppercase Character"
+    )
+    .matches(/^(?=.*[0-9])/, "Must Contain at least One Number")
+    .matches(
+      /^(?=.*[!@#$%^&*\\|/{}()<>:;[\]_\\-\\=?])/,
+      "Must Contain at least One special case Character"
+    ).required("Password is required"),
+
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords do not match")
+    .required("Please confirm your password"),
+
 })
 
 

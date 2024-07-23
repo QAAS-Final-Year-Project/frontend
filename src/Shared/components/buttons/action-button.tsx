@@ -9,6 +9,7 @@ import {
   ArrowTopRightOnSquareIcon,
   XCircleIcon,
   CheckCircleIcon,
+  CalendarIcon,
 } from "@heroicons/react/24/outline";
 import { classNames, wrapClick } from "../../utils/ui";
 import { Tooltip } from "react-tooltip";
@@ -23,6 +24,7 @@ const Actions = [
   "start",
   "goto",
   "complete",
+  "updateDate"
 ] as const;
 export type Action = (typeof Actions)[number];
 const ActionIcons: { [key in Action]: typeof EyeIcon } = {
@@ -35,6 +37,8 @@ const ActionIcons: { [key in Action]: typeof EyeIcon } = {
   start: ClipboardDocumentCheckIcon,
   goto: ArrowTopRightOnSquareIcon,
   complete: CheckCircleIcon,
+  updateDate: CalendarIcon, // Assign an icon to the new action
+
 };
 
 interface ActionButtonProps {

@@ -76,7 +76,7 @@ const RateDevelopersSection = (props: Props) => {
         {isLoading && (
           <>
             {[1, 2].map((index) => (
-              <ShimmerReviewRow />
+              <ShimmerReviewRow key={index}/>
             ))}
           </>
         )}

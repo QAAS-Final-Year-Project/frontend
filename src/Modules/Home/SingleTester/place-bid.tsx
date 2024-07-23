@@ -1,21 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
 import YesNoDialog from "Shared/components/overlays/yes-no-dialog";
 import useUrlState from "Shared/hooks/use-url-state";
-import { formatAndShowAxiosError } from "Shared/utils/errors";
-
-import { useFormik } from "formik";
-import PrimaryButton from "Shared/components/buttons/primary-button";
-import { useParams } from "react-router-dom";
-import StatusChip from "Shared/components/chips/status-chip";
 import { showToast } from "Shared/utils/alert";
-import { doCancelTask,  } from "./duck/fetch";
-import { useEffect } from "react";
+import { formatAndShowAxiosError } from "Shared/utils/errors";
+import { doBidTask } from "../duck/fetch";
+import { useParams } from "react-router-dom";
+import { useFormik } from "formik";
+import TextArea from "Shared/components/input/text-area";
 
-export default function CancelTaskContainer({
+export default function PlaceBidContainer({
   open,
   setOpen,
-  refetch,
   values,
+  refetch,
 }: {
   open: boolean;
   setOpen: (val: boolean) => void;
@@ -23,13 +20,12 @@ export default function CancelTaskContainer({
   values: any;
 }) {
   const { id } = useParams();
-  const [current] = useUrlState("current");
   const mutation = useMutation({
-    mutationFn: doCancelTask,
+    mutationFn: doBidTask,
     onSuccess: (response) => {
       showToast({
         type: "success",
-        title: "Task started successful",
+        title: "Bid place on task successful",
       });
       setOpen(false);
       refetch?.();
@@ -39,17 +35,16 @@ export default function CancelTaskContainer({
 
   const form = useFormik<any>({
     initialValues: {
+      notes: "",
       ...values,
-      accepted: false,
     },
     onSubmit: async (values) => {
-      console.log(values);
       mutation.mutate({
         values: {
           ...values,
-          amount: values.amount,
+          amount: values.rate,
         },
-        id: id,
+        id,
       });
     },
     onReset: () => {
@@ -57,14 +52,12 @@ export default function CancelTaskContainer({
       setOpen(false);
     },
   });
-  useEffect(() => {
-    form.setValues(values);
-  }, [current]);
+
   return (
     <YesNoDialog
       open={open}
       setOpen={setOpen}
-      title={"Start"}
+      title={"Are you sure ?"}
       onYesClicked={form.handleSubmit}
       yesLoading={mutation.isPending}
       onNoTapped={() => setOpen(false)}
@@ -75,6 +68,16 @@ export default function CancelTaskContainer({
           Are you sure you want to place bid on this task with amount $
           {values?.rate}?
         </span>
+        <div className='w-full mb-8'>
+          <TextArea
+            id='notes'
+            label=''
+            placeholder='Notes'
+            required={false}
+            rows={4}
+            {...form}
+          />
+        </div>
       </div>
     </YesNoDialog>
   );

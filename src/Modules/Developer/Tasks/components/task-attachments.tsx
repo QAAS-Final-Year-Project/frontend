@@ -10,17 +10,26 @@ import useUrlState from "Shared/hooks/use-url-state";
 import AddNoteContainer from "../add-note";
 import PrimaryButton from "Shared/components/buttons/primary-button";
 import DeleteNoteContainer from "../delete-note";
+import { isValidJSON } from "Shared/utils/data-structures";
+import useCookies from "Shared/hooks/cookies";
 
 interface TaskOverViewProps {
   data: any;
   refetch: () => void;
+  hasExpired: boolean;
 }
 
-
-const TaskAttachments: FC<TaskOverViewProps> = ({ data , refetch}) => {
+const TaskAttachments: FC<TaskOverViewProps> = ({
+  data,
+  refetch,
+  hasExpired,
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [modal, setModal] = useUrlState("modal");
   const [current, setCurrent] = useUrlState("current");
+  const [user, setUser] = useCookies("user");
+
+  const currentUser = isValidJSON(user) ? JSON.parse(user) : undefined;
 
   const dispatchAction = (
     id: string,
@@ -40,12 +49,16 @@ const TaskAttachments: FC<TaskOverViewProps> = ({ data , refetch}) => {
         >
           <div className='py-6 px-6'>
             <div className='grid grid-cols-2 '>
-              {data?.supportingDocuments?.map((attachment) => (
-                <AttachmentCard
-                  fileUrl={attachment?.url}
-                  fileName={attachment?.name}
-                />
-              ))}
+              {data?.supportingDocuments?.length > 0 ? (
+                data?.supportingDocuments?.map((attachment) => (
+                  <AttachmentCard
+                    fileUrl={attachment?.url}
+                    title={attachment?.name}
+                  />
+                ))
+              ) : (
+                <div className='text-center mt-4'>No notes available</div>
+              )}
             </div>
             {/* <div className='col-span-2 flex gap-x-5 items-center'>
               <OutlinedButton
@@ -67,24 +80,33 @@ const TaskAttachments: FC<TaskOverViewProps> = ({ data , refetch}) => {
         >
           <div className='py-6 px-6 w-full'>
             <div>
-              {data?.notes?.map((noteData, index) => (
-                <NoteCard
-                  date={noteData?.createdAt}
-                  key={index}
-                  note={noteData?.note}
-                  onDelete={() => dispatchAction(noteData?._id, "delete")}
-                  priority={noteData?.priority}
+              {data?.notes?.length > 0 ? (
+                data?.notes?.map((noteData, index) => (
+                  <NoteCard
+                    date={noteData?.createdAt}
+                    key={index}
+                    note={noteData?.note}
+                    onDelete={
+                      noteData?.createdBy == currentUser?._id
+                        ? () => dispatchAction(noteData?._id, "delete")
+                        : undefined
+                    }                    priority={noteData?.priority}
+                  />
+                ))
+              ) : (
+                <div className='text-center mt-4'>No notes available</div>
+              )}
+            </div>
+            {hasExpired && (
+              <div className='w-full'>
+                <PrimaryButton
+                  text='Add Note'
+                  size='md'
+                  className='w-full'
+                  onClick={() => dispatchAction("adding", "add")}
                 />
-              ))}
-            </div>
-            <div className='w-full'>
-              <PrimaryButton
-                text='Add Note'
-                size='md'
-                className='w-full'
-                onClick={() => dispatchAction("adding", "add")}
-              />
-            </div>
+              </div>
+            )}
           </div>
         </CardSectionWrapper>
       </div>

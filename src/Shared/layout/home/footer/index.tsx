@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import TextInput from "Shared/components/input/text-input";
 import { classNames } from "Shared/utils/ui";
+import NewsLetterSubscribe from "./newsletter-subscribe";
 
 const navigation = [
   {
@@ -121,52 +122,20 @@ const HomeFooter: FC = () => {
                   ))}
                 </div>
               ))}
-              <div className='col-span-2 flex items-start flex-col'>
-                <p className='flex items-center  text-white gap-1 text-lg font-medium  leading-[27px] mb-[15px]'>
-                  <Icon icon={"ic:baseline-mail-outline"} className='w-5 h-5' />
-                  Sign Up For a Newsletter
-                </p>{" "}
-                <p className=' text-stone-300 text-base font-normal  leading-relaxed mb-5'>
-                  Weekly breaking news, analysis and cutting edge advices on job
-                  searching.
-                </p>
-                <div className='flex items-stretch w-full gap-x-2.5'>
-                  <div className='flex-1'>
-                    <TextInput
-                      id='email'
-                      inputClassName='border-transparent bg-neutral-800 '
-                      type='text'
-                      labelHidden
-                      label=''
-                      placeholder='Enter your email address'
-                      handleBlur={() => {}}
-                      handleChange={() => {}}
-                      values={{}}
-                    />
-                  </div>
-                  <button
-                    type='button'
-                    className={classNames(
-                      " text-white my-auto bg-primary-500 flex items-center justify-center  cursor-pointer",
-                      "w-11 h-11  rounded  "
-                    )}
-                  >
-                    <Icon icon='formkit:arrowright' className='w-5 h-5 ' />
-                  </button>
-                </div>
-              </div>
+              <NewsLetterSubscribe />
+              
             </div>
           </div>
         </Container>
       </div>
       <div className='text-center py-[25px]'>
-        <span className="text-stone-300 text-base font-normal font-['Nunito'] leading-[27px]">
+        <span className="text-stone-300 text-base font-normal  leading-[27px]">
           © 2019{" "}
         </span>
-        <span className="text-white text-base font-medium font-['Nunito'] leading-[27px]">
+        <span className="text-white text-base font-medium  leading-[27px]">
           Test Universal
         </span>
-        <span className="text-stone-300 text-base font-normal font-['Nunito'] leading-[27px]">
+        <span className="text-stone-300 text-base font-normal  leading-[27px]">
           . All Rights Reserved.
         </span>
       </div>{" "}

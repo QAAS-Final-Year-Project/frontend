@@ -9,7 +9,7 @@ import { useFormik } from "formik";
 import PrimaryButton from "Shared/components/buttons/primary-button";
 import SearchSelectInput from "Shared/components/input/search-select-input";
 import { AxiosError } from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import StatusChip from "Shared/components/chips/status-chip";
 import { showToast } from "Shared/utils/alert";
 import { doAssignTask } from "./duck/fetch";
@@ -74,7 +74,7 @@ export default function AcceptOfferContainer({
     >
       <form onSubmit={form.handleSubmit}>
         <div className='flex flex-col items-center'>
-          <h6 className=" text-center mb-3.5 text-zinc-800 text-2xl font-bold font-['Nunito'] leading-[27px]">
+          <h6 className=" text-center mb-3.5 text-zinc-800 text-2xl font-bold  leading-[27px]">
             Accept Offer From {form.values?.fullName}
           </h6>
 
@@ -86,12 +86,15 @@ export default function AcceptOfferContainer({
               type='radio'
               className='h-[18px] w-[18px] border-zinc-400 text-primary-600 focus:ring-primary-600'
             />
+            <Link to={"/terms-and-conditions"} target="_blank">
             <label
               htmlFor={"sfd"}
               className='ml-3 block text-stone-500 text-base font-normal leading-[25px]'
             >
               I have read and agree to the Terms and Conditions
             </label>
+            </Link>
+           
           </div>
 
           <PrimaryButton

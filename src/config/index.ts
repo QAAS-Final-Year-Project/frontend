@@ -17,7 +17,7 @@ const AppConfig = {
     },
     constants: {
         page: 1,
-        pageSize: 10,
+        pageSize: 5,
     }
     ,
     cookies: {
@@ -31,8 +31,16 @@ const AppConfig = {
     },
     typeForm: {
         basicTestUri: "https://hdid54bf7ro.typeform.com/to/L6A2dMvg#name=xxxxx&user_id=",
+        basicTestPassMark:1,
         technicalTestUri: "https://hdid54bf7ro.typeform.com/to/DjBoFAaz#user_id=",
+        technicalTestPassMark:1,
+
     },
+    mailChimp: {
+        list_id: process.env.REACT_APP_MAILCHIMP_LIST_ID || "xxxx",
+        API_SERVER: process.env.REACT_APP_MAILCHIMP_SERVER || "xxxx",
+        MAILCHIMP_API_KEY: process.env.REACT_APP_MAILCHIMP_API_KEY || "xxxx"
+    }
 }
 
 export default AppConfig;

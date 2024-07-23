@@ -5,6 +5,7 @@ export const notifications = [
     date: new Date(),
     action: "applied for a job",
     entity: "Full Stack Software Engineer",
+    href:"https://www.youtube.com/",
   },
   {
     actionType: "Bid",
@@ -12,6 +13,7 @@ export const notifications = [
     date: new Date(),
     action: "placed a bid on your",
     entity: "iOS App Development project",
+    
   },
   {
     actionType: "Expiring",
@@ -64,4 +66,21 @@ export const payments = [
     reference: "179",
     date: "06/05/2019",
   },
+];
+
+
+
+export const mockPayments = [
+  { month: 'January', count: 30 },
+  { month: 'February', count: 45 },
+  { month: 'March', count: 60 },
+  { month: 'April', count: 50 },
+  { month: 'May', count: 70 },
+  { month: 'June', count: 85 },
+  { month: 'July', count: 75 },
+  { month: 'August', count: 95 },
+  { month: 'September', count: 100 },
+  { month: 'October', count: 110 },
+  { month: 'November', count: 130 },
+  { month: 'December', count: 150 },
 ];

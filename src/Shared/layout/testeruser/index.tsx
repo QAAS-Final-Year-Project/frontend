@@ -1,6 +1,6 @@
 import { FC, Suspense, useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import TesterUserNavBar from "./nav";
+import TesterUserNavbar from "./nav";
 import { useQuery } from "@tanstack/react-query";
 import { formatAndShowAxiosError } from "Shared/utils/errors";
 import { checkTesterUserAuth } from "./duck/fetch";
@@ -51,7 +51,7 @@ const TesterUserLayout: FC = () => {
         </aside>
         <main className='flex flex-1 flex-col  bg-gray-100 '>
           <nav className='shadow-md z-10 sticky top-0'>
-            <TesterUserNavBar />
+            <TesterUserNavbar />
           </nav>
           <div className='p-8 overflow-y-auto'>
             <Outlet />

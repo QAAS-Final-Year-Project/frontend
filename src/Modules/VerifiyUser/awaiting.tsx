@@ -20,10 +20,10 @@ const AwaitingVerificationPage: FC = () => {
           width={100}
         />
 
-        <h3 className='mt-2 text-sm font-medium text-gray-900'>
+        <h3 className='mt-2  font-medium text-zinc-900'>
           Verification Pending
         </h3>
-        <p className='mt-1 text-sm text-gray-500'>
+        <p className='mt-3  text-zinc-500'>
           You will be notified once your account has been verified
         </p>
       </div>

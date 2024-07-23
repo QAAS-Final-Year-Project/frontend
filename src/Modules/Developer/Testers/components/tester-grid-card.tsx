@@ -10,7 +10,7 @@ interface TesterGridCardProps {
   role: string;
   country: string;
   rating: number;
-rate: number;
+  rate: number;
   jobSuccess: number;
   location: string;
 }
@@ -32,11 +32,11 @@ const TesterGridCard: FC<TesterGridCardProps> = ({
         <div className='mb-4'>
           <Avatar alt={fullName} size='xl' src={profileImageUrl} />
         </div>
-        <p className=" text-center text-zinc-800 text-lg font-semibold font-['Nunito'] leading-[27px]">
+        <p className=" text-center text-zinc-800 text-lg font-semibold  leading-[27px]">
           {fullName}{" "}
           {Nationalities.find((nat) => nat.en_short_name === country)?.emoji}
         </p>
-        <p className="text-center text-zinc-500 text-base font-normal font-['Nunito'] leading-[27px] mb-1.5">
+        <p className="text-center text-zinc-500 text-base font-normal  leading-[27px] mb-1.5">
           {role}
         </p>
         <RatingComponent rating={rating} />
@@ -44,10 +44,10 @@ const TesterGridCard: FC<TesterGridCardProps> = ({
       <div className=' p-[35px] bg-neutral-50 rounded-bl rounded-br w-full space-y-4'>
         <div className='flex gap-x-7 items-center'>
           <div>
-            <div className=" text-zinc-500 text-sm font-normal font-['Nunito'] leading-[23px]">
+            <div className=" text-zinc-500 text-sm font-normal  leading-[23px]">
               {location}
             </div>
-            <div className="text-zinc-800 text-sm font-bold font-['Nunito'] leading-[23px] flex items-center">
+            <div className="text-zinc-800 text-sm font-bold  leading-[23px] flex items-center">
               {" "}
               <Icon
                 icon={"ic:outline-location-on"}
@@ -57,19 +57,19 @@ const TesterGridCard: FC<TesterGridCardProps> = ({
             </div>
           </div>
           <div>
-            <div className=" text-zinc-500 text-sm font-normal font-['Nunito'] leading-[23px]">
+            <div className=" text-zinc-500 text-sm font-normal  leading-[23px]">
               Rate
             </div>
-            <div className="text-zinc-800 text-sm font-bold font-['Nunito'] leading-[23px] flex items-center">
+            <div className="text-zinc-800 text-sm font-bold  leading-[23px] flex items-center">
               {" "}
               ${rate} / hr
             </div>
           </div>
           <div>
-            <div className=" text-zinc-500 text-sm font-normal font-['Nunito'] leading-[23px]">
+            <div className=" text-zinc-500 text-sm font-normal  leading-[23px]">
               Job Success
             </div>
-            <div className="text-zinc-800 text-sm font-bold font-['Nunito'] leading-[23px] flex items-center">
+            <div className="text-zinc-800 text-sm font-bold  leading-[23px] flex items-center">
               {" "}
               {jobSuccess}%
             </div>
