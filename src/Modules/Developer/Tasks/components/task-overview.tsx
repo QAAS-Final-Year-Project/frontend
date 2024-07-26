@@ -5,6 +5,7 @@ import AppConfig from "config";
 import { getTimeLeft } from "Shared/utils/date";
 import parse from "html-react-parser";
 import AssigneeRow from "./assignee-row";
+import { useNavigate } from "react-router-dom";
 
 interface TaskOverViewProps {
   data: any;
@@ -12,6 +13,7 @@ interface TaskOverViewProps {
 }
 
 const TaskOverView: FC<TaskOverViewProps> = ({ data, isExpired }) => {
+  const navigate = useNavigate();
   return (
     <div className='space-y-6 my-6'>
       <div className={" "}>
@@ -41,7 +43,7 @@ const TaskOverView: FC<TaskOverViewProps> = ({ data, isExpired }) => {
             <span className=' text-zinc-800 block text-lg font-medium leading-[27px]'>
               Date created
             </span>
-            <p className=" text-neutral-500 mt-1 text-base font-normal  leading-relaxed flex items-center gap-x-5">
+            <p className=' text-neutral-500 mt-1 text-base font-normal  leading-relaxed flex items-center gap-x-5'>
               <span>
                 Date: {moment(data?.createdAt).format(AppConfig.date.format)}
               </span>{" "}
@@ -53,7 +55,7 @@ const TaskOverView: FC<TaskOverViewProps> = ({ data, isExpired }) => {
               <span className=' text-zinc-800 block text-lg font-medium leading-[27px]'>
                 Deadline Date
               </span>
-              <p className=" text-neutral-500 mt-1 text-base font-normal  leading-relaxed flex items-center gap-x-5">
+              <p className=' text-neutral-500 mt-1 text-base font-normal  leading-relaxed flex items-center gap-x-5'>
                 <span>
                   {moment(data?.deadlineDate).format(AppConfig.date.format)}{" "}
                   left
@@ -65,7 +67,7 @@ const TaskOverView: FC<TaskOverViewProps> = ({ data, isExpired }) => {
               <span className=' text-zinc-800 block text-lg font-medium leading-[27px]'>
                 Time left
               </span>
-              <p className=" text-neutral-500 mt-1 text-base font-normal  leading-relaxed flex items-center gap-x-5">
+              <p className=' text-neutral-500 mt-1 text-base font-normal  leading-relaxed flex items-center gap-x-5'>
                 <span>{getTimeLeft(moment(data?.deadlineDate))} left</span>
               </p>
             </div>
@@ -135,7 +137,11 @@ const TaskOverView: FC<TaskOverViewProps> = ({ data, isExpired }) => {
                 phoneNumber={data?.assignee?.phoneNumber}
                 profileImageUrl={data?.assignee?.profileImageUrl}
                 rating={data?.assignee?.rating}
-                onSendMessage={() => {}}
+                onSendMessage={() =>
+                  navigate(
+                    `/dashboard/messages?current=${data?.assignee?._id}&toType=TesterUser`
+                  )
+                }
               />
             </div>
           )}

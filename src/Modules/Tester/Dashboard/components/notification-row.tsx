@@ -27,7 +27,7 @@ const ActionIcons = {
   ApproveVerification: "ic:outline-done",
   RejectVerification: "ic:outline-cancel",
   DeadlineUpdate: "ic:outline-calendar-month",
-
+  Deposit: "ic:outline-payment",
 };
 
 const ActionTexts = {
@@ -46,7 +46,7 @@ const ActionTexts = {
   ApproveVerification: "approved verification",
   RejectVerification: "rejected verification",
   DeadlineUpdate: "updated deadline for task",
-
+  Deposit: "deposit successful",
 };
 
 const DashboardNotificationRow: FC<DashboardNotificationProps> = ({
@@ -88,7 +88,7 @@ const DashboardNotificationRow: FC<DashboardNotificationProps> = ({
           </p>
         </div>
         {date && (
-          <div className="text-neutral-400 text-sm font-normal  leading-snug">
+          <div className='text-neutral-400 text-sm font-normal  leading-snug'>
             {moment(date).fromNow()}
           </div>
         )}

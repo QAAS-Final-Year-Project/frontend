@@ -1,28 +1,86 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { Popover } from "@headlessui/react";
 
 import Avatar from "Shared/components/media/avatar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { wrapClick } from "Shared/utils/ui";
 import IconButton from "Shared/components/buttons/icon-button";
-import { sampleChatData } from "Modules/Developer/Messages/data/sample-data";
+import { sampleChatData } from "Modules/Messages/data/sample-data";
 import NotificationChatRow from "./notification-chat-row";
 import PrimaryButton from "Shared/components/buttons/primary-button";
+import {
+  collection,
+  getCountFromServer,
+  limit,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
+import { fireStoreDb } from "config/firebase.config";
+import useUrlState from "Shared/hooks/use-url-state";
+import NoChatRoomsAvailable from "Modules/Messages/components/no-chat-room";
+import NotificationChatShimmer from "./notification-chat-shimmer";
+import moment from "moment";
+import _ from "lodash";
 const UserMessages: FC<{ user: any }> = ({ user }) => {
+  const { id } = useParams();
+  const [rooms, setRooms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [modal, setModal] = useUrlState("modal");
+  const [current] = useUrlState("current");
+  const [toType] = useUrlState("toType");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const q = query(
+      collection(fireStoreDb, "rooms"),
+      where(
+        user?.accountType == "TesterUser" ? "testerId" : "developerId",
+        "==",
+        user?._id
+      ),
+      limit(4)
+    );
+
+    const unsubscribe = onSnapshot(q, async (snapshot) => {
+      const roomsData: any = await Promise.all(
+        snapshot.docs.map(async (doc) => {
+          const roomData = doc.data();
+          const messagesQuery = query(
+            collection(doc.ref, "messages"),
+            where("read", "==", false),
+            where("senderId", "!=", user?._id)
+          );
+          const unreadCountSnapshot = await getCountFromServer(messagesQuery);
+          const unreadCount = unreadCountSnapshot.data().count;
+          console.log(unreadCount, "unreadCount");
+          console.log(user?._id, roomData?.senderId);
+          return {
+            id: doc.id,
+            ...roomData,
+            unreadCount,
+          };
+        })
+      );
+
+      setRooms(await roomsData);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
   return (
     <Popover className='relative'>
       {({ open }) => (
         <>
-         {open && (
-              <div className='w-0 h-0 border-l-8 border-r-8  absolute border-b-8 border-b-zinc-300 top-[32px] right-1 z-[10000000] border-r-transparent border-l-transparent'></div>
-            )}
+          {open && (
+            <div className='w-0 h-0 border-l-8 border-r-8  absolute border-b-8 border-b-zinc-300 top-[32px] right-1 z-[10000000] border-r-transparent border-l-transparent'></div>
+          )}
           <Popover.Button className=''>
             <IconButton
               icon={"lucide:mail"}
               notificationType='info'
-              notificationCount={3}
+              notificationCount={_.sum(rooms.map((room) => room?.unreadCount))}
             />
           </Popover.Button>
           <Popover.Panel
@@ -36,17 +94,35 @@ const UserMessages: FC<{ user: any }> = ({ user }) => {
                 </h6>
               </div>
               <div className='max-h-[280px] overflow-y-scroll'>
-                {sampleChatData.map((data, index) => (
-                  <NotificationChatRow
-                    key={index}
-                    idx={data.idx}
-                    active={data.active}
-                    avatarSrc={data.avatarSrc}
-                    userName={data.userName}
-                    timeAgo={data.timeAgo}
-                    message={data.message}
-                  />
-                ))}{" "}
+                {loading ? (
+                  [1, 2, 3].map((item) => (
+                    <NotificationChatShimmer key={item} />
+                  ))
+                ) : rooms?.length == 0 ? (
+                  <NoChatRoomsAvailable />
+                ) : (
+                  rooms.map((room, index) => (
+                    <NotificationChatRow
+                      id={room?.id}
+                      key={room?.id}
+                      unreadCount={room?.unreadCount}
+                      avatarSrc={
+                        user?.accountType == "DeveloperUser"
+                          ? room?.testerProfileImageUrl
+                          : room?.developerProfileImageUrl
+                      }
+                      userName={
+                        user?.accountType == "DeveloperUser"
+                          ? room?.testerFullName
+                          : room?.developerFullName
+                      }
+                      timeAgo={moment(
+                        room?.updatedAt?.toDate() || ""
+                      ).fromNow()}
+                      message={room?.lastMessage}
+                    />
+                  ))
+                )}
               </div>
               <PrimaryButton
                 text='View All Messages'

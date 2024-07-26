@@ -1,26 +1,25 @@
 import { FC } from "react";
 import BarLoader from "react-spinners/BarLoader";
 
-
 interface LoaderProps {
-text?: string;
+  text?: string;
 }
 
-const Loader: FC<LoaderProps> = ({
-text
-}) => {
-
+const Loader: FC<LoaderProps> = ({ text }) => {
   return (
     <div className='flex-1 flex flex-col space-y-6 items-center justify-center'>
-      <span className="text-gray-600 text-sm">{text ?? "Loading details..."}</span>
+      <span className='text-gray-600 text-sm'>
+        {text ?? "Loading details..."}
+      </span>
       <BarLoader
         color={"#2A41E8"}
         loading={true}
-        cssOverride={{width: "30%"}}
-        aria-label="Loading Spinner"
-        data-testid="loader"
+        cssOverride={{ width: "30%" }}
+        aria-label='Loading Spinner'
+        data-testid='loader'
       />
-    </div>)
-}
+    </div>
+  );
+};
 
 export default Loader;

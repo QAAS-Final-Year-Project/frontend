@@ -47,23 +47,30 @@ const UserNavAvatar: FC<{ user: any }> = ({ user }) => {
           >
             <div className='w-screen max-w-72  flex-auto overflow-hidden rounded  bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5 relative'>
               <div className='p-[25px] border-b border-neutral-200'>
-                <div className='flex items-center gap-x-[15px]'>
-                  <div className='relative'>
-                    <Avatar
-                      size='sm'
-                      alt={user?.fullName}
-                      src={user?.profileImageUrl}
-                    />
-                    <div className='w-3 h-3 bg-green-500 absolute bottom-0 right-0 rounded-md shadow border-2 border-white' />
-                  </div>
-                  <div>
-                    <p className='text-zinc-800 text-base font-medium leading-tight'>
-                      {user?.fullName}
-                    </p>
-                    <div className='text-zinc-500 text-sm font-medium  leading-tight'>
-                      Tester
+                <div className='flex items-center justify-between'>
+                  <div className='flex items-center gap-x-[15px]'>
+                    <div className='relative'>
+                      <Avatar
+                        size='sm'
+                        alt={user?.fullName}
+                        src={user?.profileImageUrl}
+                      />
+                      <div className='w-3 h-3 bg-green-500 absolute bottom-0 right-0 rounded-md shadow border-2 border-white' />
+                    </div>
+                    <div>
+                      <p className='text-zinc-800 text-base font-medium leading-tight'>
+                        {user?.fullName}
+                      </p>
+                      <div className='text-zinc-500 text-sm font-medium  leading-tight'>
+                        {user?.accountType == "DeveloperUser"
+                          ? "Developer"
+                          : "Tester"}
+                      </div>
                     </div>
                   </div>
+                  <span className='text-zinc-500 text-xl font-medium  leading-tight'>
+                    ${user?.balance || 0}
+                  </span>
                 </div>
               </div>
               <div className='py-5 px-[25px] space-y-1'>

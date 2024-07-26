@@ -10,7 +10,7 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({ breadCrumps, title, subtitle }) => {
   return (
     <div className='flex items-center justify-between w-full mb-10 '>
-      <div className="flex flex-col gap-1.5">
+      <div className='flex flex-col gap-1.5'>
         <h1 className='text-2xl text-zinc-800 font-medium leading-none'>
           {title}
         </h1>

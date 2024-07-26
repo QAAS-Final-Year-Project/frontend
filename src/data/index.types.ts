@@ -17,6 +17,7 @@ export interface IGetFilter {
     exportType?: string
     isExpired?:boolean
     populate?: string | string[];
+    select?: string | string[];
     gender?: string
     type?: string
     subscriptionId?: string

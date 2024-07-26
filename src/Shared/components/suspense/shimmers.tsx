@@ -4,20 +4,24 @@ import lodash from "lodash";
 const SingleShimmer = ({
   outerHeight,
   innerHeight,
+  className,
 }: {
   outerHeight?: string;
   innerHeight?: string;
+  className?:string
 }) => (
   <div
     className={classNames(
       "w-full space-y-2   justify-center flex flex-col",
-      outerHeight ? outerHeight : "h-7"
+      outerHeight ? outerHeight : "h-7",
     )}
   >
     <div
       className={classNames(
         "bg-gray-300 dark:bg-gray-400 h-3 rounded w-full animate-pulse",
-        innerHeight ? innerHeight : "h-3"
+        innerHeight ? innerHeight : "h-3",
+        className
+
       )}
     />
   </div>

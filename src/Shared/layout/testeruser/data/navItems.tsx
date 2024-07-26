@@ -24,9 +24,8 @@ export const ApprovedNavSections: INavSection[] = [
       {
         icon: "ic:outline-question-answer",
         label: "Messages",
-        to: "/messages",
-        notificationsCount: 3,
-        notificationType: "info",
+        to: "/dashboard/messages",
+        
       },
       {
         icon: "ic:baseline-star-border",

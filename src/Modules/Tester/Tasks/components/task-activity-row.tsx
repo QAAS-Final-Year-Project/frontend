@@ -36,6 +36,7 @@ const ActionIcons = {
   Complete: "ic:outline-check-circle",
   Review: "ic:outline-rate-review",
   DeadlineUpdate: "ic:outline-calendar-month",
+  Deposit: "ic:outline-payment",
 
 };
 
@@ -53,6 +54,7 @@ const ActionTexts = {
   Complete: "completed task",
   Review: "reviewed task",
   DeadlineUpdate: "updated deadline for task",
+  Deposit: "deposit successful",
 
 };
 

@@ -49,7 +49,7 @@ const SidebarNavItem: FC<SidebarNavItemProps> = ({
               )}
             />
             <p className=''>{label} </p>
-            {notificationsCount && (
+            {notificationsCount ? (
               <div
                 className={classNames(
                   "rounded-full px-1 flex items-center justify-center  w-[20px] h-[20px] text-center text-white text-xs font-bold ",
@@ -60,6 +60,8 @@ const SidebarNavItem: FC<SidebarNavItemProps> = ({
               >
                 {notificationsCount}
               </div>
+            ) : (
+              <></>
             )}
           </div>
         </>

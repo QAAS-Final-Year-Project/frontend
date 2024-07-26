@@ -4,7 +4,7 @@ import { FC, PropsWithChildren } from "react";
 
 interface CardSectionWrapperProps {
   icon?: any;
-  title: string;
+  title: JSX.Element | string;
   className?: string;
   extraElement?: JSX.Element;
 }

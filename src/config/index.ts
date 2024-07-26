@@ -31,16 +31,23 @@ const AppConfig = {
     },
     typeForm: {
         basicTestUri: "https://hdid54bf7ro.typeform.com/to/L6A2dMvg#name=xxxxx&user_id=",
-        basicTestPassMark:1,
+        basicTestPassMark: 1,
         technicalTestUri: "https://hdid54bf7ro.typeform.com/to/DjBoFAaz#user_id=",
-        technicalTestPassMark:1,
+        technicalTestPassMark: 1,
 
     },
     mailChimp: {
         list_id: process.env.REACT_APP_MAILCHIMP_LIST_ID || "xxxx",
         API_SERVER: process.env.REACT_APP_MAILCHIMP_SERVER || "xxxx",
         MAILCHIMP_API_KEY: process.env.REACT_APP_MAILCHIMP_API_KEY || "xxxx"
+    },
+    invoice: {
+        name: "TestUniversal",
+        address: "xxxx",
+        phoneNumber: "xxxx",
     }
+
+
 }
 
 export default AppConfig;

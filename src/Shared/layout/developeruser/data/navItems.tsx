@@ -26,8 +26,6 @@ export const NavSections: INavSection[] = [
         icon: "ic:outline-question-answer",
         label: "Messages",
         to: "/dashboard/messages",
-        notificationsCount: 3,
-        notificationType: "info",
       },
       {
         icon: "ic:baseline-star-border",
@@ -75,10 +73,14 @@ export const NavSections: INavSection[] = [
         to: "/dashboard/settings",
       },
       {
+        icon: "ic:baseline-payment",
+        label: "Payment",
+        to: "/dashboard/payment",
+      },
+      {
         icon: "ic:baseline-power-settings-new",
         label: "Logout",
         to: "?modal=logout",
-        
       },
     ],
   },

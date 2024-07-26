@@ -74,7 +74,7 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
                 className=' flex
             items-stretch'
               >
-                <div className="text-blue-700 text-base font-semibold  leading-[62px] px-[31px]">
+                <div className='text-blue-700 text-base font-semibold  leading-[62px] px-[31px]'>
                   <h3>{title}</h3>{" "}
                 </div>
                 <div className='flex-1 bg-stone-50 border rounded border-t-0  rounded-r-none rounded-t-none'></div>
@@ -103,4 +103,3 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
 };
 
 export default Modal;
-

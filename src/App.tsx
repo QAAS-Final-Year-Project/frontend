@@ -28,7 +28,7 @@ function App() {
       <NotificationProvider>
         <RouterProvider router={router} />;
       </NotificationProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools initialIsOpen={false} position="left"/>
     </QueryClientProvider>
   );
 }

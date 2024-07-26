@@ -72,7 +72,6 @@ export default function SendMessageContainer({
           <TextArea
             id='Message'
             label=''
-            
             placeholder='I am...'
             required={false}
             rows={4}

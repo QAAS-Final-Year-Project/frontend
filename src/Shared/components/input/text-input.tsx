@@ -12,7 +12,7 @@ interface TextInputProps {
   disabled?: boolean;
   readonly?: boolean;
   required?: boolean;
-  type?: "number" | "text" | "email" | "date" | "password" | "url";
+  type?: "number" | "text" | "email" | "date" | "password" | "url" | "search";
   values: any;
   handleChange: any;
   handleBlur: any;
@@ -81,7 +81,13 @@ const TextInput: FC<TextInputProps> = ({
           )}
         </label>
       )}
-      <div className={classNames(labelHidden ? "" : "mt-3", "relative", rootClassName)}>
+      <div
+        className={classNames(
+          labelHidden ? "" : "mt-3",
+          "relative",
+          rootClassName
+        )}
+      >
         <input
           type={type ?? "text"}
           name={id}

@@ -18,7 +18,10 @@ interface PaginationComponentProps<TData = any> {
   hideDirectionControls?: boolean;
 }
 
-const PaginationComponent: FC<PaginationComponentProps> = ({ data , hideDirectionControls}) => {
+const PaginationComponent: FC<PaginationComponentProps> = ({
+  data,
+  hideDirectionControls,
+}) => {
   const [page, setPage] = useUrlState("page");
   const [pageSize] = useUrlState("pageSize");
   const setNextPage = () =>
@@ -51,21 +54,21 @@ const PaginationComponent: FC<PaginationComponentProps> = ({ data , hideDirectio
     >
       <div className='flex-1 flex justify-between sm:justify-center mb-4 gap-x-2'>
         {!hideDirectionControls && (
-     <button
-     type='button'
-     disabled={!previousEnabled}
-     onClick={wrapClick(setPreviousPage)}
-     className={classNames(
-       previousEnabled
-         ? "bg-zinc-100   hover:text-white  dark:bg-gray-800 hover:bg-[#333] hover:dark:bg-gray-900 cursor-pointer"
-         : "cursor-not-allowed bg-zinc-200 dark:bg-gray-900 opacity-60",
-       "w-11 h-11 px-2.5 rounded text-zinc-800 "
-     )}
-   >
-     <Icon icon='akar-icons:chevron-left' className='w-5 h-5 ' />
-   </button>
+          <button
+            type='button'
+            disabled={!previousEnabled}
+            onClick={wrapClick(setPreviousPage)}
+            className={classNames(
+              previousEnabled
+                ? "bg-zinc-100   hover:text-white  dark:bg-gray-800 hover:bg-[#333] hover:dark:bg-gray-900 cursor-pointer"
+                : "cursor-not-allowed bg-zinc-200 dark:bg-gray-900 opacity-60",
+              "w-11 h-11 px-2.5 rounded text-zinc-800 "
+            )}
+          >
+            <Icon icon='akar-icons:chevron-left' className='w-5 h-5 ' />
+          </button>
         )}
-   
+
         {lodash.times(data.totalPages, (index) => {
           const pageNumber = index + 1;
           return (
@@ -83,22 +86,21 @@ const PaginationComponent: FC<PaginationComponentProps> = ({ data , hideDirectio
             </button>
           );
         })}
-                {!hideDirectionControls && (
-
-        <button
-          type='button'
-          disabled={!nextEnabled}
-          onClick={wrapClick(setNextPage)}
-          className={classNames(
-            nextEnabled
-              ? "bg-zinc-100   hover:text-white  dark:bg-gray-800 hover:bg-[#333] hover:dark:bg-gray-900 cursor-pointer"
-              : "cursor-not-allowed bg-zinc-200 dark:bg-gray-900  opacity-60",
-            "w-11 h-11 px-2.5 rounded text-zinc-800 "
-          )}
-        >
-          <Icon icon='akar-icons:chevron-right' className='w-5 h-5 ' />
-        </button>
-              )}
+        {!hideDirectionControls && (
+          <button
+            type='button'
+            disabled={!nextEnabled}
+            onClick={wrapClick(setNextPage)}
+            className={classNames(
+              nextEnabled
+                ? "bg-zinc-100   hover:text-white  dark:bg-gray-800 hover:bg-[#333] hover:dark:bg-gray-900 cursor-pointer"
+                : "cursor-not-allowed bg-zinc-200 dark:bg-gray-900  opacity-60",
+              "w-11 h-11 px-2.5 rounded text-zinc-800 "
+            )}
+          >
+            <Icon icon='akar-icons:chevron-right' className='w-5 h-5 ' />
+          </button>
+        )}
       </div>
     </nav>
   );

@@ -23,7 +23,7 @@ const InvoicePage: FC = () => {
           type='submit'
         />
       </div>
-      <InvoiceCard ref={invoiceRef} data={{}} />
+      {/* <InvoiceCard ref={invoiceRef} data={{}} /> */}
     </section>
   );
 };

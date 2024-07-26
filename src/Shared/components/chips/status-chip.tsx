@@ -7,6 +7,7 @@ export type StatusType = (typeof StatusTypes)[number];
 export interface StatusProps {
   info: string;
   type: StatusType;
+  className?: string
 }
 
 const sizeMap = {
@@ -20,6 +21,7 @@ const StatusChip: FC<StatusProps & { size?: "xs" | "sm" | "md" | "lg" }> = ({
   info,
   type,
   size = "xs",
+  className
 }) => {
 
   return (
@@ -36,7 +38,8 @@ const StatusChip: FC<StatusProps & { size?: "xs" | "sm" | "md" | "lg" }> = ({
           ? "bg-blue-100 text-blue-800 dark:bg-blue-600 dark:text-blue-100"
           : "bg-gray-100 text-gray-800",
         "inline-flex rounded  items-center space-x-1",
-        sizeMap[size]
+        sizeMap[size],
+        className,
       )}
     >
       {/* Shadow dom element to initialize all color styles */}

@@ -27,6 +27,8 @@ const ActionIcons = {
   ApproveVerification: "ic:outline-done",
   RejectVerification: "ic:outline-cancel",
   DeadlineUpdate: "ic:outline-calendar-month",
+  Deposit: "ic:outline-payment",
+
 };
 
 const ActionTexts = {
@@ -45,6 +47,8 @@ const ActionTexts = {
   ApproveVerification: "approved verification",
   RejectVerification: "rejected verification",
   DeadlineUpdate: "updated deadline for task",
+  Deposit: "deposit successful",
+
 };
 
 const DashboardNotificationRow: FC<DashboardNotificationProps> = ({

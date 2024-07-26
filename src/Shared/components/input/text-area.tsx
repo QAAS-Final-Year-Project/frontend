@@ -13,6 +13,7 @@ interface TextAreaProps {
   errors?: any;
   touched?: any;
   required?: boolean;
+  disabled?: boolean;
 }
 
 const TextArea: FC<TextAreaProps> = ({
@@ -22,6 +23,7 @@ const TextArea: FC<TextAreaProps> = ({
   handleChange,
   handleBlur,
   placeholder,
+  disabled,
   label,
   errors,
   touched,
@@ -40,6 +42,7 @@ const TextArea: FC<TextAreaProps> = ({
           name={id}
           id={id}
           value={_.get(values, id)}
+          disabled={disabled}
           onChange={handleChange}
           onBlur={handleBlur}
           placeholder={placeholder ?? ""}

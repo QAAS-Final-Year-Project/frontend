@@ -77,7 +77,7 @@ const UserNotifications: FC<{ user: any }> = ({ user }) => {
   }, []);
 
   return (
-    <Popover className='relative'>
+    <Popover className='relative z-[99]'>
       {({ open }) => {
         useEffect(() => {
           setIsOpen(open);

@@ -4,7 +4,6 @@ import AccountType from "Modules/Auth/Register/account-type";
 import VerifyEmailPage from "Modules/Auth/Register/forms/verify-email";
 import TesterUserLayout from "Shared/layout/testeruser";
 import TesterDashboard from "Modules/Tester/Dashboard";
-import TesterMessages from "Modules/Tester/Messages";
 import VerifyUserPage from "Modules/VerifiyUser";
 import LoginPage from "Modules/Auth/Login";
 import AwaitingVerificationPage from "Modules/VerifiyUser/awaiting";
@@ -19,7 +18,7 @@ import DeveloperSettings from "Modules/Developer/Settings";
 import DeveloperTasksPage from "Modules/Developer/Tasks";
 import DeveloperCreateTasksPage from "Modules/Developer/Tasks/create";
 import TestersListPage from "Modules/Developer/Testers";
-import DeveloperMessages from "Modules/Developer/Messages";
+import MessagesPage from "Modules/Messages";
 import DeveloperViewTaskDetailsPage from "Modules/Developer/Tasks/view";
 import DeveloperReviewsPage from "Modules/Developer/Reviews";
 import HomeLayout from "Shared/layout/home";
@@ -39,6 +38,9 @@ import TermsAndConditionsPage from "Modules/TermsAndConditions";
 import NotFoundPage from "Modules/NotFound";
 import SingleTesterPage from "Modules/Home/SingleTester";
 import PlaygroundComponent from "Modules/Playground";
+import ChatMessageArea from "Modules/Messages/sections/chat-message-area";
+import DeveloperPaymentsPage from "Modules/Developer/Payment";
+import VerifyPaymentScreen from "Modules/Developer/Payment/verify";
 
 const routes = (isAuth, authType, authUser): RouteObject[] => [
   {
@@ -71,13 +73,17 @@ const routes = (isAuth, authType, authUser): RouteObject[] => [
   ...(authType === "TesterUser" ? testerUserRoutes(authUser) : []),
   ...(authType === "DeveloperUser" ? developerUserRoutes : []),
   {
-    path:"*",
-    element:<NotFoundPage />
+    path: "*",
+    element: <NotFoundPage />,
   },
   {
-    path:"/playground",
-    element:<PlaygroundComponent />
-  }
+    path: "/playground",
+    element: <PlaygroundComponent />,
+  },
+  {
+    path: "/payment/verify",
+    element: <VerifyPaymentScreen />,
+  },
 ];
 
 const authRoutes: RouteObject[] = [
@@ -157,8 +163,14 @@ const approvedTesterUserRoutes = (authUser): RouteObject[] => [
         element: <TesterResolvePage />,
       },
       {
-        path: "messages",
-        element: <DeveloperMessages />,
+        path: "messages/*",
+        element: <MessagesPage />,
+        children: [
+          {
+            path: ":id",
+            element: <ChatMessageArea />,
+          },
+        ],
       },
       {
         path: "invoice",
@@ -251,8 +263,14 @@ const developerUserRoutes: RouteObject[] = [
         element: <TestersListPage />,
       },
       {
-        path: "messages",
-        element: <DeveloperMessages />,
+        path: "messages/*",
+        element: <MessagesPage />,
+        children: [
+          {
+            path: ":id",
+            element: <ChatMessageArea />,
+          },
+        ],
       },
       {
         path: "invoice",
@@ -261,6 +279,10 @@ const developerUserRoutes: RouteObject[] = [
       {
         path: "settings",
         element: <DeveloperSettings />,
+      },
+      {
+        path: "payment",
+        element: <DeveloperPaymentsPage />,
       },
       {
         path: "reviews",
