@@ -12,6 +12,8 @@ jobs:
       - run:  yarn install && yarn lint || true && yarn  build
         env:
           REACT_APP_PAYSTACK_KEY: ${{ secrets.REACT_APP_PAYSTACK_KEY }}
+          REACT_APP_API_URI: ${{ secrets.REACT_APP_API_URI }}
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
