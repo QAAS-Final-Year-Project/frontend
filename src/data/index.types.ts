@@ -3,6 +3,17 @@ import { Nationalities } from ".";
 export const Countries = Nationalities.map(nationality => nationality.en_short_name);
 export type Country = typeof Countries[number];
 
+export const PaymentMethods = [
+    "Card",
+    "Bank",
+    "Ussd",
+    "Qr",
+    "MobileMoney",
+    "BankTransfer",
+    "Eft"
+] as const;
+
+export type PaymentMethod = typeof PaymentMethods[number];
 
 export interface IGetFilter {
     page?: string | number;
@@ -15,7 +26,7 @@ export interface IGetFilter {
     search?: string
     isRated?: boolean
     exportType?: string
-    isExpired?:boolean
+    isExpired?: boolean
     populate?: string | string[];
     select?: string | string[];
     gender?: string

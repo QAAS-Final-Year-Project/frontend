@@ -69,7 +69,7 @@ const UserNavAvatar: FC<{ user: any }> = ({ user }) => {
                     </div>
                   </div>
                   <span className='text-zinc-500 text-xl font-medium  leading-tight'>
-                    ${user?.balance || 0}
+                    GHC{user?.balance || 0}
                   </span>
                 </div>
               </div>

@@ -9,7 +9,7 @@ const AppConfig = {
 
     },
     api: {
-        base: "http://localhost:4000/",
+        base: process.env.REACT_APP_API_URI || "http://localhost:4000/",
 
     },
     asset: {
@@ -21,7 +21,7 @@ const AppConfig = {
     }
     ,
     cookies: {
-        domain: window.location.hostname?.split(".")?.slice(1)?.join("."),
+        // domain: "www.testuniversal.tech",
         secure: true,
         sameSite: "strict",
     } as CookieAttributes,

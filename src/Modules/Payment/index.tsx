@@ -27,9 +27,12 @@ import numeral from "numeral";
 import useCookies from "Shared/hooks/cookies";
 import { isValidJSON } from "Shared/utils/data-structures";
 import SecondaryButton from "Shared/components/buttons/secondary-button";
+import InitiateWithdrawalContainer from "./withdrawal";
+import PaymentEmptyIcon from "Shared/components/icons/payment-empty-icon";
+import Header from "Shared/components/layout/header";
 
 // import AddPaymentContainer from "./add";
-const PaymentsListPage: FC = () => {
+const PaymentsPage: FC = () => {
   const navigate = useNavigate();
   const [page] = useUrlState<number>("page", 1);
   const [pageSize] = useUrlState<number>("pageSize", 10);
@@ -142,23 +145,40 @@ const PaymentsListPage: FC = () => {
 
   return (
     <div className='flex flex-col '>
-      <h3 className={" text-lg my-2 text-gray-600 flex items-center"}>
+      {/* <h3 className={" text-lg my-2 text-gray-600 flex items-center"}>
         <div className={"h-2 w-2 bg-yellow-500  rounded-full mr-1"} /> Filter
-      </h3>
+      </h3> */}
+       {/* <div className='p-2.5'>
+        <Header
+          title={`Payments`}
+          breadCrumps={[
+            {
+              title: "Home",
+              to: "/",
+            },
+            {
+              title: "Payments",
+              to: "/dashboard/payments",
+            },
+          ]}
+        />
+        </div> */}
       <h3
         className={
-          "text-lg flex justify-end items-center text-gray-600 mt-14 mb-4 gap-x-2.5"
+          "text-lg flex justify-end items-center text-gray-600  mb-4 gap-x-2.5"
         }
       >
-        <PrimaryButton
-          text={"Deposit funds"}
-          icon={"ic:outline-add-card"}
-          onClick={wrapClick(() => dispatchAction(undefined, "add"))}
-        />
+        {currentUser?.accountType == "DeveloperUser" && (
+          <PrimaryButton
+            text={"Deposit funds"}
+            icon={"ic:outline-add-card"}
+            onClick={wrapClick(() => dispatchAction(undefined, "add"))}
+          />
+        )}
         <SecondaryButton
           text={"Withdraw funds"}
           icon={"ic:outline-arrow-circle-down"}
-          onClick={wrapClick(() => dispatchAction(undefined, "add"))}
+          onClick={wrapClick(() => dispatchAction(undefined, "delete"))}
         />
       </h3>
       <div className='min-h-[70vh]  flex flex-col bg-red-950'>
@@ -169,9 +189,14 @@ const PaymentsListPage: FC = () => {
             createDataExport(value);
           }}
           hasSearch={false}
-          title={`Payments - Balance: GHS ${numeral(
+          emptyTitle='No payments found'
+          emptyIcon={<PaymentEmptyIcon />}
+          title={` Balance: GHS ${numeral(
             currentUser?.balance || 0
-          ).format("0,0.00")}`}
+          ).format("0,0.00")} ( Escrow: GHS ${numeral(
+            currentUser?.escrowBalance || 0
+          ).format("0,0.00")} 
+        )`}
           isRefetching={isRefetching}
           loading={isLoading}
           data={data}
@@ -184,8 +209,9 @@ const PaymentsListPage: FC = () => {
             "Code",
             "Amount (GHS)",
             "Reference",
-            "Method",
             "Reason",
+            "Method",
+            "Payment Account",
             "Date",
             "Status",
             "",
@@ -202,16 +228,25 @@ const PaymentsListPage: FC = () => {
             "action",
           ]}
           fields={[
-            (item, idx) => <td className='px-4 text-center'>{idx}</td>,
+            (item, idx) => <td className='px-4 text-center'>{idx + 1}</td>,
             "code",
             "amount",
             "reference",
+            "reason",
             (item, idx) => (
               <td className='px-4 text-center '>
                 {item?.paymentMethod || "N/A"}
               </td>
             ),
-            "reason",
+            (item, idx) => (
+              <td className='px-4 text-center '>
+                {item?.paymentAccount
+                  ? item?.paymentMethod == "Card"
+                    ? `Card Ending ${item?.paymentAccount}`
+                    : item?.paymentAccount
+                  : "N/A"}
+              </td>
+            ),
             (item, idx) => (
               <td className='px-4 text-center '>
                 {moment(item?.createdAt).format("DD/MM/YYYY hh:mm A")}
@@ -244,6 +279,15 @@ const PaymentsListPage: FC = () => {
                       iconClassName='!text-white'
                     />
                   )}
+                {item?.status == "Completed" && (
+                  <ActionButton
+                    action='viewInvoice'
+                    className='!bg-slate-500'
+                    iconClassName='!text-white'
+                    tooltip='view invoice'
+                    onClick={() => navigate(`/dashboard/invoice/${item?._id}`)}
+                  />
+                )}
               </div>
             ),
           ]}
@@ -254,8 +298,13 @@ const PaymentsListPage: FC = () => {
         setOpen={(val: boolean) => setModal(val ? "add" : undefined)}
         refetch={refetch}
       />
+      <InitiateWithdrawalContainer
+        open={modal === "delete"}
+        setOpen={(val: boolean) => setModal(val ? "delete" : undefined)}
+        refetch={refetch}
+      />
     </div>
   );
 };
 
-export default PaymentsListPage;
+export default PaymentsPage;

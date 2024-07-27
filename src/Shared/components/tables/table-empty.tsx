@@ -1,33 +1,28 @@
 import { FC } from "react";
+import EmptyStateIcon from "../icons/empty-state-icon";
 
 interface TableEmptyComponentProps {
   title?: string;
+  emptyTitle?: string;
+  emptyIcon?: JSX.Element;
 }
 
-const TableEmptyComponent: FC<TableEmptyComponentProps> = ({ title }) => {
+const TableEmptyComponent: FC<TableEmptyComponentProps> = ({
+  title,
+  emptyTitle,
+  emptyIcon,
+}) => {
   return (
     <div className='min-h-[300px] items-center justify-center flex'>
       <div className='text-center'>
-        <svg
-          className='mx-auto h-12 w-12 text-gray-500 dark:text-gray-300'
-          fill='none'
-          viewBox='0 0 24 24'
-          stroke='currentColor'
-          aria-hidden='true'
-        >
-          <path
-            vectorEffect='non-scaling-stroke'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            strokeWidth={2}
-            d='M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z'
-          />
-        </svg>
-        <h3 className='mt-2 text-sm font-medium text-info-500 dark:text-gray-100'>
-          No {title || "documents"}
+        <div className='mx-auto w-min'>{emptyIcon || <EmptyStateIcon />}</div>
+        <h3 className=' text-center text-zinc-800 text-lg font-bold '>
+          {" "}
+          {emptyTitle || `No ${title || "documents"}`}
         </h3>
-        <p className='mt-1 text-sm text-gray-500 dark:text-gray-400'>
-          Get started by creating a new {title || "document"}.
+        <p className=' text-center text-neutral-500   font-normal'>
+          {" "}
+          {/* {subTitle || `Get started by creating a new ${title || "document"}`} */}
         </p>
         {/* <div className="mt-6">
           <button

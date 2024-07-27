@@ -78,6 +78,11 @@ export const ApprovedNavSections: INavSection[] = [
         to: "/dashboard/settings",
       },
       {
+        icon: "ic:baseline-payment",
+        label: "Payment",
+        to: "/dashboard/payment",
+      },
+      {
         icon: "ic:baseline-power-settings-new",
         label: "Logout",
         to: "?modal=logout",

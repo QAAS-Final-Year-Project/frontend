@@ -39,8 +39,8 @@ import NotFoundPage from "Modules/NotFound";
 import SingleTesterPage from "Modules/Home/SingleTester";
 import PlaygroundComponent from "Modules/Playground";
 import ChatMessageArea from "Modules/Messages/sections/chat-message-area";
-import DeveloperPaymentsPage from "Modules/Developer/Payment";
-import VerifyPaymentScreen from "Modules/Developer/Payment/verify";
+import PaymentsPage from "Modules/Payment";
+import VerifyPaymentScreen from "Modules/Payment/verify";
 
 const routes = (isAuth, authType, authUser): RouteObject[] => [
   {
@@ -173,8 +173,12 @@ const approvedTesterUserRoutes = (authUser): RouteObject[] => [
         ],
       },
       {
-        path: "invoice",
+        path: "invoice/:id",
         element: <InvoicePage />,
+      },
+      {
+        path: "payment",
+        element: <PaymentsPage />,
       },
       {
         path: "settings",
@@ -273,7 +277,7 @@ const developerUserRoutes: RouteObject[] = [
         ],
       },
       {
-        path: "invoice",
+        path: "invoice/:id",
         element: <InvoicePage />,
       },
       {
@@ -282,7 +286,7 @@ const developerUserRoutes: RouteObject[] = [
       },
       {
         path: "payment",
-        element: <DeveloperPaymentsPage />,
+        element: <PaymentsPage />,
       },
       {
         path: "reviews",

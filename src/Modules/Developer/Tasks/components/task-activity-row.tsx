@@ -11,7 +11,6 @@ export const TaskHistoryActions = [
   "Start",
   "Complete",
   "Review",
-  
 ] as const;
 import CardSectionWrapper from "Shared/components/wrapper/CardSectionWrapper";
 import { FC } from "react";
@@ -43,7 +42,9 @@ const ActionIcons = {
   Review: "ic:outline-rate-review",
   DeadlineUpdate: "ic:outline-calendar-month",
   Deposit: "ic:outline-payment",
-
+  Payout: "ic:outline-payment",
+  WithdrawalFailed: "ic:outline-payment",
+  WithdrawalSuccess: "ic:outline-payment",
 };
 
 const ActionTexts = {
@@ -61,8 +62,9 @@ const ActionTexts = {
   Review: "reviewed task",
   DeadlineUpdate: "updated deadline for task",
   Deposit: "deposit successful",
-
-
+  Payout: "payout made for task",
+  WithdrawalSuccess: "withdrawal successful",
+  WithdrawalFailed: "withdrawal failed",
 };
 
 const TaskActivityRow: FC<NotificationRowProps> = ({
@@ -98,7 +100,7 @@ const TaskActivityRow: FC<NotificationRowProps> = ({
           </p>
         </div>
         {date && (
-          <div className="text-neutral-400 text-sm font-normal  leading-snug">
+          <div className='text-neutral-400 text-sm font-normal  leading-snug'>
             {moment(date).fromNow()}
           </div>
         )}

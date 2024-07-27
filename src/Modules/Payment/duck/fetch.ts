@@ -5,6 +5,9 @@ import { IGetFilter } from "data/index.types"
 export const doDeposit = async (values: any) => {
     return AxiosDataService.post('/api/payments/deposit', values)
 }
+export const doWithdraw = async (values: any) => {
+    return AxiosDataService.post('/api/payments/withdraw', values)
+}
 
 
 
@@ -22,8 +25,11 @@ export const getPaymentsExportUrl = async (filter: IGetFilter) => {
 
 
 
-export const getPayment = async (id: string | number) => {
-    return AxiosDataService.get("/api/payments/" + id + "?populate=createdBy,task")
+export const getPayment = async (id: string, populate?: string | string[]) => {
+    return AxiosDataService.get("/api/payments/" + id, {
+        populate: populate || ["createdBy", "task"]
+
+    })
 }
 
 export const getPaymentByReference = async (reference: any, populate?: string | string[]) => {

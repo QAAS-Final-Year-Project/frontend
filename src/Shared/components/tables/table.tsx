@@ -9,6 +9,8 @@ import { classNames } from "Shared/utils/ui";
 
 interface TableComponentProps<TData = any> {
   title: string;
+  emptyTitle?: string;
+  emptyIcon?: JSX.Element;
   data: {
     rows: TData[];
     total: number;
@@ -32,6 +34,8 @@ interface TableComponentProps<TData = any> {
 
 const TableComponent: FC<TableComponentProps> = ({
   title,
+  emptyIcon,
+  emptyTitle,
   data,
   loading,
   columns,
@@ -66,7 +70,7 @@ const TableComponent: FC<TableComponentProps> = ({
           />
         )}
         {!loading && (data?.total || 0) === 0 ? (
-          <TableEmptyComponent title={title} />
+          <TableEmptyComponent title={title} emptyIcon={emptyIcon} emptyTitle={emptyTitle} />
         ) : (
           <>
             <div className='flex-1'>

@@ -72,9 +72,9 @@ const PaymentSuccessSection: FC<{
           <InvoiceCard
             ref={invoiceRef}
             data={{
-              reference: dbPaymentData?.dbPaymentData?.reference,
-              code: dbPaymentData?.dbPaymentData?.code,
-              date: dbPaymentData?.dbPaymentData?.createdAt,
+              reference: dbPaymentData?.reference,
+              code: dbPaymentData?.code,
+              date: dbPaymentData?.createdAt,
               from: {
                 name: AppConfig.invoice.name,
                 address: AppConfig.invoice.name,

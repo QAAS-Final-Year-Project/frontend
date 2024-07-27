@@ -37,8 +37,9 @@ const ActionIcons = {
   Review: "ic:outline-rate-review",
   DeadlineUpdate: "ic:outline-calendar-month",
   Deposit: "ic:outline-payment",
-
-};
+  Payout: "ic:outline-payment",
+  WithdrawalFailed: "ic:outline-payment",
+  WithdrawalSuccess: "ic:outline-payment",};
 
 const ActionTexts = {
   Initiate: "created task",
@@ -55,8 +56,9 @@ const ActionTexts = {
   Review: "reviewed task",
   DeadlineUpdate: "updated deadline for task",
   Deposit: "deposit successful",
-
-};
+  Payout: "payout made for task",
+  WithdrawalSuccess: "withdrawal successful",
+  WithdrawalFailed: "withdrawal failed",};
 
 const TaskActivityRow: FC<NotificationRowProps> = ({
   action,

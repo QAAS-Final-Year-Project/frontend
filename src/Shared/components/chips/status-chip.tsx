@@ -44,7 +44,7 @@ const StatusChip: FC<StatusProps & { size?: "xs" | "sm" | "md" | "lg" }> = ({
     >
       {/* Shadow dom element to initialize all color styles */}
    
-      <span>{info || "Unknown"}</span>
+     {info || "Unknown"}
     </span>
   );
 };
