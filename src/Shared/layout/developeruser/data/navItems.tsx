@@ -27,11 +27,11 @@ export const NavSections: INavSection[] = [
         label: "Messages",
         to: "/dashboard/messages",
       },
-      {
-        icon: "ic:baseline-star-border",
-        label: "Bookmarks",
-        to: "/bookmarks",
-      },
+      // {
+      //   icon: "ic:baseline-star-border",
+      //   label: "Bookmarks",
+      //   to: "/bookmarks",
+      // },
       {
         icon: "ic:outline-rate-review",
         label: "Reviews",
@@ -42,11 +42,11 @@ export const NavSections: INavSection[] = [
   {
     title: "Organize and Manage",
     items: [
-      {
-        icon: "ic:outline-business-center",
-        label: "Jobs",
-        to: "/jobs",
-      },
+      // {
+      //   icon: "ic:outline-business-center",
+      //   label: "Jobs",
+      //   to: "/jobs",
+      // },
       {
         icon: "ic:outline-assignment",
         label: "Tasks",
@@ -57,11 +57,11 @@ export const NavSections: INavSection[] = [
         label: "Create Task",
         to: "/dashboard/tasks/new",
       },
-      {
-        icon: "tabler:user",
-        label: "Testers",
-        to: "/dashboard/testers",
-      },
+      // {
+      //   icon: "tabler:user",
+      //   label: "Testers",
+      //   to: "/dashboard/testers",
+      // },
     ],
   },
   {

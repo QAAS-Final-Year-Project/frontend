@@ -58,20 +58,20 @@ const BookmarkedTasksSection = (props: Props) => {
   } = useQuery({
     queryKey: [
       "tester-bookmark-tasks",
-      page,
-      pageSize,
-      search,
-      fromDate,
-      toDate,
+      // page,
+      // pageSize,
+      // search,
+      // fromDate,
+      // toDate,
       sortBy,
     ],
     queryFn: () =>
       getBookMarks({
-        page,
-        pageSize,
-        search,
-        fromDate,
-        toDate,
+        // page,
+        // pageSize,
+        // search,
+        // fromDate,
+        // toDate,
         type: "Task",
         populate: ["task"],
         sort: sortBy,
@@ -136,7 +136,7 @@ const BookmarkedTasksSection = (props: Props) => {
                     deadlineDate={bookmark?.task?.deadlineDate}
                     onDelete={() => removeBookmarkMutation.mutate(bookmark._id)}
                   />
-                  <PaginationComponent data={data} />
+                  {/* <PaginationComponent data={data} /> */}
                 </>
               ))
             ) : (

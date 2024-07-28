@@ -2,24 +2,40 @@ import CardSectionWrapper from "Shared/components/wrapper/CardSectionWrapper";
 import { FC } from "react";
 import { ChartData, ChartOptions } from "chart.js/auto";
 import LineChart from "Shared/components/chart/my-line-chart";
+import { useQuery } from "@tanstack/react-query";
+import { getDeveloperTaskTrends } from "../duck/fetch";
+import EmptyStateIcon from "Shared/components/icons/empty-state-icon";
+import Loader from "Shared/components/suspense/loader";
 
-const PaymentOverViewSection: FC<{ data: any }> = ({ data }) => {
+const DeveloperTasksOverviewSection: FC = () => {
+  const query = useQuery({
+    queryKey: ["dashboard-developer-task-overview"],
+    queryFn: () => getDeveloperTaskTrends(),
+  });
   const chartData: ChartData<"line"> = {
     labels:
-      data?.length > 1
-        ? data?.map((item: any) => item?.month || "")
-        : ["", ...data?.map((item: any) => item?.month || "")],
+      (query?.data?.data || [])?.length > 1
+        ? (query?.data?.data || [])?.map((item: any) => item?.month || "")
+        : [
+            "",
+            ...(query?.data?.data || [])?.map((item: any) => item?.month || ""),
+          ],
     datasets: [
       {
-        label: "Amount",
+        label: "Tasks Created",
         backgroundColor: "rgba(42,65,232,0.08)",
 
         borderColor: "#2a41e8",
         borderWidth: 3,
         data:
-          data?.length > 1
-            ? data?.map((item: any) => item.count || 0)
-            : [0, ...data?.map((item: any) => item.count || 0)],
+          (query?.data?.data || [])?.length > 1
+            ? (query?.data?.data || [])?.map((item: any) => item.count || 0)
+            : [
+                0,
+                ...(query?.data?.data || [])?.map(
+                  (item: any) => item.count || 0
+                ),
+              ],
         pointRadius: 5,
         pointHoverRadius: 5,
         tension: 0.4,
@@ -93,14 +109,29 @@ const PaymentOverViewSection: FC<{ data: any }> = ({ data }) => {
   return (
     <CardSectionWrapper
       className='col-span-2'
-      title='Earnings Overview'
+      title='Tasks Overview'
       icon={"ic:baseline-bar-chart"}
     >
       <div className='pt-[30px] pr-[20px] pb-[17px] pl-[18px] w-full h-96 '>
-        <LineChart data={chartData} options={options} />
+        {query.isLoading ? (
+          <Loader text='Loading tasks overview' />
+        ) : query?.data?.data?.length === 0 ? (
+          <div className=' items-center justify-center flex'>
+            <div className='text-center'>
+              <div className='mx-auto w-min'>
+                <EmptyStateIcon />
+              </div>
+              <h3 className=' text-center text-zinc-800 text-lg font-bold '>
+                No Tasks Created
+              </h3>
+            </div>
+          </div>
+        ) : (
+          <LineChart data={chartData} options={options} />
+        )}{" "}
       </div>
     </CardSectionWrapper>
   );
 };
 
-export default PaymentOverViewSection;
+export default DeveloperTasksOverviewSection;

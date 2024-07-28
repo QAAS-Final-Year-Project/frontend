@@ -32,10 +32,10 @@ const TesterDashboard: FC = () => {
           {/* OVerview section */}
           <OverviewSection />
           <div className='grid grid-cols-2 gap-x-[30px]'>
-            <PaymentOverViewSection data={mockPayments} />
+            <PaymentOverViewSection />
             <div></div>
           </div>
-          <div className='grid grid-cols-2 gap-x-[30px]'>
+          <div className='grid grid-cols-2 gap-x-[30px] items-start'>
             <DashboardNotificationsOverviewList />
             <PaymentsOverviewList />
           </div>

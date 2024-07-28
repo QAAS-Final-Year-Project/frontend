@@ -5,7 +5,7 @@ import ProfileViewsCard from "./components/profile-views-card";
 import DashboardNotificationsOverviewList from "./components/notification-overview";
 import PaymentsOverviewList from "./components/payments-overview";
 import OverviewSection from "./sections/overview-section";
-import PaymentOverViewSection from "./sections/payments-overview-section";
+import DeveloperTasksOverviewSection from "./sections/payments-overview-section";
 import { mockPayments } from "./data/sample-data";
 
 const DeveloperDashboard: FC = () => {
@@ -32,7 +32,7 @@ const DeveloperDashboard: FC = () => {
           {/* OVerview section */}
           <OverviewSection />
           <div className='grid grid-cols-2 gap-x-[30px]'>
-            <PaymentOverViewSection data={mockPayments} />
+            <DeveloperTasksOverviewSection  />
             <div></div>
           </div>
           <div className='grid grid-cols-2 gap-x-[30px]'>

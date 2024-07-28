@@ -33,9 +33,11 @@ const DeveloperUserSidebar: FC = () => {
     <>
       <div className='w-full flex flex-col h-full overflow-scroll items-stretch'>
         {/* LOGO Area */}
-        <div className='px-8 py-5 w-full max-h-20  relative shadow-md mb-8'>
+        <Link to={"/"}>
+        <div className='px-8 py-5 w-full max-h-20  relative shadow-md mb-8 cursor-pointer'>
           <Logo />
         </div>
+        </Link>
         {/* NAV Area */}
         <ul className='space-y-6'>
           {NavSections.map((section, index) => (

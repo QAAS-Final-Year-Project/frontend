@@ -36,7 +36,6 @@ export default function InitiateWithdrawalContainer({
       });
       setOpen(false);
       refetch?.();
-      window.open(response.data?.paymentUrl);
     },
     onError: (error) =>
       formatAndShowAxiosError(error || "Could not initiate withdrawal"),

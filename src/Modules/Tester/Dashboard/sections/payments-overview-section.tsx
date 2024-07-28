@@ -2,13 +2,25 @@ import CardSectionWrapper from "Shared/components/wrapper/CardSectionWrapper";
 import { FC } from "react";
 import { ChartData, ChartOptions } from "chart.js/auto";
 import LineChart from "Shared/components/chart/my-line-chart";
+import { useQuery } from "@tanstack/react-query";
+import { getTesterEarningOverview } from "../duck/fetch";
+import _ from "lodash";
+import PaymentEmptyIcon from "Shared/components/icons/payment-empty-icon";
+import Loader from "Shared/components/suspense/loader";
 
-const PaymentOverViewSection: FC<{ data: any }> = ({ data }) => {
+const PaymentOverViewSection: FC = () => {
+  const query = useQuery({
+    queryKey: ["dashboard-payments-overview"],
+    queryFn: () => getTesterEarningOverview(),
+  });
   const chartData: ChartData<"line"> = {
     labels:
-      data?.length > 1
-        ? data?.map((item: any) => item?.month || "")
-        : ["", ...data?.map((item: any) => item?.month || "")],
+      (query?.data?.data || [])?.length > 1
+        ? (query?.data?.data || [])?.map((item: any) => item?.month || "")
+        : [
+            "",
+            ...(query?.data?.data || [])?.map((item: any) => item?.month || ""),
+          ],
     datasets: [
       {
         label: "Amount",
@@ -17,9 +29,14 @@ const PaymentOverViewSection: FC<{ data: any }> = ({ data }) => {
         borderColor: "#2a41e8",
         borderWidth: 3,
         data:
-          data?.length > 1
-            ? data?.map((item: any) => item.count || 0)
-            : [0, ...data?.map((item: any) => item.count || 0)],
+          (query?.data?.data || [])?.length > 1
+            ? (query?.data?.data || [])?.map((item: any) => item.count || 0)
+            : [
+                0,
+                ...(query?.data?.data || [])?.map(
+                  (item: any) => item.count || 0
+                ),
+              ],
         pointRadius: 5,
         pointHoverRadius: 5,
         tension: 0.4,
@@ -62,6 +79,7 @@ const PaymentOverViewSection: FC<{ data: any }> = ({ data }) => {
     },
     scales: {
       y: {
+        suggestedMin: 0,
         border: { dash: [6, 10] }, // for the grid lines
         ticks: {
           precision: 0,
@@ -97,7 +115,22 @@ const PaymentOverViewSection: FC<{ data: any }> = ({ data }) => {
       icon={"ic:baseline-bar-chart"}
     >
       <div className='pt-[30px] pr-[20px] pb-[17px] pl-[18px] w-full h-96 '>
-        <LineChart data={chartData} options={options} />
+        {query.isLoading ? (
+          <Loader text='Loading earings data' />
+        ) : query?.data?.data?.length === 0 ? (
+          <div className=' items-center justify-center flex'>
+            <div className='text-center'>
+              <div className='mx-auto w-min'>
+                <PaymentEmptyIcon />
+              </div>
+              <h3 className=' text-center text-zinc-800 text-lg font-bold '>
+                No earnings data available
+              </h3>
+            </div>
+          </div>
+        ) : (
+          <LineChart data={chartData} options={options} />
+        )}{" "}
       </div>
     </CardSectionWrapper>
   );
