@@ -239,14 +239,7 @@ const DeveloperViewTaskDetailsPage: FC = () => {
             setOpen={(val: boolean) => setModal(val ? "updateDate" : undefined)}
             refetch={query.refetch}
           />
-          <CompleteTaskContainer
-            values={{
-              amount: query?.data?.data?.assignedAmount || 0,
-            }}
-            open={modal === "complete"}
-            setOpen={(val: boolean) => setModal(val ? "complete" : undefined)}
-            refetch={query.refetch}
-          />
+       
         </>
       )}
     </>

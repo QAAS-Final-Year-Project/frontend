@@ -44,7 +44,6 @@ export default function CompleteTaskContainer({
       accepted: false,
     },
     onSubmit: async (values) => {
-      console.log(values);
       mutation.mutate({
         values: {
           ...values,
