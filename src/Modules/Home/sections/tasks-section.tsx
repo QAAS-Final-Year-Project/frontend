@@ -44,17 +44,29 @@ export const HomeTasksSection: FC = () => {
               <Loader />
             </div>
           )}
-          {queryData?.data?.map((task, idx) => (
-            <HomeTaskRow
-              _id={task._id}
-              idx={idx}
-              date={task.createdAt}
-              price={task?.amount}
-              tags={task?.tags}
-              title={task?.title}
-              key={task._id}
-            />
-          ))}
+          {queryData?.data?.data?.length > 0 ? (
+            queryData?.data?.map((task, idx) => (
+              <HomeTaskRow
+                _id={task._id}
+                idx={idx}
+                date={task.createdAt}
+                price={task?.amount}
+                tags={task?.tags}
+                title={task?.title}
+                key={task._id}
+              />
+            ))
+          ) : (
+            <div className='flex flex-col items-center justify-center h-64 bg-gray-100 rounded-lg shadow-md'>
+              <h2 className='text-2xl font-semibold text-gray-800 mb-2'>
+                No Tasks Found
+              </h2>
+              <p className='text-gray-600 text-center max-w-md'>
+                It looks like there are no available tasks at the moment. Check
+                back later 
+              </p>
+            </div>
+          )}
         </div>
       </Container>
     </section>

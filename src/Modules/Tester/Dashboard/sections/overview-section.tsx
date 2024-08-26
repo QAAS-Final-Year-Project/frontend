@@ -40,8 +40,8 @@ const OverviewSection: FC = () => {
             bgColor='bg-blue-500'
             textColor='text-blue-500'
             icon='ic:baseline-payment'
-            title={"Total Earnings"}
-            value={148}
+            title={"Total Earnings (GHC)"}
+            value={`${query?.data?.data?.totalEarnings || 0} `}
           />
         </>
       )}

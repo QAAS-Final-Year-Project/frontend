@@ -135,7 +135,7 @@ const HomeNavBar: FC = () => {
           )}
         </div>
       </div>
-      {!_.isEmpty(parsedUser) && (
+      {(!_.isEmpty(parsedUser) && parsedUser?.accountType == "TesterUser" ) && (
         <>
           {parsedUser?.meta?.isVerified ? (
             parsedUser?.meta?.isApproved ? (

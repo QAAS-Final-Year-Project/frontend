@@ -87,7 +87,7 @@ const UploadArea: React.FC<UploadAreaProps> = ({
           const data = new FormData();
           const file = acceptedFiles[i];
           data.append("file", file);
-          await uploadFileToFirebase("identityImages/", file)
+        await uploadFileToFirebase("identityImages/", file)
             .then((fileUrl) => {
               imageUrls.push(fileUrl);
             })

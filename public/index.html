@@ -35,7 +35,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Test Universal </title>
+    <title>Test Universal</title>
   </head>
   <body class="h-full">
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -46,6 +46,18 @@
       >
     </div>
     <div id="root" class="hidden lg:block"></div>
+    <script>
+      window.intercomSettings = {
+        api_base: "https://api-iam.intercom.io",
+        app_id: "u2m14gpi",
+      };
+    </script>
+    
+    
+    <!-- <script>
+      // We pre-filled your app ID in the widget URL: 'https://widget.intercom.io/widget/u2m14gpi'
+      (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/u2m14gpi';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+    </script> -->
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -56,5 +68,37 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!-- Start of ChatBot (www.chatbot.com) code -->
+    <script type="text/javascript">
+      window.__be = window.__be || {};
+      window.__be.id = "66c95697986b060007950c1d";
+      (function () {
+        var be = document.createElement("script");
+        be.type = "text/javascript";
+        be.async = true;
+        be.src =
+          ("https:" == document.location.protocol ? "https://" : "http://") +
+          "cdn.chatbot.com/widget/plugin.js";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(be, s);
+      })();
+    </script>
+    <!-- <noscript
+      >You need to
+      <a
+        href="https://www.chatbot.com/help/chat-widget/enable-javascript-in-your-browser/"
+        rel="noopener nofollow"
+        >enable JavaScript</a
+      >
+      in order to use the AI chatbot tool powered by
+      <a href="https://www.chatbot.com/" rel="noopener nofollow" target="_blank"
+        >ChatBot</a
+      ></noscript
+    > -->
+    <!-- End of ChatBot code -->
+    <script
+      src="//code.tidio.co/sdv9oimqn5mzuaqatcqoiwk9lua9miod.js"
+      async
+    ></script>
   </body>
 </html>

@@ -11,12 +11,12 @@ interface LogoProps {
 
 const Logo: FC<LogoProps> = ({ className, isCollapsed, color, ...props }) => {
   return (
-    <div className='flex gap-x-2'>
+    <div className='flex gap-x-2 items-center justify-center '>
       <svg
         width={46}
         height={60}
-        className='h-15 w-auto'
-        viewBox='0 0 46 60'
+        className='h-[36px] flex items-center justify-center'
+        viewBox='0 0 46 '
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
         {...props}
@@ -26,8 +26,8 @@ const Logo: FC<LogoProps> = ({ className, isCollapsed, color, ...props }) => {
           fill='#2A41E8'
         />
       </svg>
-      {!isCollapsed && (
-        <h4 className={classNames("text-[#222222] text-2xl", color)}>
+      {!isCollapsed && ( 
+        <h4 className={classNames("text-[#222222] text-[22px] ", color)}>
           Test Universal
         </h4>
       )}
