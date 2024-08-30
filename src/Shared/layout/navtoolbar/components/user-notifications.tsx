@@ -109,7 +109,7 @@ const UserNotifications: FC<{ user: any }> = ({ user }) => {
                     Notifications
                   </h6>
                 </div>
-                <div className='max-h-[280px] overflow-y-scroll'>
+                <div className='max-h-[280px] overflow-y-auto'>
                   {notifications.length === 0 && (
                     <div className='flex items-center justify-center h-[100px]'>
                       No Notifications

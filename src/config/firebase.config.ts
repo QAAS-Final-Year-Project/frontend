@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
+import { getMessaging } from "firebase/messaging";
+
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -19,8 +21,11 @@ const firebaseConfig = {
     measurementId: "G-C4ZV2XT92J"
 };
 
+
+export const firebaseNotificationVapidKey= "BHxpbbD9DNWDu_bcGuRbxOfJt-SqWkcy6CgOnv_P4EjVBXen6AYVOqKH7Uq9XIh-uvuXm0qf_-ue4AK26zJZ25U"
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+export const firebaseMessaging = getMessaging(app);
 const analytics = getAnalytics(app);
 export const firebaseStorage = getStorage(app);
 export const fireStoreDb = getFirestore(app);

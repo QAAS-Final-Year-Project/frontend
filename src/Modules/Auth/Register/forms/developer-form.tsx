@@ -173,7 +173,7 @@ const DeveloperForm: FC = () => {
                   id='password'
                   label=''
                   labelHidden
-                  type='password'
+                  type={isPasswordVisible ? "text" : "password"}
                   placeholder='Password'
                   icon='ic:outline-lock'
                   required
@@ -197,7 +197,7 @@ const DeveloperForm: FC = () => {
                   id='confirmPassword'
                   label=''
                   labelHidden
-                  type='password'
+                  type={isConfirmPasswordVisible ? "text" : "password"}
                   placeholder='Repeat Password'
                   icon='ic:outline-lock'
                   required
@@ -220,7 +220,7 @@ const DeveloperForm: FC = () => {
               </div>
 
               <PrimaryButton
-                text='Login'
+                text='Create Account'
                 size='md'
                 className='w-full'
                 loading={mutation.isPending}

@@ -193,7 +193,7 @@ const TesterForm: FC = () => {
                 </div>
 
                 <PrimaryButton
-                  text='Login'
+                  text='Create Account'
                   size='md'
                   className='w-full'
                   loading={mutation.isPending}

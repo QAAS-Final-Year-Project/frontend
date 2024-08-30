@@ -38,7 +38,7 @@ interface Upload extends File {
 
 const DocumentUploadBox: React.FC<UploadBoxProps> = ({
   maxFiles = 1,
-  maxSize = 1024 * 1024 * 5,
+  maxSize = 1024 * 1024 * 10,
   minSize = 1,
   accept = {
     "image/*": [".png", ".jpeg", ".jpg"],

@@ -129,7 +129,7 @@ const VerifyEmailPage: FC = () => {
               </div>
               <div>
                 <PrimaryButton
-                  text='Login'
+                  text='Continue'
                   size='md'
                   className='w-full'
                   loading={mutation.isPending}

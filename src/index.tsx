@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'react-tooltip/dist/react-tooltip.css'
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+
 
 
 const root = ReactDOM.createRoot(
@@ -14,6 +16,8 @@ root.render(
     <App />
   </React.StrictMode>
 );
+serviceWorkerRegistration.unregister();
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
