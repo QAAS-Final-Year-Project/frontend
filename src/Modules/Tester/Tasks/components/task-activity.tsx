@@ -4,12 +4,14 @@ import { ChartData, ChartOptions } from "chart.js/auto";
 import LineChart from "Shared/components/chart/my-line-chart";
 import { notifications } from "Modules/Tester/Dashboard/data/sample-data";
 import TaskActivityRow from "./task-activity-row";
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 import _ from "lodash";
 
 const TaskActivity: FC<{ data: any }> = ({ data }) => {
-  const [user] = useCookies("user");
-  const parsedUser = JSON.parse(user);
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });  
+  const parsedUser = cookies.user ? JSON.parse(cookies.user) : null;
   const history = data?.history;
   const historyReversed = history?.slice()?.reverse();
   return (

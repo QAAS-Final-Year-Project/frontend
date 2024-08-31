@@ -5,14 +5,17 @@ import lodash from "lodash";
 import AppConfig from "config";
 import { wrapImage } from "Shared/utils/ui";
 import _ from "lodash";
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 import Avatar from "Shared/components/media/avatar";
 
 const IdentificationInfoSummary: FC<{
   data: IVerifyUserFormSchema["identificationInfo"];
 }> = ({ data }) => {
-  const [user] = useCookies("user");
-  const parsedUser = JSON.parse(user);
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });  
+  const parsedUser = cookies.user ? JSON.parse(cookies.user) : null;
+
   return (
     <div className='border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-md p-3 space-y-6 divide-y divide-gray-200'>
       <>

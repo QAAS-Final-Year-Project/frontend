@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import React, { FC } from "react";
 import TaskDetailsBidderRow from "./task-details-didder-row";
 import { classNames } from "Shared/utils/ui";
+import EmptyComponent from "Shared/components/suspense/empty";
 
 const TaskDetailsBidders: FC<{
   bidders: any[];
@@ -26,19 +27,28 @@ const TaskDetailsBidders: FC<{
           </span>
         </h3>
       </div>
-      {bidders.map((bidder, idx) => (
-        <TaskDetailsBidderRow
-          idx={idx}
-          country={bidder?.bidder?.country}
-          // deliveryTime={bidder?.deliveryTime}
-          email={bidder?.bidder?.email}
-          fixedPrice={bidder?.amount}
-          fullName={bidder?.bidder?.fullName}
-          phoneNumber={bidder?.bidder?.phoneNumber}
-          profileImageUrl={bidder?.bidder?.profileImageUrl}
-          rating={bidder?.bidder?.rating}
+
+      {bidders?.length > 0 ? (
+        bidders.map((bidder, idx) => (
+          <TaskDetailsBidderRow
+            idx={idx}
+            country={bidder?.bidder?.country}
+            // deliveryTime={bidder?.deliveryTime}
+            email={bidder?.bidder?.email}
+            fixedPrice={bidder?.amount}
+            fullName={bidder?.bidder?.fullName}
+            phoneNumber={bidder?.bidder?.phoneNumber}
+            profileImageUrl={bidder?.bidder?.profileImageUrl}
+            rating={bidder?.bidder?.rating}
+          />
+        ))
+      ) : (
+        <EmptyComponent
+          emptyType='bid'
+          title='Bid placed yet on this task'
+          subTitle={`\n`}
         />
-      ))}
+      )}
     </div>
   );
 };

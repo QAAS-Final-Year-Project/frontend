@@ -78,7 +78,7 @@ const TaskOverView: FC<TaskOverViewProps> = ({ data, isExpired }) => {
               Amount
             </span>
             <div className='text-stone-500 text-base font-normal leading-[27px] mt-1'>
-              ${data?.amount}
+              GHC {data?.amount}
             </div>
           </div>
           {data?.assignedAt && (

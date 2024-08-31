@@ -12,7 +12,7 @@ import { checkDeveloperUserAuth } from "./duck/fetch";
 const DeveloperUserLayout: FC = () => {
   return (
     <>
-     <div></div>
+      <div></div>
     </>
   );
 };

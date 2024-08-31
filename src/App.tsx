@@ -5,14 +5,18 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import routes from "./routes";
 import NotificationProvider from "Shared/layout/notifications";
 import useCookies from "Shared/hooks/cookies";
+import FirebaseMessagingComponent from "firebasemessage";
+import { useEffect } from "react";
+import ScrollToTop from "Shared/layout/scroll-to-top";
 
 function App() {
   const [token] = useCookies("token");
   const [user] = useCookies("user");
   const parsedUser = user ? JSON.parse(user) : null;
-  console.log(parsedUser)
 
-  const router = createBrowserRouter(routes(!!token, parsedUser?.accountType,parsedUser ));
+  const router = createBrowserRouter(
+    routes(!!token, parsedUser?.accountType, parsedUser)
+  );
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -23,12 +27,13 @@ function App() {
       },
     },
   });
+
   return (
     <QueryClientProvider client={queryClient}>
       <NotificationProvider>
         <RouterProvider router={router} />;
       </NotificationProvider>
-      <ReactQueryDevtools initialIsOpen={false} position="left"/>
+      <ReactQueryDevtools initialIsOpen={false} position='left' />
     </QueryClientProvider>
   );
 }

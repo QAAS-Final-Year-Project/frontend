@@ -1,18 +1,42 @@
 import { FC } from "react";
 import EmptyStateIcon from "../icons/empty-state-icon";
+import { EmptyBidImage, EmptyStarImage, EmptyTaskImage } from "assets";
+
+const EmptyTypes = ["star", "task", "document", "bid"] as const;
+type EmptyType = (typeof EmptyTypes)[number];
 
 interface EmptyComponentProps {
   title?: string;
   subTitle?: string;
+  emptyIcon?: JSX.Element;
+  emptyType?: EmptyType;
 }
 
-const EmptyComponent: FC<EmptyComponentProps> = ({ title, subTitle }) => {
+const EmptyImages: { [key in EmptyType]: typeof EmptyStarImage } = {
+  star: EmptyStarImage,
+  task: EmptyTaskImage,
+  bid: EmptyBidImage,
+  document: EmptyStarImage,
+};
+
+const EmptyComponent: FC<EmptyComponentProps> = ({
+  title,
+  emptyIcon,
+  subTitle,
+  emptyType,
+}) => {
   return (
     <div className='pb-[60px]  items-center justify-center flex'>
       <div className='text-center'>
-        <div className='mx-auto w-min'>
-          <EmptyStateIcon />
-        </div>
+        {emptyType ? (
+          <img
+            src={EmptyImages[emptyType]}
+            alt={emptyType}
+            className='mx-auto w-[160px]'
+          />
+        ) : (
+          <div className='mx-auto w-min'>{emptyIcon || <EmptyStateIcon />}</div>
+        )}
         <h3 className=' text-center text-zinc-800 text-lg font-bold '>
           {" "}
           No {title || "documents"}

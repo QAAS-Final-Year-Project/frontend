@@ -58,7 +58,8 @@ const DeveloperCreateTasksPage: FC = () => {
         type: "success",
         title: "Task Created successful",
       });
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["my-tasks"] });
+      queryClient.refetchQueries({ queryKey: ["my-tasks"] });
       setTimeout(() => {
         navigate("/dashboard/tasks");
       }, 1000);
@@ -136,7 +137,7 @@ const DeveloperCreateTasksPage: FC = () => {
                     type='number'
                     required
                     placeholder=''
-                    postText='USD'
+                    postText='GHC'
                     {...form}
                   />
                 </div>

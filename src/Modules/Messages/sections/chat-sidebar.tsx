@@ -59,14 +59,15 @@ const ChatSidebar: FC<{ user: any }> = ({ user }) => {
       );
 
       if (current) {
-        if (
-          !roomsData?.find(
-            (room) => room?.developerId == current || room?.testerUd == current
-          )
-        ) {
+        console.log("its beeb done here");
+        console.log(roomsData, "roomsData");
+        const found = roomsData?.find(
+          (room) => room?.developerId == current || room?.testerId == current
+        );
+        if (!found) {
           setModal("message");
         } else {
-          navigate(current as string);
+          navigate(found?.id);
         }
       }
       setRooms(await roomsData);
@@ -76,7 +77,7 @@ const ChatSidebar: FC<{ user: any }> = ({ user }) => {
   }, []);
 
   return (
-    <div className='w-[340px] border-r h-full overflow-scroll  flex flex-col'>
+    <div className='w-[340px] border-r h-full overflow-auto  flex flex-col'>
       <div className='px-[30px] py-5 border-b  border-neutral-200 flex items-center justify-between h-[82px] sticky top-0 bg-white z-[9]'>
         <div className='relative'>
           <input

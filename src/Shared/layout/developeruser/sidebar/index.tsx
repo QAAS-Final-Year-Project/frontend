@@ -14,7 +14,6 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
-import useCookies from "../../../hooks/cookies";
 import { Menu, Transition } from "@headlessui/react";
 import { wrapClick } from "../../../utils/ui";
 
@@ -23,20 +22,23 @@ import Logo from "Shared/components/brand/logo";
 import { NavSections } from "../data/navItems";
 import useUrlState from "Shared/hooks/use-url-state";
 import LogoutContainer from "./logout-dialog";
+import { useCookies } from "react-cookie";
 const DeveloperUserSidebar: FC = () => {
-  const [user, setUser] = useCookies("user");
-  const currentRoute = useLocation().pathname;
-  const parsedUser = JSON.parse(user as string);
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });
+  const parsedUser = cookies.user ? JSON.parse(cookies.user) : null;
+
   const [modal, setModal] = useUrlState("modal");
 
   return (
     <>
-      <div className='w-full flex flex-col h-full overflow-scroll items-stretch'>
+      <div className='w-full flex flex-col h-full overflow-auto items-stretch'>
         {/* LOGO Area */}
         <Link to={"/"}>
-        <div className='px-8 py-5 w-full max-h-20  relative shadow-md mb-8 cursor-pointer'>
-          <Logo />
-        </div>
+          <div className='px-8 py-5 w-full max-h-20  relative shadow-md mb-8 cursor-pointer'>
+            <Logo />
+          </div>
         </Link>
         {/* NAV Area */}
         <ul className='space-y-6'>
@@ -65,10 +67,10 @@ const DeveloperUserSidebar: FC = () => {
         </ul>
         <div className='flex-1'></div>
       </div>
-        <LogoutContainer
-          open={modal === "logout"}
-          setOpen={(val: boolean) => setModal(val ? "logout" : undefined)}
-        />
+      <LogoutContainer
+        open={modal === "logout"}
+        setOpen={(val: boolean) => setModal(val ? "logout" : undefined)}
+      />
     </>
   );
 };

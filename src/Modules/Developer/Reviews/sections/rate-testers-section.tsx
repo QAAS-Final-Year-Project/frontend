@@ -14,6 +14,7 @@ import PaginationComponent from "Shared/components/nav/pagination";
 import useTableData from "Shared/utils/use-table-data";
 import PlaceBidContainer from "Modules/Home/SingleTask/place-bid";
 import ReviewTaskContainer from "../leave-review";
+import EmptyComponent from "Shared/components/suspense/empty";
 
 type Props = {};
 
@@ -76,23 +77,35 @@ const RateTestersSection = (props: Props) => {
         {isLoading && (
           <>
             {[1, 2].map((index) => (
-              <ShimmerReviewRow key={index}/>
+              <ShimmerReviewRow key={index} />
             ))}
           </>
         )}
-        {data?.rows.map((task) => (
+        {!isLoading && (
           <>
-            <ReviewRow
-              key={task._id}
-              taskName={task?.title}
-              isRated={!!task?.testerRatedAt}
-              rating={task?.testerRating?.rating}
-              date={task?.testerRatedAt}
-              review={task?.testerRating?.review}
-              onReview={() => dispatchAction(task._id, "review")}
-            />
+            {data?.rows?.length > 0 ? (
+              data?.rows.map((task) => (
+                <>
+                  <ReviewRow
+                    key={task._id}
+                    taskName={task?.title}
+                    isRated={!!task?.testerRatedAt}
+                    rating={task?.testerRating?.rating}
+                    date={task?.testerRatedAt}
+                    review={task?.testerRating?.review}
+                    onReview={() => dispatchAction(task._id, "review")}
+                  />
+                </>
+              ))
+            ) : (
+              <EmptyComponent
+                emptyType='star'
+                title='Testers Rated'
+                subTitle='You have not rated any tester yet'
+              />
+            )}
           </>
-        ))}
+        )}
       </CardSectionWrapper>
       {<PaginationComponent data={data} />}
       {current && (

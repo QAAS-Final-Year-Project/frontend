@@ -62,7 +62,7 @@ const TaskGridCard: FC<TaskGridCardProps> = ({
           <div className='flex items-center gap-x-4'>
             <div>
               <p className=" text-zinc-800 text-base font-semibold  leading-normal">
-                ${amount}
+                GHC{amount}
               </p>
               <div className=" text-zinc-500 text-base font-normal  leading-normal">
                 Fixed Price

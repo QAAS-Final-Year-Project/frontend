@@ -11,7 +11,7 @@ import AddNoteContainer from "../add-note";
 import PrimaryButton from "Shared/components/buttons/primary-button";
 import DeleteNoteContainer from "../delete-note";
 import { isValidJSON } from "Shared/utils/data-structures";
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 
 interface TaskOverViewProps {
   data: any;
@@ -27,9 +27,10 @@ const TaskAttachments: FC<TaskOverViewProps> = ({
   const [searchParams, setSearchParams] = useSearchParams();
   const [modal, setModal] = useUrlState("modal");
   const [current, setCurrent] = useUrlState("current");
-  const [user, setUser] = useCookies("user");
-
-  const currentUser = isValidJSON(user) ? JSON.parse(user) : undefined;
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });  
+  const currentUser = cookies.user ? JSON.parse(cookies.user) : null;
 
   const dispatchAction = (
     id: string,

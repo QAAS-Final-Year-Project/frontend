@@ -67,7 +67,7 @@ const HomeTaskRow: FC<HomeTaskRowProps> = ({
       </div>
       <div className=''>
         <p className='w-[170px] text-zinc-800 text-base font-semibold  leading-normal'>
-          $ {price}
+          GHC {price}
         </p>
         <p className='] text-zinc-500 text-base font-normal  leading-normal mb-[15px]'>
           Fixed Price

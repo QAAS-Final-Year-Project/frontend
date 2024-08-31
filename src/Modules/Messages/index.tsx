@@ -6,14 +6,17 @@ import ChatMessageArea from "./sections/chat-message-area";
 import { Outlet, useParams, useSearchParams } from "react-router-dom";
 import NoChatRoom from "./components/no-room";
 import { isValidJSON } from "Shared/utils/data-structures";
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 import useUrlState from "Shared/hooks/use-url-state";
 import SendNewMessageContainer from "./send-new-message";
 
 const MessagesPage: FC = () => {
   const { id } = useParams();
-  const [user, setUser] = useCookies("user");
-  const currentUser = isValidJSON(user) ? JSON.parse(user) : undefined;
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });  
+  const currentUser = cookies.user ? JSON.parse(cookies.user) : null;
+
   const [modal, setModal] = useUrlState("modal");
   const [current] = useUrlState("current");
   const [searchParams, setSearchParams] = useSearchParams();

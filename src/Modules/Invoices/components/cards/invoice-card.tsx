@@ -160,7 +160,6 @@ const InvoiceCard: FC<InvoiceCardProps> = forwardRef<
                 GHC {numeral(item.price).format("0,0.00")}
               </td>
               {/* <td className='text-stone-500 text-base font-light text-left py-[15px] border-b border-neutral-200'>
-              $9.80
             </td> */}
               <td className='text-stone-500 text-base font-light text-right py-[15px] border-b border-neutral-200'>
                 GHC {numeral(item.total).format("0,0.00")}

@@ -28,11 +28,12 @@
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
-    "react-countup": "^6.5.3",
     "multi-range-slider-react": "^2.0.7",
     "numeral": "^2.0.6",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
+    "react-cookie": "^7.2.0",
+    "react-countup": "^6.5.3",
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.2.3",
     "react-hot-toast": "^2.4.1",
@@ -51,7 +52,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "PORT=5176 HTTPS=true react-scripts start",
+    "start": "PORT=5176  react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

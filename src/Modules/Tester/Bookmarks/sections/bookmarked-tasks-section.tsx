@@ -141,7 +141,7 @@ const BookmarkedTasksSection = (props: Props) => {
               ))
             ) : (
               <EmptyComponent
-                title='boomarked tasks'
+                title='bookmarked tasks'
                 subTitle='Your bookmarked tasks will appear here'
               />
             )}

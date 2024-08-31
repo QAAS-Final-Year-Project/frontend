@@ -162,7 +162,7 @@ const TesterTaskRow: FC<TaskRowProps> = ({
       <div className=' py-3.5 px-[25px]  bg-zinc-100 rounded flex items-center gap-x-[22px]'>
         <div>
           <p className="text-center text-zinc-800 text-base font-semibold  leading-snug">
-            ${amount}
+            GHC{amount}
           </p>
           <span className="text-center text-zinc-500 text-sm font-normal  leading-tight">
             Bid Amount

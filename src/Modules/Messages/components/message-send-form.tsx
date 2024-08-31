@@ -13,7 +13,6 @@ import _ from "lodash";
 type Props = {
   userId: any;
   roomId: any;
-  
 };
 
 const SendMessageForm = (props: Props) => {
@@ -21,6 +20,7 @@ const SendMessageForm = (props: Props) => {
 
   useEffect(() => {
     audioRef.current = new Audio("/send-message.ogg");
+
     audioRef.current.load();
   }, []);
   const mutation = useMutation({
@@ -52,7 +52,7 @@ const SendMessageForm = (props: Props) => {
   return (
     <form
       onSubmit={form.handleSubmit}
-      className='px-[30px] sticky bottom-0 bg-white z-[999] gap-x-5 p-[30px] border-t w-full border-neutral-200 flex items-center justify-between  '
+      className='px-[30px] sticky bottom-0 bg-white z-[9] gap-x-5 p-[30px] border-t w-full border-neutral-200 flex items-center justify-between  '
     >
       <div className='flex-1'>
         <TextInput

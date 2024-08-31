@@ -14,19 +14,22 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
-import useCookies from "../../../hooks/cookies";
 import { Menu, Transition } from "@headlessui/react";
 import { wrapClick } from "../../../utils/ui";
 
 import { showToast } from "../../../utils/alert";
+import { useCookies } from "react-cookie";
 import Logo from "Shared/components/brand/logo";
 import useUrlState from "Shared/hooks/use-url-state";
 import LogoutContainer from "./logout-dialog";
 let NavSections: INavSection[] = UnverifiedNavSections;
 const TesterUserSidebar: FC = () => {
-  const [user, setUser] = useCookies("user");
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });
+  const parsedUser = cookies.user ? JSON.parse(cookies.user) : null;
+
   const currentRoute = useLocation().pathname;
-  const parsedUser = JSON.parse(user as string);
   const [modal, setModal] = useUrlState("modal");
   const NavSections: INavSection[] = parsedUser?.meta?.isApproved
     ? ApprovedNavSections
@@ -35,7 +38,7 @@ const TesterUserSidebar: FC = () => {
     : UnverifiedNavSections;
   return (
     <>
-      <div className='w-full flex flex-col h-full overflow-scroll items-stretch'>
+      <div className='w-full flex flex-col h-full overflow-auto items-stretch'>
         {/* LOGO Area */}
         <Link to={"/"}>
           <div className='px-8 py-5 w-full max-h-20  relative shadow-md mb-8 cursor-pointer'>

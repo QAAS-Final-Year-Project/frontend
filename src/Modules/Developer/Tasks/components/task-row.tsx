@@ -175,7 +175,7 @@ const TaskRow: FC<TaskRowProps> = ({
         <div className='w-0.5 bg-neutral-200 h-10'></div>
         <div>
           <p className='text-center text-zinc-800 text-base font-semibold  leading-snug'>
-            ${amount}
+            GHC {amount}
           </p>
           <span className='text-center text-zinc-500 text-sm font-normal  leading-tight'>
             Bid Amount

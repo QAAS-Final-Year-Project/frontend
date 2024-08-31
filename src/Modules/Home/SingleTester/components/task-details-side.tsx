@@ -13,7 +13,7 @@ import React, { FC } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import PlaceBidContainer from "../place-bid";
 import useUrlState from "Shared/hooks/use-url-state";
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 import BookmarkButton from "Shared/components/buttons/bookmark-btn";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -42,11 +42,11 @@ const TaskDetailsSide: FC<{
   const [searchParams, setSearchParams] = useSearchParams();
   const [modal, setModal] = useUrlState("modal");
   const [current, setCurrent] = useUrlState("current");
-  const [token] = useCookies("token");
   const navigate = useNavigate();
-  const [user, setUser] = useCookies("user");
-
-  const currentUser = isValidJSON(user) ? JSON.parse(user) : undefined;
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });
+  const parsedUser = cookies.user ? JSON.parse(cookies.user) : null;
 
   const dispatchAction = (
     id: string,
@@ -84,7 +84,7 @@ const TaskDetailsSide: FC<{
       <div className='flex items-center gap-x-5 mb-[25px]'>
         <div>
           <p className=' text-zinc-800 text-lg font-semibold  leading-snug mb-[4.75px]'>
-            ${getRandomWholeNumberIRange(20, 100)}
+            GHC{getRandomWholeNumberIRange(20, 100)}
           </p>
           <div className='text-zinc-500 text-base font-normal  leading-snug'>
             Hourly Rate
@@ -136,7 +136,7 @@ const TaskDetailsSide: FC<{
       </div>
 
       <div className='mb-[50px]'>
-        <div className=" text-zinc-800 text-xl font-medium  leading-[27px] mb-[23px]">
+        <div className=' text-zinc-800 text-xl font-medium  leading-[27px] mb-[23px]'>
           Social Profiles
         </div>
         <div className='flex items-center gap-x-5'>
@@ -234,7 +234,7 @@ const TaskDetailsSide: FC<{
           </p>
           <div className='flex absolute left-0  opacity-0 group-hover:opacity-100 transition-all  group-hover:left-[55px] items-center  justify-self-end  '>
             <FacebookShareButton url={window.location.href}>
-              <Tooltip anchorSelect={`#facebook-share`} >
+              <Tooltip anchorSelect={`#facebook-share`}>
                 {"Share on Facebook"}
               </Tooltip>
               <div
@@ -245,27 +245,36 @@ const TaskDetailsSide: FC<{
               </div>
             </FacebookShareButton>
             <LinkedinShareButton url={window.location.href}>
-            <Tooltip anchorSelect={`#linkedin-share`} >
+              <Tooltip anchorSelect={`#linkedin-share`}>
                 {"Share on Linkedin"}
               </Tooltip>
-              <div className=' bg-[#0077B5] w-[44px] h-[44px] flex items-center justify-center  ' id="linkedin-share">
+              <div
+                className=' bg-[#0077B5] w-[44px] h-[44px] flex items-center justify-center  '
+                id='linkedin-share'
+              >
                 <Icon icon={"mdi:linkedin"} className='w-4 h-4 text-white' />
               </div>
             </LinkedinShareButton>
 
             <TwitterShareButton url={window.location.href}>
-            <Tooltip anchorSelect={`#twitter-share`} >
+              <Tooltip anchorSelect={`#twitter-share`}>
                 {"Share on Twitter"}
               </Tooltip>
-              <div className='bg-[rgb(29,161,242)] w-[44px] h-[44px]  flex   items-center justify-center ' id="twitter-share">
+              <div
+                className='bg-[rgb(29,161,242)] w-[44px] h-[44px]  flex   items-center justify-center '
+                id='twitter-share'
+              >
                 <Icon icon={"mdi:twitter"} className='w-4 h-4 text-white' />
               </div>
             </TwitterShareButton>
             <RedditShareButton url={window.location.href}>
-            <Tooltip anchorSelect={`#reddit-share`} >
+              <Tooltip anchorSelect={`#reddit-share`}>
                 {"Share on Reddit"}
               </Tooltip>
-              <div className='bg-[#AE2C00] w-[44px] h-[44px] rounded-r flex   items-center justify-center ' id="reddit-share">
+              <div
+                className='bg-[#AE2C00] w-[44px] h-[44px] rounded-r flex   items-center justify-center '
+                id='reddit-share'
+              >
                 <Icon icon={"mdi:reddit"} className='w-4 h-4 text-white' />
               </div>
             </RedditShareButton>

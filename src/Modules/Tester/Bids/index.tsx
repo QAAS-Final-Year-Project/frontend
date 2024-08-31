@@ -10,13 +10,14 @@ import { getTesterTaskBids } from "./duck/fetch";
 import { useQuery } from "@tanstack/react-query";
 import { formatAndShowAxiosError } from "Shared/utils/errors";
 import AppConfig from "config";
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 import { isValidJSON } from "Shared/utils/data-structures";
 import UpdateBidContainer from "./update-bid";
 import CancelBidContainer from "./cancel-bid";
 import TesterBidRowShimmer from "./components/bid-shimmer";
 import PaginationComponent from "Shared/components/nav/pagination";
 import SortSelect from "Shared/components/input/sort-select";
+import EmptyComponent from "Shared/components/suspense/empty";
 
 const sortOptions = [
   { name: "Oldest", href: "createdAt" },
@@ -30,7 +31,10 @@ const sortOptions = [
 ];
 const TesterBidsPage: FC = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useCookies("user");
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });
+  const currentUser = cookies.user ? JSON.parse(cookies.user) : null;
   const [page] = useUrlState<number>("page", 1);
   const [pageSize] = useUrlState<number>(
     "pageSize",
@@ -49,7 +53,6 @@ const TesterBidsPage: FC = () => {
     searchParams.set("current", id);
     setSearchParams(searchParams);
   };
-  const currentUser = isValidJSON(user) ? JSON.parse(user) : {};
 
   const {
     data: queryData,
@@ -125,36 +128,51 @@ const TesterBidsPage: FC = () => {
               ))}
             </>
           )}
-          {data?.rows?.map((task) => {
-            const myBid = task.bidders?.find(
-              (bidder) => bidder?.bidder?._id === currentUser?._id
-            );
-            return (
-              <>
-                <BidRow
-                  key={task._id}
-                  title={task.title}
-                  _id={task._id}
-                  date={task?.createdAt}
-                  biddersCount={task?.meta?.biddersCount}
-                  amount={myBid?.amount}
-                  deadlineDate={task?.deadlineDate}
-                  onDelete={() => dispatchAction(task._id, "delete")}
-                  onUpdate={() => dispatchAction(task._id, "edit")}
+
+          {!isLoading && (
+            <>
+              {data?.rows?.length > 0 ? (
+                data?.rows?.map((task) => {
+                  const myBid = task.bidders?.find(
+                    (bidder) => bidder?.bidder?._id === currentUser?._id
+                  );
+                  return (
+                    <>
+                      <BidRow
+                        key={task._id}
+                        title={task.title}
+                        _id={task._id}
+                        date={task?.createdAt}
+                        biddersCount={task?.meta?.biddersCount}
+                        amount={myBid?.amount}
+                        deadlineDate={task?.deadlineDate}
+                        onDelete={() => dispatchAction(task._id, "delete")}
+                        onUpdate={() => dispatchAction(task._id, "edit")}
+                      />
+                      <UpdateBidContainer
+                        values={{
+                          amount: myBid?.amount,
+                          // deadlineDate: task?.deadlineDate,
+                          notes: myBid?.notes,
+                        }}
+                        open={modal === "edit"}
+                        setOpen={(val: boolean) =>
+                          setModal(val ? "edit" : undefined)
+                        }
+                        refetch={refetch}
+                      />
+                    </>
+                  );
+                })
+              ) : (
+                <EmptyComponent
+                  emptyType='bid'
+                  title='Bid placed yet'
+                  subTitle='You have not placed a bid on any task yet, get started my placing bids on tasks'
                 />
-                <UpdateBidContainer
-                  values={{
-                    amount: myBid?.amount,
-                    // deadlineDate: task?.deadlineDate,
-                    notes: myBid?.notes,
-                  }}
-                  open={modal === "edit"}
-                  setOpen={(val: boolean) => setModal(val ? "edit" : undefined)}
-                  refetch={refetch}
-                />
-              </>
-            );
-          })}
+              )}
+            </>
+          )}
         </CardSectionWrapper>
       </div>
 

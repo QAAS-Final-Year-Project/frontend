@@ -13,7 +13,7 @@ import React, { FC } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import PlaceBidContainer from "../place-bid";
 import useUrlState from "Shared/hooks/use-url-state";
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 import BookmarkButton from "Shared/components/buttons/bookmark-btn";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -39,11 +39,11 @@ const TaskDetailsSide: FC<{
   const [searchParams, setSearchParams] = useSearchParams();
   const [modal, setModal] = useUrlState("modal");
   const [current, setCurrent] = useUrlState("current");
-  const [token] = useCookies("token");
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });  
+  const currentUser = cookies.user ? JSON.parse(cookies.user) : null;
   const navigate = useNavigate();
-  const [user, setUser] = useCookies("user");
-
-  const currentUser = isValidJSON(user) ? JSON.parse(user) : undefined;
 
   const dispatchAction = (
     id: string,
@@ -98,7 +98,7 @@ const TaskDetailsSide: FC<{
               </span>
             </p>
             <h6 className='text-zinc-800 text-[26px] font-medium  leading-[27px] flex items-center gap-x-0.5'>
-              $
+              GHC
               <TextInput
                 id='rate'
                 label=''
@@ -152,7 +152,7 @@ const TaskDetailsSide: FC<{
               text='Place Bid'
               className='w-full'
               onClick={wrapClick(() =>
-                !!token
+                !!cookies.token
                   ? dispatchAction(data?._id, "bid")
                   : navigate("/login", {})
               )}

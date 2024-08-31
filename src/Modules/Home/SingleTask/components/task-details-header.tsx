@@ -78,7 +78,7 @@ const TaskDetailsHeader: FC<{ data: any }> = ({ data }) => {
                 <div className='bg-white rounded shadow-md p-5 ml-auto'>
                   <div className='text-gray-500 mb-2'>Project Budget</div>
                   <div className='text-gray-800 text-3xl font-light'>
-                    ${data?.amount}
+                    GHC {data?.amount}
                   </div>
                 </div>
               </div>

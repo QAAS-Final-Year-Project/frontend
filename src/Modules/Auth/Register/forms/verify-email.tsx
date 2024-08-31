@@ -20,6 +20,8 @@ import { setMe, setToken } from "Shared/utils/auth";
 import Container from "Shared/components/layout/container";
 import PrimaryButton from "Shared/components/buttons/primary-button";
 import Header from "Shared/components/layout/header";
+import { isValidJSON } from "Shared/utils/data-structures";
+import { useCookies } from "react-cookie";
 
 const VerifyEmailPage: FC = () => {
   const navigate = useNavigate();
@@ -61,6 +63,10 @@ const VerifyEmailPage: FC = () => {
       }
     },
   });
+  const [cookies, setCookies, removeCookies] = useCookies(["push-token",], {
+    doNotParse: true,
+  });  
+
   const form = useFormik<IVerifyEmail>({
     initialValues: {
       code: "",
@@ -72,6 +78,9 @@ const VerifyEmailPage: FC = () => {
         ...values,
         type: accountType == "Developer" ? "DeveloperUser" : "TesterUser",
         emailAddress: emailQuery,
+        pushNotificationToken: isValidJSON(cookies["push-token"])
+          ? JSON.parse(cookies["push-token"])
+          : undefined,
       });
     },
     onReset: () => {
@@ -109,10 +118,8 @@ const VerifyEmailPage: FC = () => {
               Verify Email
             </h3>
             <p className=' mb-[42px] w-full leading-[27px] text-center text-zinc-500 text-base font-normal'>
-                An OTP has been sent to your email address {" "} 
-              <span className='text-blue-700 font-medium'>
-                {emailQuery}
-              </span>
+              An OTP has been sent to your email address{" "}
+              <span className='text-blue-700 font-medium'>{emailQuery}</span>
             </p>
             <form onSubmit={form.handleSubmit} className='space-y-6'>
               <div>

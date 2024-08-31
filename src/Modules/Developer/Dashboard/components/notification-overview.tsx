@@ -14,13 +14,16 @@ import {
 } from "firebase/firestore";
 import { fireStoreDb } from "config/firebase.config";
 import { useNavigate } from "react-router-dom";
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 import { isValidJSON } from "Shared/utils/data-structures";
 import { playNotificationSound } from "Shared/utils/notifications";
 
 const DashboardNotificationsOverviewList: FC = () => {
-  const [user] = useCookies("user");
-  const parsedUser = isValidJSON(user) ? JSON.parse(user) : {};
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });  
+  const parsedUser = cookies.user ? JSON.parse(cookies.user) : null;
+
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const notificationsCollectionRef = collection(fireStoreDb, "notifications");

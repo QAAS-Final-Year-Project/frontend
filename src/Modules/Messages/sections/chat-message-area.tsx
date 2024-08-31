@@ -20,7 +20,7 @@ import {
 import { useParams } from "react-router-dom";
 import { fireStoreDb } from "config/firebase.config";
 import { isValidJSON } from "Shared/utils/data-structures";
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 import { showToast } from "Shared/utils/alert";
 import Loader from "Shared/components/suspense/loader";
 import SendMessageForm from "../components/message-send-form";
@@ -34,8 +34,11 @@ const ChatMessageArea: FC = () => {
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const { id: roomId } = useParams();
-  const [user, setUser] = useCookies("user");
-  const currentUser = isValidJSON(user) ? JSON.parse(user) : undefined;
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });
+  const currentUser = cookies.user ? JSON.parse(cookies.user) : null;
+
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -98,7 +101,7 @@ const ChatMessageArea: FC = () => {
   });
 
   return (
-    <div className='flex-1  h-full overflow-scroll relative'>
+    <div className='flex-1  h-full overflow-auto  relative'>
       <div className='px-[30px]  h-[82px] border-b py-5  border-neutral-200 flex items-center bg-white justify-between sticky top-0 z-[9]'>
         <div className='text-zinc-800 text-base font-semibold  leading-[27px]'>
           {currentUser?.accountType == "TesterUser"
@@ -161,6 +164,7 @@ const ChatMessageArea: FC = () => {
                     }
                   }
                   const detailsToShow = getProfileImageToShow();
+                  console.log("message", message);
                   return (
                     <ChatBubble
                       key={index}
@@ -168,13 +172,17 @@ const ChatMessageArea: FC = () => {
                       me={isMe}
                       name={detailsToShow.fullName}
                       message={message?.text}
-                      date={message?.timestamp.toDate()}
+                      date={message?.timestamp?.toDate() || new Date()}
                       avatarSrc={detailsToShow.profileImageUrl}
                     />
                   );
                 })}
               </div>
             ))}
+            {messages.length < 6 &&
+              _.times(6 - messages.length).map((index) => (
+                <div className='h-[65px]'></div>
+              ))}
           </div>
         </div>
       )}

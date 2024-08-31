@@ -15,6 +15,7 @@ import Loader from "Shared/components/suspense/loader";
 import PaginationComponent from "Shared/components/nav/pagination";
 import DeveloperTaskRowShimmer from "./components/task-shimmer";
 import SortSelect from "Shared/components/input/sort-select";
+import EmptyComponent from "Shared/components/suspense/empty";
 
 const sortOptions = [
   { name: "Oldest", href: "createdAt" },
@@ -114,20 +115,35 @@ const DeveloperTasksPage: FC = () => {
               ))}
             </>
           )}
-          {data?.rows.map((task) => (
-            <TaskRow
-              key={task._id}
-              title={task.title}
-              status={task.status}
-              _id={task._id}
-              amount={task.amount}
-              biddersCount={task?.meta?.biddersCount || 0}
-              date={task?.meta?.createdAt}
-              deadlineDate={task?.deadlineDate}
-              onDelete={() => dispatchAction(task._id, "delete")}
-              onUpdate={() => dispatchAction(task._id, "update")}
-            />
-          ))}
+          {!isLoading && (
+            <>
+              {data?.rows?.length > 0 ? (
+                data?.rows.map((task) => (
+                  <>
+                    {" "}
+                    <TaskRow
+                      key={task._id}
+                      title={task.title}
+                      status={task.status}
+                      _id={task._id}
+                      amount={task.amount}
+                      biddersCount={task?.meta?.biddersCount || 0}
+                      date={task?.meta?.createdAt}
+                      deadlineDate={task?.deadlineDate}
+                      onDelete={() => dispatchAction(task._id, "delete")}
+                      onUpdate={() => dispatchAction(task._id, "update")}
+                    />
+                  </>
+                ))
+              ) : (
+                <EmptyComponent 
+                  emptyType='task'
+                  title='Assigned tasks'
+                  subTitle='You have no tasks assigned to you just yet'
+                />
+              )}
+            </>
+          )}{" "}
         </CardSectionWrapper>
       </div>
       {<PaginationComponent data={data} />}

@@ -17,12 +17,16 @@ import {
 } from "../Register/forms/schema";
 import { formatAndShowAxiosError } from "Shared/utils/errors";
 import { setMe, setToken } from "Shared/utils/auth";
+import { isValidJSON } from "Shared/utils/data-structures";
+import { useCookies } from "react-cookie";
 
 const EnterNewPasswordPage: FC = () => {
   const navigate = useNavigate();
   const [accountType] = useUrlState<string>("accountType");
   const [emailQuery] = useUrlState<string>("email");
-
+  const [cookies, setCookies, removeCookies] = useCookies(["push-token"], {
+    doNotParse: true,
+  });
   const mutation = useMutation({
     mutationFn: doResetPassword,
     onSuccess: (response) => {
@@ -31,6 +35,7 @@ const EnterNewPasswordPage: FC = () => {
         title: "Password Reset Successfully",
       });
       setMe(response.data?.user);
+
       setToken(response.data?.token);
       setTimeout(() => {
         window.location.replace("/");
@@ -46,12 +51,15 @@ const EnterNewPasswordPage: FC = () => {
     },
     validationSchema: EnterNewPasswordSchema,
     onSubmit: async (values) => {
-        console.log("sdfsd")
+      console.log("sdfsd");
       mutation.mutate({
         ...values,
         emailAddress: emailQuery,
         accountType:
           accountType === "Developer" ? "DeveloperUser" : "TesterUser",
+        pushNotificationToken: isValidJSON(cookies["push-token"])
+          ? JSON.parse(cookies["push-token"])
+          : undefined,
       });
     },
     onReset: () => {},

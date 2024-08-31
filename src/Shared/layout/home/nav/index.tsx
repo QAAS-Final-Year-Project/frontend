@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import VerticalDivider from "Shared/components/seperators/VerticlaDivider";
 import IconButton from "Shared/components/buttons/icon-button";
 import Avatar from "Shared/components/media/avatar";
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 import { setMe } from "Shared/utils/auth";
 import Logo from "Shared/components/brand/logo";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -18,19 +18,22 @@ import UnverifiedBanner from "./components/unverified-banner";
 import UnapprovedBanner from "./components/unverified-approved-banner";
 import _ from "lodash";
 const HomeNavBar: FC = () => {
-  const [user] = useCookies("user");
-  const [token] = useCookies("token");
-  const currentUser = isValidJSON(user) ? JSON.parse(user) : undefined;
-  const NavLinks: typeof TesterNavLinks | typeof DeveloperNavLinks = !!!token
-    ? NoAuthNavLinks
-    : currentUser?.accountType == "DeveloperUser"
-    ? DeveloperNavLinks
-    : TesterNavLinks;
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });
+  const currentUser = cookies.user ? JSON.parse(cookies.user) : null;
+
+  const NavLinks: typeof TesterNavLinks | typeof DeveloperNavLinks =
+    !!!cookies.token
+      ? NoAuthNavLinks
+      : currentUser?.accountType == "DeveloperUser"
+      ? DeveloperNavLinks
+      : TesterNavLinks;
   const location = useLocation();
 
   const navigate = useNavigate();
 
-  const parsedUser = !!token ? JSON.parse(user) : {};
+  const parsedUser = !!cookies.token ? JSON.parse(cookies.user) : {};
   console.log(parsedUser);
   return (
     <div className='w-full h-20  sticky top-0' id='header'>
@@ -47,8 +50,7 @@ const HomeNavBar: FC = () => {
             {NavLinks.map((link) => {
               const isActive =
                 location.pathname === link.href ||
-                location.pathname.startsWith(link.href);
-
+                (location.pathname.startsWith(link.href) && link.href !== "/");
               if (!parsedUser?.meta?.isApproved && link?.disableUnverified)
                 return <></>;
               return (
@@ -63,8 +65,8 @@ const HomeNavBar: FC = () => {
                   >
                     <span
                       className={classNames(
-                        " text-stone-500 text-base font-normal leading-none hover:text-primary-400",
-                        isActive ? "text-primary-400" : ""
+                        "  text-base font-normal leading-none hover:text-primary-400",
+                        isActive ? "text-primary-500" : "text-stone-500"
                       )}
                     >
                       {link.name}
@@ -110,7 +112,7 @@ const HomeNavBar: FC = () => {
         </div>
         <div className='flex justify-end px-4 items-center h-full'>
           <VerticalDivider />
-          {!!token ? (
+          {!!cookies.token ? (
             <AllNavToolBar />
           ) : (
             <>
@@ -135,7 +137,7 @@ const HomeNavBar: FC = () => {
           )}
         </div>
       </div>
-      {(!_.isEmpty(parsedUser) && parsedUser?.accountType == "TesterUser" ) && (
+      {!_.isEmpty(parsedUser) && parsedUser?.accountType == "TesterUser" && (
         <>
           {parsedUser?.meta?.isVerified ? (
             parsedUser?.meta?.isApproved ? (

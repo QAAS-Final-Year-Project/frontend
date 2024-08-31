@@ -14,6 +14,7 @@ import PaginationComponent from "Shared/components/nav/pagination";
 import useTableData from "Shared/utils/use-table-data";
 import PlaceBidContainer from "Modules/Home/SingleTask/place-bid";
 import ReviewTaskContainer from "../leave-review";
+import EmptyComponent from "Shared/components/suspense/empty";
 
 type Props = {};
 
@@ -80,19 +81,31 @@ const MyRatingsSection = (props: Props) => {
             ))}
           </>
         )}
-        {data?.rows.map((task) => (
+        {!isLoading && (
           <>
-            <ReviewRow
-              key={task._id}
-              taskName={task?.title}
-              isRated={!!task?.developerRatedAt}
-              rating={task?.developerRating?.rating}
-              date={task?.developerRatedAt}
-              review={task?.developerRating?.review}
-              // onReview={() => dispatchAction(task._id, "review")}
-            />
+            {data?.rows?.length > 0 ? (
+              data?.rows.map((task) => (
+                <>
+                  <ReviewRow
+                    key={task._id}
+                    taskName={task?.title}
+                    isRated={!!task?.developerRatedAt}
+                    rating={task?.developerRating?.rating}
+                    date={task?.developerRatedAt}
+                    review={task?.developerRating?.review}
+                    // onReview={() => dispatchAction(task._id, "review")}
+                  />
+                </>
+              ))
+            ) : (
+              <EmptyComponent
+                emptyType='star'
+                title='Ratings'
+                subTitle='You have not been rated yet'
+              />
+            )}
           </>
-        ))}
+        )}
       </CardSectionWrapper>
       {<PaginationComponent data={data} />}
     </section>

@@ -19,7 +19,7 @@ const VerifyUserPage: FC = () => {
       });
       setMe({ ...response?.data, accountType: "TesterUser" });
       setTimeout(() => {
-        window.location.replace("/");
+        window.location.replace("/dashboard");
       }, 1000);
     },
     onError: (error) => {

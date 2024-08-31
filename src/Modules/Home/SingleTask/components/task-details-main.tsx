@@ -4,34 +4,35 @@ import TaskDetailsBidders from "./task-details-bidders";
 import parse from "html-react-parser";
 
 const TaskDetailsMain: FC<{ data: any }> = ({ data }) => {
-  
   return (
     <section className='space-y-[55px]'>
       <div className=' block'>
         <h3 className='mb-6 text-zinc-800 text-xl font-medium leading-[27px]'>
-          Project Description
+          Tasks Description
         </h3>
         <p className='text-stone-500 text-base font-normal leading-[27px]'>
           {parse(data?.description || "N/A")}
           bottom line.
         </p>
       </div>
-      <div>
-        <h3 className='mb-6 text-zinc-800 text-xl font-medium  leading-[27px]'>
-          Attachments
-        </h3>
-        <div className='grid grid-cols-3'>
-          {data?.supportingDocuments?.map((attachment) => (
-            <AttachmentCard
-              fileUrl={attachment?.url}
-              title={attachment?.name}
-            />
-          ))}
+      {data?.supportingDocuments?.length > 0 && (
+        <div>
+          <h3 className='mb-6 text-zinc-800 text-xl font-medium  leading-[27px]'>
+            Attachments
+          </h3>
+          <div className='grid grid-cols-3'>
+            {data?.supportingDocuments?.map((attachment) => (
+              <AttachmentCard
+                fileUrl={attachment?.url}
+                title={attachment?.name}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       <div>
         <h3 className='mb-6 text-zinc-800 text-xl font-medium  leading-[27px]'>
-          Skills Required
+          Task Tags
         </h3>
         <div className='flex mt-0.5 w-full items-center gap-1 flex-wrap'>
           {data?.tags?.map((val, idx) => (
@@ -41,7 +42,10 @@ const TaskDetailsMain: FC<{ data: any }> = ({ data }) => {
           ))}
         </div>
       </div>
-      <TaskDetailsBidders count={data?.meta?.biddersCount} bidders={data?.bidders}/>
+      <TaskDetailsBidders
+        count={data?.meta?.biddersCount}
+        bidders={data?.bidders}
+      />
     </section>
   );
 };

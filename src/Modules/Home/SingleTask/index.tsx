@@ -11,7 +11,7 @@ import { AxiosError } from "axios";
 import { formatAndShowAxiosError } from "Shared/utils/errors";
 import Loader from "Shared/components/suspense/loader";
 import { isValidJSON } from "Shared/utils/data-structures";
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 import CancelBidContainer from "./cancel-bid";
 
 const SingleTaskPage: FC = () => {
@@ -19,12 +19,14 @@ const SingleTaskPage: FC = () => {
   const [modal, setModal] = useUrlState("modal");
   const [current, setCurrent] = useUrlState("current");
 
-  const [user, setUser] = useCookies("user");
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });
+  const currentUser = cookies.user ? JSON.parse(cookies.user) : null;
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { id } = useParams();
-  const currentUser = isValidJSON(user) ? JSON.parse(user) : undefined;
 
   const query = useQuery({
     queryKey: ["home-single-task", id],

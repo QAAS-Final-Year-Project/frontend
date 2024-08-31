@@ -83,7 +83,7 @@ export default function UpdateBidContainer({
             </span>
           </p>
           <h6 className='text-zinc-800 text-[26px] font-medium  leading-[27px]'>
-            ${form.values.amount}
+            GHC {form.values.amount}
           </h6>
           <div className='mt-6 mb-8 w-full'>
             <RangeInput

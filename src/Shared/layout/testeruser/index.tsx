@@ -8,8 +8,13 @@ import { AxiosError } from "axios";
 import { clearAuth, setMe } from "Shared/utils/auth";
 import FullScreenLoader from "Shared/components/suspense/page-loader";
 import TesterUserSidebar from "./sidebar";
+import { useCookies } from "react-cookie";
 
 const TesterUserLayout: FC = () => {
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });  
+  const parsedUser = cookies.user ? JSON.parse(cookies.user) : null;
   const { data, isLoading, isError, isFetched } = useQuery({
     queryKey: ["checkTesterUser"],
     queryFn: () => checkTesterUserAuth(),

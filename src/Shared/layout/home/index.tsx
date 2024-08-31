@@ -10,12 +10,15 @@ import HomeNavBar from "./nav";
 import HomeFooter from "./footer";
 import LogoutContainer from "./logout-dialog";
 import useUrlState from "Shared/hooks/use-url-state";
+import ScrollToTop from "../scroll-to-top";
 
 const HomeLayout: FC = () => {
   const [modal, setModal] = useUrlState("modal");
 
   return (
     <>
+      <ScrollToTop />
+
       <HomeNavBar />
       <main>
         <Outlet />

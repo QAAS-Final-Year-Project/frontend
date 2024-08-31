@@ -51,7 +51,7 @@ export default function SendNewMessageContainer({
   const mutation = useMutation({
     mutationFn: doCreateRoom,
     onSuccess: (response) => {
-      const audio = new Audio("./send-message.ogg");
+      const audio = new Audio("/send-message.ogg");
       audio.play();
       navigate(`/dashboard/messages/${response.roomId}`);
       searchParams.delete("current");

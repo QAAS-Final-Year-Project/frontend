@@ -1,4 +1,4 @@
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 import { FC } from "react";
 
 import PrimaryButton from "Shared/components/buttons/primary-button";
@@ -9,9 +9,10 @@ import SocialSettings from "./social-settings";
 import SecuritySettings from "./security-settings";
 
 const TesterSettings: FC = () => {
-  const [user] = useCookies("user");
-  const parsedUser = user ? JSON.parse(user) : null;
-
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });  
+  const parsedUser = cookies.user ? JSON.parse(cookies.user) : null;
   return (
     <section>
       <div className='p-2.5 mb-8'>

@@ -42,32 +42,34 @@ const BidRow: FC<BidRowProps> = ({
     >
       <div className=''>
         <div className='flex gap-x-5 mb-1 items-center'>
-          <div className="text-zinc-800 text-lg font-medium  leading-[30px]">
+          <div className='text-zinc-800 text-lg font-medium  leading-[30px]'>
             {title}
           </div>
-          <span
-            className={classNames(
-              "bg-gray-100 text-gray-800",
-              `bg-red-100 text-red-800 dark:bg-red-600 dark:text-red-100`,
-              "inline-flex rounded-full  px-2 py-1 text-xs items-center space-x-1"
-            )}
-          >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              viewBox='0 0 10 10'
-              fill='currentColor'
-              className='w-1.5 h-1.5'
+          { hasExpired &&
+            <span
+              className={classNames(
+                "bg-gray-100 text-gray-800",
+                `bg-red-100 text-red-800 dark:bg-red-600 dark:text-red-100`,
+                "inline-flex rounded-full  px-2 py-1 text-xs items-center space-x-1"
+              )}
             >
-              <circle
-                fillRule='evenodd'
-                cx='5'
-                cy='5'
-                r='5'
-                clipRule='evenodd'
-              />
-            </svg>
-            <span>Expired</span>
-          </span>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 10 10'
+                fill='currentColor'
+                className='w-1.5 h-1.5'
+              >
+                <circle
+                  fillRule='evenodd'
+                  cx='5'
+                  cy='5'
+                  r='5'
+                  clipRule='evenodd'
+                />
+              </svg>
+              <span>Expired</span>
+            </span>
+          }
         </div>
 
         <div className='flex items-center mb-1 gap-x-5'>
@@ -148,20 +150,20 @@ const BidRow: FC<BidRowProps> = ({
       </div>
       <div className=' py-3.5 px-[25px]  bg-zinc-100 rounded flex items-center gap-x-[22px]'>
         <div>
-          <p className="text-center text-zinc-800 text-base font-semibold  leading-snug">
+          <p className='text-center text-zinc-800 text-base font-semibold  leading-snug'>
             {biddersCount}
           </p>
-          <span className="text-center text-zinc-500 text-sm font-normal  leading-tight">
+          <span className='text-center text-zinc-500 text-sm font-normal  leading-tight'>
             Bids
           </span>
         </div>
 
         <div className='w-0.5 bg-neutral-200 h-10'></div>
         <div>
-          <p className="text-center text-zinc-800 text-base font-semibold  leading-snug">
-            ${amount}
+          <p className='text-center text-zinc-800 text-base font-semibold  leading-snug'>
+            GHC {amount}
           </p>
-          <span className="text-center text-zinc-500 text-sm font-normal  leading-tight">
+          <span className='text-center text-zinc-500 text-sm font-normal  leading-tight'>
             Bid Amount
           </span>
         </div>

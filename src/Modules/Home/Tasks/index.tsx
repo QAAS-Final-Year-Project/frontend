@@ -12,10 +12,7 @@ import AppConfig from "config";
 const TasksSearchPage: FC = () => {
   const navigate = useNavigate();
   const [page] = useUrlState<number>("page", 1);
-  const [pageSize] = useUrlState<number>(
-    "pageSize",
-    6
-  );
+  const [pageSize] = useUrlState<number>("pageSize", 6);
   const [search, setSearch] = useUrlState<string>("search");
   const [fromDate] = useUrlState<any>("fromDate");
   const [minAmount] = useUrlState<number>("minAmount");

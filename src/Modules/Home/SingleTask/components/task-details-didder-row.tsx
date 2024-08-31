@@ -67,7 +67,7 @@ const TaskDetailsBidderRow: FC<BidderRowProps> = ({
       <div className=' py-2 px-6 bg-zinc-100 rounded flex items-center gap-x-[22px]'>
         <div>
           <p className="text-center text-zinc-800 text-base font-semibold  leading-snug">
-            ${fixedPrice}
+            GHC{fixedPrice}
           </p>
           {/* <span className="text-center text-zinc-500 text-sm font-normal  leading-tight">
             in {deliveryTime}

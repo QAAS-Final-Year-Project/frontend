@@ -67,7 +67,7 @@ const AssignerRow: FC<AssignerRowProps> = ({
             <RatingComponent rating={rating} />
           </div>
           <div className='flex gap-x-2.5 items-stretch'>
-           
+        
             <SecondaryButton
               size='sm'
               icon={"ic:outline-email"}

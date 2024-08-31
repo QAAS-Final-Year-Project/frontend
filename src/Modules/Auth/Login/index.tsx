@@ -16,11 +16,15 @@ import { Icon } from "@iconify/react";
 import Header from "Shared/components/layout/header";
 import Container from "Shared/components/layout/container";
 import IconButton from "Shared/components/buttons/icon-button";
+import { useCookies } from "react-cookie";
+import { isValidJSON } from "Shared/utils/data-structures";
 
 const LoginPage: FC = () => {
   const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
+  const [cookies, setCookies, removeCookies] = useCookies(["push-token"], {
+    doNotParse: true,
+  });
   const mutation = useMutation({
     mutationFn: doLogin,
     onSuccess: (response) => {
@@ -62,6 +66,7 @@ const LoginPage: FC = () => {
       }
     },
   });
+
   const form = useFormik<ILoginTesterUserSchema>({
     initialValues: {
       emailAddress: "",
@@ -70,7 +75,12 @@ const LoginPage: FC = () => {
     },
     validationSchema: LoginTesterUserSchema,
     onSubmit: async (values) => {
-      mutation.mutate(values);
+      mutation.mutate({
+        ...values,
+        pushNotificationToken: isValidJSON(cookies["push-token"])
+          ? JSON.parse(cookies["push-token"])
+          : undefined,
+      });
     },
     onReset: () => {
       // setOpen(false);

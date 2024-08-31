@@ -18,6 +18,7 @@ import { classNames, wrapOnchange } from "Shared/utils/ui";
 import { Icon } from "@iconify/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import SearchSelectInput from "Shared/components/input/search-select-input";
+import EmptyComponent from "Shared/components/suspense/empty";
 
 const sortOptions = [
   { name: "Bid Amount: Lowest First", href: "amount" },
@@ -103,7 +104,7 @@ const TesterTasksPage: FC = () => {
           ]}
         />
       </div>
-        {/* <div className='flex items-center justify-between mb-4'>
+      {/* <div className='flex items-center justify-between mb-4'>
           <div className='relative'>
             <input
               type='search'
@@ -210,18 +211,32 @@ const TesterTasksPage: FC = () => {
               ))}
             </>
           )}
-          {data?.rows.map((task) => (
-            <TesterTaskRow
-              key={task._id}
-              title={task.title}
-              status={task.status}
-              _id={task._id}
-              amount={task.amount}
-              biddersCount={task?.meta?.biddersCount || 0}
-              date={task?.meta?.createdAt}
-              deadlineDate={task?.deadlineDate}
-            />
-          ))}
+          {!isLoading && (
+            <>
+              {data?.rows?.length > 0 ? (
+                data?.rows.map((task) => (
+                  <>
+                    <TesterTaskRow
+                      key={task._id}
+                      title={task.title}
+                      status={task.status}
+                      _id={task._id}
+                      amount={task.amount}
+                      biddersCount={task?.meta?.biddersCount || 0}
+                      date={task?.meta?.createdAt}
+                      deadlineDate={task?.deadlineDate}
+                    />
+                  </>
+                ))
+              ) : (
+                <EmptyComponent
+                  emptyType='task'
+                  title='Assigned tasks'
+                  subTitle='You have no tasks assigned to you just yet'
+                />
+              )}
+            </>
+          )}{" "}
         </CardSectionWrapper>
       </div>
       {<PaginationComponent data={data} />}

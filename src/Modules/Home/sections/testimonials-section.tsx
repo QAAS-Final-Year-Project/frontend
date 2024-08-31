@@ -68,30 +68,31 @@ export const TestimonialsSection: FC = () => {
             navigation={false}
             className='swiper-button-white'
           >
-            <SwiperSlide className='bg-stone-50'>
-              <TestimonialCard
-                name='Marcin Kowalski'
-                designation='Tester'
-                profileImageUrl='https://www.vasterad.com/themes/hireo_21/images/user-avatar-small-02.jpg'
-                message='Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions. '
-              />
-            </SwiperSlide>
-            <SwiperSlide className='bg-stone-50'>
-              <TestimonialCard
-                name='Marcin Kowalski'
-                designation='Tester'
-                profileImageUrl='https://www.vasterad.com/themes/hireo_21/images/user-avatar-small-02.jpg'
-                message='Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions. '
-              />
-            </SwiperSlide>
-            <SwiperSlide className='bg-stone-50'>
-              <TestimonialCard
-                name='Marcin Kowalski'
-                designation='Tester'
-                profileImageUrl='https://www.vasterad.com/themes/hireo_21/images/user-avatar-small-02.jpg'
-                message='Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions. '
-              />
-            </SwiperSlide>
+        <SwiperSlide className='bg-stone-50'>
+  <TestimonialCard
+    name='Marcin Kowalski'
+    designation='Senior Tester'
+    profileImageUrl='https://www.vasterad.com/themes/hireo_21/images/user-avatar-small-03.jpg'
+    message='Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions.'
+  />
+</SwiperSlide>
+<SwiperSlide className='bg-stone-50'>
+  <TestimonialCard
+    name='Anna Nowak'
+    designation='Lead QA Engineer'
+    profileImageUrl='https://www.vasterad.com/themes/hireo_21/images/user-avatar-small-02.jpg'
+    message='Proactively envisioned multimedia based expertise and cross-media growth strategies. Seamlessly visualize quality intellectual capital without superior collaboration and idea-sharing.'
+  />
+</SwiperSlide>
+<SwiperSlide className='bg-stone-50'>
+  <TestimonialCard
+    name='John Smith'
+    designation='Automation Specialist'
+    profileImageUrl='https://www.vasterad.com/themes/hireo_21/images/user-avatar-small-01.jpg'
+    message='Completely synergize resource taxing relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas.'
+  />
+</SwiperSlide>
+
           </Swiper>
           <button
             type='button'

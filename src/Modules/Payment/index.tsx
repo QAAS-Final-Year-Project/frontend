@@ -24,7 +24,7 @@ import MakeDepositContainer from "./deposit";
 import StatusChip, { StatusType } from "Shared/components/chips/status-chip";
 import PaystackPop, { PopupTransaction } from "@paystack/inline-js";
 import numeral from "numeral";
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 import { isValidJSON } from "Shared/utils/data-structures";
 import SecondaryButton from "Shared/components/buttons/secondary-button";
 import InitiateWithdrawalContainer from "./withdrawal";
@@ -37,9 +37,10 @@ const PaymentsPage: FC = () => {
   const [page] = useUrlState<number>("page", 1);
   const [pageSize] = useUrlState<number>("pageSize", 10);
 
-  const [user, setUser] = useCookies("user");
-
-  const currentUser = isValidJSON(user) ? JSON.parse(user) : undefined;
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });  
+  const currentUser = cookies.user ? JSON.parse(cookies.user) : null;
 
   const [search, setSearch] = useUrlState<string>("search", "");
   const [fromDate] = useUrlState<any>("fromDate");
@@ -189,7 +190,7 @@ const PaymentsPage: FC = () => {
             createDataExport(value);
           }}
           hasSearch={false}
-          emptyTitle='No payments found'
+          emptyTitle='No payments made'
           emptyIcon={<PaymentEmptyIcon />}
           title={` Balance: GHS ${numeral(
             currentUser?.balance || 0

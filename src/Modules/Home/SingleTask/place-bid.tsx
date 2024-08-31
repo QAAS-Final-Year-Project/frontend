@@ -65,7 +65,7 @@ export default function PlaceBidContainer({
       <div className='flex flex-col items-center'>
         <span className='text-lg'>
           {" "}
-          Are you sure you want to place bid on this task with amount $
+          Are you sure you want to place bid on this task with amount GHC
           {values?.rate}?
         </span>
         <div className='w-full mb-8'>

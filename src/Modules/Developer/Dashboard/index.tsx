@@ -1,5 +1,5 @@
 import Header from "Shared/components/layout/header";
-import useCookies from "Shared/hooks/cookies";
+import { useCookies } from "react-cookie";
 import { FC } from "react";
 import ProfileViewsCard from "./components/profile-views-card";
 import DashboardNotificationsOverviewList from "./components/notification-overview";
@@ -9,8 +9,11 @@ import DeveloperTasksOverviewSection from "./sections/payments-overview-section"
 import { mockPayments } from "./data/sample-data";
 
 const DeveloperDashboard: FC = () => {
-  const [user] = useCookies("user");
-  const parsedUser = user ? JSON.parse(user) : null;
+  const [cookies, setCookies, removeCookies] = useCookies(["user", "token"], {
+    doNotParse: true,
+  });  
+  const parsedUser = cookies.user ? JSON.parse(cookies.user) : null;
+
   return (
     <section>
       <div className='p-2.5 mb-8'>

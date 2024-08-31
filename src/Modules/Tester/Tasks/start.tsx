@@ -78,7 +78,7 @@ export default function AcceptTaskContainer({
           </h6>
 
           <StatusChip
-            info={`$${form.values?.amount}`}
+            info={`GHC${form.values?.amount}`}
             type='success'
             size='md'
           />

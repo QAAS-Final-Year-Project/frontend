@@ -11,6 +11,7 @@ import { Bars4Icon } from "@heroicons/react/20/solid";
 import { classNames, wrapClick } from "Shared/utils/ui";
 import { Squares2X2Icon } from "@heroicons/react/24/solid";
 import TaskListCard from "../components/task-list-card";
+import EmptyComponent from "Shared/components/suspense/empty";
 const sortOptions = [
   { name: "Oldest", href: "createdAt" },
   { name: "Latest", href: "-createdAt" },
@@ -73,7 +74,7 @@ const HomeTasksListSection: FC<{
       </div>
 
       <div className='px-[25px] pt-[15px] pb-4 bg-zinc-100 rounded justify-between flex items-center mb-[30px]'>
-        <div className="text-stone-500 text-base font-normal  leading-snug">
+        <div className='text-stone-500 text-base font-normal  leading-snug'>
           Turn on email alerts for this search
         </div>{" "}
         <SortSelect
@@ -113,35 +114,48 @@ const HomeTasksListSection: FC<{
             ))}
           </>
         )}
-
-        {data?.rows.map((task) => (
+        {!isLoading && (
           <>
-            {viewType === "grid" ? (
-              <TaskGridCard
-                key={task?._id}
-                _id={task?._id}
-                title={task.title}
-                date={task?.createdAt}
-                deadlineDate={task?.deadlineDate}
-                biddersCount={task?.meta?.biddersCount}
-                amount={task?.amount}
-                onBid={() => {}}
-              />
+            {data?.rows?.length > 0 ? (
+              data?.rows.map((task) => (
+                <>
+                  {viewType === "grid" ? (
+                    <TaskGridCard
+                      key={task?._id}
+                      _id={task?._id}
+                      title={task.title}
+                      date={task?.createdAt}
+                      deadlineDate={task?.deadlineDate}
+                      biddersCount={task?.meta?.biddersCount}
+                      amount={task?.amount}
+                      onBid={() => {}}
+                    />
+                  ) : (
+                    <TaskListCard
+                      tags={task?.tags}
+                      key={task?._id}
+                      _id={task?._id}
+                      title={task.title}
+                      date={task?.createdAt}
+                      deadlineDate={task?.deadlineDate}
+                      biddersCount={task?.meta?.biddersCount}
+                      amount={task?.amount}
+                      onBid={() => {}}
+                    />
+                  )}
+                </>
+              ))
             ) : (
-              <TaskListCard
-              tags={task?.tags}
-                key={task?._id}
-                _id={task?._id}
-                title={task.title}
-                date={task?.createdAt}
-                deadlineDate={task?.deadlineDate}
-                biddersCount={task?.meta?.biddersCount}
-                amount={task?.amount}
-                onBid={() => {}}
-              />
+              <div className='flex justify-center w-full col-span-3'>
+                <EmptyComponent
+                  emptyType='task'
+                  title='Tasks found'
+                  subTitle='We did not find any tasks that matched your query'
+                />
+              </div>
             )}
           </>
-        ))}
+        )}{" "}
       </div>
       <PaginationComponent data={data} />
     </div>

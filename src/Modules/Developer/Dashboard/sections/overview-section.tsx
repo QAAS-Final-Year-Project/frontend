@@ -3,6 +3,7 @@ import OverviewCard from "../components/overview-card";
 import { useQuery } from "@tanstack/react-query";
 import { getDashboardOverviewSummary } from "../duck/fetch";
 import OverviewShimmerCard from "../components/overview-shimmer-card";
+import numeral from "numeral";
 
 const OverviewSection: FC = () => {
   const query = useQuery({
@@ -20,7 +21,7 @@ const OverviewSection: FC = () => {
             textColor='text-pink-500'
             icon='ic:outline-business-center'
             title={"Task Bids Won"}
-            value={query?.data?.data?.tasksCreated   || 0}
+            value={query?.data?.data?.tasksCreated || 0}
           />
           <OverviewCard
             bgColor='bg-green-500'
@@ -40,8 +41,8 @@ const OverviewSection: FC = () => {
             bgColor='bg-blue-500'
             textColor='text-blue-500'
             icon='ic:baseline-payment'
-            title={"Total Earnings"}
-            value={148}
+            title={"Total Deposits (GHC)"}
+            value={numeral(query?.data?.data?.totalDeposits || 0).format("0,0.00")}
           />
         </>
       )}
